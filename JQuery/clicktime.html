@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	 var t1=0;
+	 var count=0;
+     $(document).ready(
+     	
+     	function()
+     	{
+           $("#para").click(
+            function(){
+            	var d = new Date();
+                var n = d.getTime();
+                
+                if(count==1)
+                  document.getElementById("timelable").innerHTML=n-t1;
+                else
+                {
+                	t1=n;
+                	count++;
+                }
+            });
+     	});
+
+
+	</script>
+	<title></title>
+</head>
+<body>
+<p id="para">
+	Stop people from writing in first text input box (user ID).
+2.Count the number of milliseconds between the two click events on a paragraph. 
+3. Display the keyboard key which was pressed in a textbox:
+4.  Append a element with a text message when an  field is changed
+5.Hide all headings on a page when they are clicked. 
+
+Sample Data :
+</p>
+
+<p id="timelable"></p>
+
+</body>
+</html>

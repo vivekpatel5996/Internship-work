@@ -1,0 +1,77 @@
+1. https://www.javatpoint.com/mongodb-tutorial
+3. https://gist.github.com/theRemix/7305403e1ab6fc8674f0
+4. https://docs.mongodb.com/manual/reference/sql-comparison	/	
+
+
+1.db.getCollection('movie').find({})
+2.db.getCollection('movie').find({'writer': $exists:true }})
+3.db.getCollection('movie').find({'actors':'Brad Pitt'})
+4.db.getCollection('movie').find({'franchise':'The Hobbit'})
+5.db.getCollection('movie').find({'year':{$gt:1989,$lt:2000}})
+6.db.getCollection('movie').find({$or:[{'year':{$lt:2000}},{'year':{$gt:2010}}]})
+
+1.	db.getCollection('movie').updateMany(
+	{'title':'The Hobbit: An Unexpected Journey'},
+	{$set:{'synopsis':'A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug.'}}
+	)
+
+2.	    db.getCollection('movie').updateMany(
+    {'title':'The Hobbit: The Desolation of Smaug'},
+    {$set:{'synopsis':'The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.'}}
+    )
+
+
+3.db.getCollection('movie').updateMany(
+    {'title':'Pulp Fiction'},
+    { $push: { 'actors':'Samuel L. Jackson' } }
+)
+
+1.	db.getCollection('movie').find(
+	{
+	    'synopsis':
+	    {
+		$regex: /^.*Bilbo.*/
+	    }
+	}
+	)
+
+2.	db.getCollection('movie').find(
+	{
+	    'synopsis':
+	    {
+		$regex: /^.*Gandalf.*/
+	    }
+	}
+	)
+3.	db.getCollection('movie').find({$text: {$search: 'Bilbo -Gandalf'}})
+4.	db.movies.find({$text: {$search: "dwarves hobbit"}})
+5.	db.movies.find({$text: {$search: "gold dragon"}})
+
+1.db.movies.remove({title: "Pee Wee Herman's Big Adventure"})
+2.db.movies.remove({title: "Avatar"})
+
+
+
+
+1.db.getCollection('users').find({})
+2.db.getCollection('posts').find({})
+3.db.getCollection('posts').find({'username':'GoodGuyGreg'})
+4.db.getCollection('posts').find({'username':'ScumbagSteve'})
+5.db.getCollection('comments').find({})
+6.db.getCollection('comments').find({'username':'GoodGuyGreg'})
+7.db.getCollection('comments').find({'username':'ScumbagSteve'})
+8.db.getCollection('comments').aggregate([
+   {
+     $lookup:
+       {
+         from: 'posts',
+         localField: 'post',
+         foreignField: '_id',
+         as: 'data'
+       }
+  },
+  {
+      $match:{'data.title':'Reports a bug in your code'}
+  }
+])
+
