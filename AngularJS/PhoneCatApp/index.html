@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"  ng-app="phonecatapp">
+  <head>
+    <meta charset="utf-8">
+    <title>My HTML File</title>
+    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" /> -->
+	
+    <script src="angular.min.js"></script>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.6.9/angular-resource.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+
+    <script type="text/javascript" src="./app/app.js"></script>
+    <script type="text/javascript" src="./app/phone-list/phone-list.module.js"></script>
+    <script type="text/javascript" src="./app/phone-list/phone-list.component.js"></script>
+    <script type="text/javascript" src="./app/phone-detail/phone-detail.module.js"></script>
+    <script type="text/javascript" src="./app/phone-detail/phone-detail.component.js"></script>
+     <script type="text/javascript"  src="./app/core/phone/phone.module.js"></script>
+  <script type="text/javascript" src="./app/core/phone/phone.service.js"></script>
+   <script type="text/javascript" src="./app/core/core.module.js"></script>
+   <script type="text/javascript" src="./app/core/uppercase.filter.js"></script>
+  
+  </head>
+  <body>
+
+
+    <div ng-app="phonecatapp" ng-controller="myController as ctrler">
+   
+    <input type="checkbox" ng-model="myCheck"></h1>
+
+<div ng-hide="myCheck"></div>
+      
+    <!--   Total numbers of phones:{{phones.length}}
+      <ul>
+      	<li ng-repeat="p in phones">
+      		<p>{{p.name}}</p>
+      		<p>{{p.snippet}}</p>
+      	</li>
+
+      	</li>
+      </ul>
+
+       -->
+    <!-- If we want use 'this' then we have to use alias here in view otherwise '$scope' in controller -->
+       <button ng-click="ctrler.myFunc()">Click Me!</button>
+       {{ctrler.showMe}}
+     <!-- 
+      <table>
+      	<tr ng-repeat="i in [0,1,2,3,4]">
+      		<td>
+               {{i}}
+      		</td>
+      	</tr>
+      </table> -->
+ 
+    </div> 
+
+
+
+<ng-view></ng-view>
+
+  </body>
+</html>
