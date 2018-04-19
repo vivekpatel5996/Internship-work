@@ -1,8 +1,0 @@
-Collection
-Document
-Querying documents & Pretty method
-Aggregation
-Indexing
-Embedded Documents & Relationships : Reference > https://www.tutorialspoint.com/mongodb/mongodb_relationships.htm
-Sharding
-GridFS
