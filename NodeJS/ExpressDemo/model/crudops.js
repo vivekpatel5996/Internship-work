@@ -99,6 +99,7 @@ exports.updateUser=function(req,res){
 		console.log("Record updated successfully");
 		
 	});
+<<<<<<< HEAD
 };
 
 
@@ -108,3 +109,6 @@ exports.simpleMethod=function(req,res){
 	//OR
 	// Interaction with database
 }
+=======
+};
+>>>>>>> a45cf734d8238947a4a51546577655dccc505a28

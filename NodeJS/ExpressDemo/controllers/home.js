@@ -22,4 +22,8 @@ exports.deleteuser=function(req,res){
 
 exports.updateuser=function(req,res){
    model.updateUser(req,res);
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> a45cf734d8238947a4a51546577655dccc505a28
