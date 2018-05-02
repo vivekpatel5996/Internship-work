@@ -1,0 +1,2126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAttendanceRegister" pageWidth="1400" pageHeight="842" columnWidth="1360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ce013584-c47d-4a3d-a506-cae0f3bfa976">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="516"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{1}.equals("SUN") || $P{1}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals("H"))]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style2">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{2}.equals("SUN") || $P{2}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals("H"))]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style3">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{3}.equals("SUN") || $P{3}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals("H"))]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style4">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{4}.equals("SUN") || $P{4}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{4}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d4}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d4}.equals( "P*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d4}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d4}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style5">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{5}.equals("SUN") || $P{5}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{5}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d5}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d5}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d5}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d5}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style6">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{6}.equals("SUN") || $P{6}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{6}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d6}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d6}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d6}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d6}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style7">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{7}.equals("SUN") || $P{7}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{7}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d7}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d7}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d7}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d7}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style8">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{8}.equals("SUN") || $P{8}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{8}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d8}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d8}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d8}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d8}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style9">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{9}.equals("SUN") || $P{9}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{9}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d9}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d9}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d9}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d9}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{10}.equals("SUN") || $P{10}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{10}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d10}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d10}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d10}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d10}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style34" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{1}.equals("SUN") || $P{11}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{1}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d1}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style11">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{11}.equals("SUN") || $P{11}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{11}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d11}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d11}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d11}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d11}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style12">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{12}.equals("SUN") || $P{12}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{12}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d12}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d12}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d12}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d12}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style13">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{13}.equals("SUN") || $P{13}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{13}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d13}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d13}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d13}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d13}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style14">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{14}.equals("SUN") || $P{14}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{14}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d14}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d14}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d14}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d14}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style15">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{15}.equals("SUN") || $P{15}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{15}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d15}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d15}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d15}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d15}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style16">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{16}.equals("SUN") || $P{16}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{16}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d16}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d16}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d16}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d16}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style17">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{17}.equals("SUN") || $P{17}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{17}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d17}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d17}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d17}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d17}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style18">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{18}.equals("SUN") || $P{18}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{18}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d18}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d18}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d18}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d18}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style19">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{19}.equals("SUN") || $P{19}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{19}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d19}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d19}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d19}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d19}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style20">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{20}.equals("SUN") || $P{20}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{20}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d20}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d20}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d20}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d20}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style21">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{21}.equals("SUN") || $P{21}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{21}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d21}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d21}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d21}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d21}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style22">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{22}.equals("SUN") || $P{22}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{22}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d22}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d22}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d22}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d22}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style23">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{23}.equals("SUN") || $P{23}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{23}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d23}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d23}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d23}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d23}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style24">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{24}.equals("SUN") || $P{24}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{24}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d24}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d24}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d24}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d24}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style25">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{25}.equals("SUN") || $P{25}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{25}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d25}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d25}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d25}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d25}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style26">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{26}.equals("SUN") || $P{26}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{26}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d26}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d26}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d26}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d26}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style27">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{27}.equals("SUN") || $P{27}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{27}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d27}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d27}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d27}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d27}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style28">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{28}.equals("SUN") || $P{28}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{28}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d28}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d28}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d28}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d28}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style29">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{29}.equals("SUN") || $P{29}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{29}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d29}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d29}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d29}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d29}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style30">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{30}.equals("SUN") || $P{30}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{30}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d30}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d30}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d30}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d30}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style31">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{31}.equals("SUN") || $P{31}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{31}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d31}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d31}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d31}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d31}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style32">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{2}.equals("SUN") || $P{2}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{2}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d2}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d2}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d2}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d2}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<style name="style33">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{3}.equals("SUN") || $P{3}.equals("SAT") )]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($P{3}.length() > 3)]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF0000" backcolor="#C0C0C0" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d3}.equals( "a" ))]]></conditionExpression>
+			<style forecolor="#006666" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d3}.equals( "p*" ))]]></conditionExpression>
+			<style forecolor="#CC6600" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d3}.equals( "L" ))]]></conditionExpression>
+			<style forecolor="#3300CC" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{d3}.equals( "HL" ))]]></conditionExpression>
+			<style forecolor="#6666FF" fontSize="13" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="totalWorkingDay" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="2" class="java.lang.String"/>
+	<parameter name="3" class="java.lang.String"/>
+	<parameter name="4" class="java.lang.String"/>
+	<parameter name="5" class="java.lang.String"/>
+	<parameter name="6" class="java.lang.String"/>
+	<parameter name="7" class="java.lang.String"/>
+	<parameter name="8" class="java.lang.String"/>
+	<parameter name="9" class="java.lang.String"/>
+	<parameter name="10" class="java.lang.String"/>
+	<parameter name="11" class="java.lang.String"/>
+	<parameter name="12" class="java.lang.String"/>
+	<parameter name="13" class="java.lang.String"/>
+	<parameter name="14" class="java.lang.String"/>
+	<parameter name="15" class="java.lang.String"/>
+	<parameter name="16" class="java.lang.String"/>
+	<parameter name="17" class="java.lang.String"/>
+	<parameter name="18" class="java.lang.String"/>
+	<parameter name="19" class="java.lang.String"/>
+	<parameter name="20" class="java.lang.String"/>
+	<parameter name="21" class="java.lang.String"/>
+	<parameter name="22" class="java.lang.String"/>
+	<parameter name="23" class="java.lang.String"/>
+	<parameter name="24" class="java.lang.String"/>
+	<parameter name="25" class="java.lang.String"/>
+	<parameter name="26" class="java.lang.String"/>
+	<parameter name="27" class="java.lang.String"/>
+	<parameter name="28" class="java.lang.String"/>
+	<parameter name="29" class="java.lang.String"/>
+	<parameter name="30" class="java.lang.String"/>
+	<parameter name="31" class="java.lang.String"/>
+	<parameter name="totmonthdays" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from attendance_register,employee where employee.emp_id = attendance_register.emp_id order by employee.emp_name]]>
+	</queryString>
+	<field name="empId" class="java.lang.String">
+		<fieldDescription><![CDATA[empId]]></fieldDescription>
+	</field>
+	<field name="d1" class="java.lang.String">
+		<fieldDescription><![CDATA[d1]]></fieldDescription>
+	</field>
+	<field name="d2" class="java.lang.String">
+		<fieldDescription><![CDATA[d2]]></fieldDescription>
+	</field>
+	<field name="d3" class="java.lang.String">
+		<fieldDescription><![CDATA[d3]]></fieldDescription>
+	</field>
+	<field name="d4" class="java.lang.String">
+		<fieldDescription><![CDATA[d4]]></fieldDescription>
+	</field>
+	<field name="d5" class="java.lang.String">
+		<fieldDescription><![CDATA[d5]]></fieldDescription>
+	</field>
+	<field name="d6" class="java.lang.String">
+		<fieldDescription><![CDATA[d6]]></fieldDescription>
+	</field>
+	<field name="d7" class="java.lang.String">
+		<fieldDescription><![CDATA[d7]]></fieldDescription>
+	</field>
+	<field name="d8" class="java.lang.String">
+		<fieldDescription><![CDATA[d8]]></fieldDescription>
+	</field>
+	<field name="d9" class="java.lang.String">
+		<fieldDescription><![CDATA[d9]]></fieldDescription>
+	</field>
+	<field name="d10" class="java.lang.String">
+		<fieldDescription><![CDATA[d10]]></fieldDescription>
+	</field>
+	<field name="d11" class="java.lang.String">
+		<fieldDescription><![CDATA[d11]]></fieldDescription>
+	</field>
+	<field name="d12" class="java.lang.String">
+		<fieldDescription><![CDATA[d12]]></fieldDescription>
+	</field>
+	<field name="d13" class="java.lang.String">
+		<fieldDescription><![CDATA[d13]]></fieldDescription>
+	</field>
+	<field name="d14" class="java.lang.String">
+		<fieldDescription><![CDATA[d14]]></fieldDescription>
+	</field>
+	<field name="d15" class="java.lang.String">
+		<fieldDescription><![CDATA[d15]]></fieldDescription>
+	</field>
+	<field name="d16" class="java.lang.String">
+		<fieldDescription><![CDATA[d16]]></fieldDescription>
+	</field>
+	<field name="d17" class="java.lang.String">
+		<fieldDescription><![CDATA[d17]]></fieldDescription>
+	</field>
+	<field name="d18" class="java.lang.String">
+		<fieldDescription><![CDATA[d18]]></fieldDescription>
+	</field>
+	<field name="d19" class="java.lang.String">
+		<fieldDescription><![CDATA[d19]]></fieldDescription>
+	</field>
+	<field name="d20" class="java.lang.String">
+		<fieldDescription><![CDATA[d20]]></fieldDescription>
+	</field>
+	<field name="d21" class="java.lang.String">
+		<fieldDescription><![CDATA[d21]]></fieldDescription>
+	</field>
+	<field name="d22" class="java.lang.String">
+		<fieldDescription><![CDATA[d22]]></fieldDescription>
+	</field>
+	<field name="d23" class="java.lang.String">
+		<fieldDescription><![CDATA[d23]]></fieldDescription>
+	</field>
+	<field name="d24" class="java.lang.String">
+		<fieldDescription><![CDATA[d24]]></fieldDescription>
+	</field>
+	<field name="d25" class="java.lang.String">
+		<fieldDescription><![CDATA[d25]]></fieldDescription>
+	</field>
+	<field name="d26" class="java.lang.String">
+		<fieldDescription><![CDATA[d26]]></fieldDescription>
+	</field>
+	<field name="d27" class="java.lang.String">
+		<fieldDescription><![CDATA[d27]]></fieldDescription>
+	</field>
+	<field name="d28" class="java.lang.String">
+		<fieldDescription><![CDATA[d28]]></fieldDescription>
+	</field>
+	<field name="d29" class="java.lang.String">
+		<fieldDescription><![CDATA[d29]]></fieldDescription>
+	</field>
+	<field name="d30" class="java.lang.String">
+		<fieldDescription><![CDATA[d30]]></fieldDescription>
+	</field>
+	<field name="d31" class="java.lang.String">
+		<fieldDescription><![CDATA[d31]]></fieldDescription>
+	</field>
+	<field name="empName" class="java.lang.String">
+		<fieldDescription><![CDATA[empName]]></fieldDescription>
+	</field>
+	<field name="presentDay" class="java.lang.Integer">
+		<fieldDescription><![CDATA[presentDays]]></fieldDescription>
+	</field>
+	<field name="lateDays" class="java.lang.Integer">
+		<fieldDescription><![CDATA[lateDays]]></fieldDescription>
+	</field>
+	<field name="absentDays" class="java.lang.Integer">
+		<fieldDescription><![CDATA[absentDays]]></fieldDescription>
+	</field>
+	<variable name="variable1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[new Integer(($V{USERID_COUNT} != null && $V{USERID_COUNT}.intValue() == 1 ) ? 1 : 0)]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<group name="USERID">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="122"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="157">
+			<staticText>
+				<reportElement uuid="c9525e79-b97e-4e90-b427-397d9cb3cc2a" x="586" y="0" width="273" height="30"/>
+				<textElement>
+					<font fontName="Serif" size="17" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ATTENDANCE REGISTER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8d6ffcb7-f25c-488c-92c8-2378ceca41a2" x="1" y="128" width="83" height="20"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Total Days :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3016e66d-5364-4157-ad59-cae85ac849c4" x="575" y="30" width="148" height="28"/>
+				<textElement>
+					<font fontName="Serif" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[For the month of :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="72850d8d-14bb-434f-92fd-60b0375171be" x="718" y="30" width="364" height="28"/>
+				<textElement>
+					<font fontName="Serif" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{month}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="597a16a0-90c5-419b-b3ba-c37bdd68f7f3" x="2" y="156" width="1358" height="1"/>
+				<graphicElement>
+					<pen lineWidth="3.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="d9b44cb2-d4f9-4291-8635-a7b298af0a56" x="1246" y="20" width="100" height="20" forecolor="#006666"/>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[a = Absent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f5325bbe-5c04-488b-bfe7-b92dce831f9e" x="1246" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[P = Present OnTime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e2a957b-53b5-4baf-a225-3308f088a8fa" x="1246" y="80" width="100" height="31" forecolor="#080208"/>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[M = Manual Card Entry]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2860fc12-35fa-448b-aed4-9058d084e55e" x="1246" y="40" width="100" height="20" forecolor="#CC6600"/>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P* = Late Present]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5ef777c1-fef7-4797-b171-11e721f142c4" x="1246" y="111" width="100" height="20" forecolor="#6666FF"/>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HL = Half Day Leave]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="19781470-af71-4044-b672-88c5e3b8c506" x="1246" y="60" width="100" height="20" forecolor="#003399"/>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[L = Leave]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ed6a3cb2-96d8-4d00-8872-67c1352ec059" mode="Transparent" x="82" y="128" width="87" height="20" backcolor="#B05B5B"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalWorkingDay}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="c3607eb0-b341-484a-b5a9-d003ab8d0f2f" x="1244" y="133" width="32" height="20" backcolor="#C0C0C0"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="5ef777c1-fef7-4797-b171-11e721f142c4" x="1282" y="134" width="64" height="20" forecolor="#010101"/>
+				<textElement>
+					<font fontName="Serif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[= Holiday]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band height="43">
+			<staticText>
+				<reportElement uuid="b12ce85f-8835-4a97-bfef-53593143b4f4" x="3" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sr#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="84591a5a-ddf1-4feb-8878-39d9ba38ced8" x="34" y="3" width="69" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="77c03425-6ee4-4167-ae1d-3c7d68c1de8a" x="106" y="3" width="103" height="38"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="508fae2c-20b8-4377-9f5d-25c7f1b6f581" x="209" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ce6812f0-48c7-4047-9d75-80aec90075c8" x="209" y="22" width="29" height="16" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{1}.length() > 3 ? $P{1}.substring( 0, $P{1}.length() - 1 ) : $P{1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="676e6a36-a511-4362-b5d9-e7278636ee92" x="301" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0cacb49c-1906-4a56-823f-ffe5c5c8b5fb" x="239" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bd28007a-ee03-4025-9941-1579b9d7d929" x="331" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="892d4a5a-7ebd-4363-b788-5469fb7aa96a" x="271" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fceaaa3b-5e82-4743-8766-2ea3f3284375" x="541" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e18fa9a-3f18-434c-ab7d-71f4e3b36ea4" x="509" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="90e3c963-d0d1-4906-8a7b-899d3fb926c3" x="481" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f357b557-86ba-437a-9a36-4977f7c00300" x="451" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a9e46a77-36d1-4304-981e-c92c73466b86" x="421" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d648c58c-4115-4735-a7b2-a23aac75dffd" x="391" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f50e3008-01fd-4d8b-a03f-23de88b8aae0" x="361" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3531f83e-301a-4358-af47-728091a08c01" x="1110" y="3" width="30" height="20">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 30)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[31]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8056aa78-076f-4c3d-91f4-1f35ed678217" x="750" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[19]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="45582270-81a7-414e-8839-4bc6e54478cc" x="720" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[18]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3b83b820-ce6d-4762-a111-63b6a6c1b7d8" x="690" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[17]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6fdd57e0-306f-4007-99d2-d7de3e96d3f0" x="660" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[16]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e1fb9bd6-9b55-4fb1-bce6-ca56b168ba92" x="630" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[15]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b570a87-88fd-4ef2-a554-eea220b0906a" x="600" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[14]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0908d073-db52-40a9-bf9e-c49783c91cab" x="570" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[13]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="318cbe90-deca-4b0e-a7c5-163b9208885b" x="1080" y="3" width="30" height="20">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 29)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[30]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="17eb0829-117f-4b28-b19f-5d277a5a2a8d" x="1050" y="3" width="30" height="20">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 28)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[29]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6d355b12-4930-46ce-9e75-5d18e064c357" x="1020" y="3" width="30" height="20">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 27)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[28]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e33e16e-d43c-467c-95ea-1fa204cc80cb" x="990" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[27]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a320713b-5848-44be-a90d-88c25a86853b" x="960" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[26]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="91812a37-2428-418f-92ad-710b1e41c1cc" x="930" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[25]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a7f05bbd-ecf9-44c9-bd97-4504cf8d578f" x="900" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[24]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="10961a9b-7da6-44fa-8e7f-d46a252d1882" x="870" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ecd88b32-cbba-4b3a-9b0d-0110f81931b1" x="840" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[22]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f1305407-10aa-49fd-b779-5309c60defbb" x="810" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[21]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="900f4727-a08d-4525-8a87-5f689c378015" x="780" y="3" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[20]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="a7ff1e85-625e-4d25-8857-9d9bb3e9918d" x="689" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="0ce988eb-2053-4796-bdb0-16e7d397a656" x="659" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="8a760bac-c86f-4b07-8f6c-53308aeda99d" x="628" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="f709cea1-50c8-405c-986f-ecc751669f32" x="599" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="55ac0a12-443c-4cbe-8711-914f4a26e717" x="568" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="966e2e16-a8ed-495b-ba44-bde152ab3a47" x="1049" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="d1a756d0-7c8f-4ce8-8806-9573c209fe4c" x="1019" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="7ac77c54-c64f-447d-a82e-79a8cfc665cf" x="989" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="3b51beb3-694a-420e-865d-5e3452ad0b35" x="959" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="b3454a39-672e-47f5-9c93-52cd79799bf3" x="929" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="ea23ba81-04a7-43a4-bd5f-ff6c3bff35af" x="899" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="5f6e76f2-08d4-43af-adc2-97023fd715cc" x="869" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="b0b2b31c-743a-45a6-9a38-035e4469071d" x="839" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="9de0dc92-3ec3-4d16-a5b7-963ab18dbafc" x="810" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="39316c64-e1c3-4afd-95ce-0337f7ec08ed" x="779" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="f83a2a22-cf03-4128-a0c9-c0c04f2a4f88" x="750" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="79298c4f-162d-41f7-ad71-f89a9203d084" x="719" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="4154d328-bad2-4a6c-9508-40b831d99175" x="1140" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="243c0ac1-1c67-4db9-803d-d6e0771ca1b8" x="1109" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="635eeca8-f38a-4afe-b8c1-7a60c68543ec" x="1079" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="acde21db-08dd-45db-ba63-25f0ed9f98bc" x="1" y="2" width="1346" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="74620a5b-6f91-422f-9c5a-96906677e98d" x="1160" y="3" width="59" height="31"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Present Days]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="42180224-d44b-4f07-a033-51a16f8a6c80" x="1220" y="2" width="1" height="36"/>
+			</line>
+			<staticText>
+				<reportElement uuid="f968d20d-cfee-41dd-8486-b169cfe150f8" x="1223" y="3" width="68" height="36"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Late Present]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="54f531fd-8234-4645-b27a-01b6115184f9" x="1293" y="2" width="1" height="36"/>
+			</line>
+			<staticText>
+				<reportElement uuid="b1f7e3c9-da88-41f8-ab83-9cc6ddaaa605" x="1294" y="3" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Absent]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="01df0f57-eaf7-4e76-8373-3a840f7b3e20" x="1346" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="13111e65-5d16-49ee-ab66-a088a1f8d59c" x="1161" y="2" width="1" height="36"/>
+			</line>
+			<textField>
+				<reportElement uuid="e734f52c-4d4a-464d-803e-76d42af54642" x="271" y="22" width="28" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{3}.length() > 3 ? $P{3}.substring( 0, $P{3}.length() - 1 ) : $P{3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7595def5-3862-457d-8e1d-ceaf7e1bf960" x="300" y="22" width="29" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{4}.length() > 3 ? $P{4}.substring( 0, $P{4}.length() - 1 ) : $P{4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="00024b1c-7738-4d7b-8e5c-eea2d47427e9" x="329" y="22" width="30" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{5}.length() > 3 ? $P{5}.substring( 0, $P{5}.length() - 1 ) : $P{5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7d73e567-8bbf-463a-bcbe-a7621542a33b" x="482" y="22" width="29" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{10}.length() > 3 ? $P{10}.substring( 0, $P{10}.length() - 1 ) : $P{10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="db76d824-a0ae-4877-affa-a1940918ae37" x="689" y="22" width="30" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{17}.length() > 3 ? $P{17}.substring( 0, $P{17}.length() - 1 ) : $P{17}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7835ec09-bbc4-4f40-9708-e9f0b4490a3d" x="720" y="22" width="30" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{18}.length() > 3 ? $P{18}.substring( 0, $P{18}.length() - 1 ) : $P{18}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5ab5254b-1054-42eb-84bf-ce35b978d1bd" x="750" y="22" width="28" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{19}.length() > 3 ? $P{19}.substring( 0, $P{19}.length() - 1 ) : $P{19}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="647221f3-92d9-4c15-8a94-33a381d0025e" x="780" y="22" width="30" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{20}.length() > 3 ? $P{20}.substring( 0, $P{20}.length() - 1 ) : $P{20}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="caa40705-ac53-4e1e-be55-71cd8ca05108" x="810" y="22" width="28" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{21}.length() > 3 ? $P{21}.substring( 0, $P{21}.length() - 1 ) : $P{21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f08e7405-b3a2-48c4-b5bb-7c82b984eefe" x="869" y="22" width="29" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{23}.length() > 3 ? $P{23}.substring( 0, $P{23}.length() - 1 ) : $P{23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2e4e00ee-64b7-4061-b5ef-5ad785c687a9" x="899" y="22" width="29" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{24}.length() > 3 ? $P{24}.substring( 0, $P{24}.length() - 1 ) : $P{24}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f0b71021-f09b-466c-a8c9-3226e34c5686" x="929" y="22" width="30" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{25}.length() > 3 ? $P{25}.substring( 0, $P{25}.length() - 1 ) : $P{25}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="796d2c72-f48c-4bd7-9de1-758309e8d069" x="959" y="22" width="30" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{26}.length() > 3 ? $P{26}.substring( 0, $P{26}.length() - 1 ) : $P{26}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a6e1d69-7b5a-4740-b441-53d7b872d659" x="989" y="22" width="29" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{27}.length() > 3 ? $P{27}.substring( 0, $P{27}.length() - 1 ) : $P{27}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4c2b734a-68f8-4e03-a3e3-61779b016af6" x="1019" y="22" width="29" height="16">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 27)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{28}.length() > 3 ? $P{28}.substring( 0, $P{28}.length() - 1 ) : $P{28}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2f0ecbdb-47e1-42e9-97d1-e0863864d76d" x="241" y="22" width="28" height="17" backcolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{2}.length() > 3 ? $P{2}.substring( 0, $P{2}.length() - 1 ) : $P{2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="42bd1ee9-9f78-4732-94d8-f5f8a2a220e0" x="359" y="22" width="35" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{6}.length() > 3 ? $P{6}.substring( 0, $P{6}.length() - 1 ) : $P{6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="159e64c2-a4c4-4e3a-b540-a1bac4186e44" x="391" y="22" width="31" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{7}.length() > 3 ? $P{7}.substring( 0, $P{7}.length() - 1 ) : $P{7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d2aa0be0-74b6-42e4-9654-7bc99f64f8ce" x="423" y="22" width="28" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{8}.length() > 3 ? $P{8}.substring( 0, $P{8}.length() - 1 ) : $P{8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d0a67279-e8e6-469b-831e-5b43b0391a86" x="451" y="22" width="31" height="16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{9}.length() > 3 ? $P{9}.substring( 0, $P{9}.length() - 1 ) : $P{9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a08f86c2-8d76-49fe-b61d-66e496a4f647" x="509" y="22" width="29" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{11}.length() > 3 ? $P{11}.substring( 0, $P{11}.length() - 1 ) : $P{11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="022c2527-a856-4441-a2f8-bf8523741fb5" x="538" y="22" width="30" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{12}.length() > 3 ? $P{12}.substring( 0, $P{12}.length() - 1 ) : $P{12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3ca20d73-bf84-42cc-99aa-ade0f4946298" x="568" y="22" width="30" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{13}.length() > 3 ? $P{13}.substring( 0, $P{13}.length() - 1 ) : $P{13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a11a0802-6b7a-4a55-90a7-f807b1a02478" x="600" y="22" width="29" height="18"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{14}.length() > 3 ? $P{14}.substring( 0, $P{14}.length() - 1 ) : $P{14}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="93465ac3-e315-45b6-abc3-1fdcaf30742f" x="628" y="22" width="30" height="18"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{15}.length() > 3 ? $P{15}.substring( 0, $P{15}.length() - 1 ) : $P{15}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a4b75f88-8f93-4f5b-a555-18ef7c9a3457" x="658" y="22" width="29" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{16}.length() > 3 ? $P{16}.substring( 0, $P{16}.length() - 1 ) : $P{16}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="19e9139e-e2c9-45c9-affe-dc297b8ea64b" x="842" y="22" width="29" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{22}.length() > 3 ? $P{22}.substring( 0, $P{22}.length() - 1 ) : $P{22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a0309d4b-a989-4290-8bb6-c8f14ece5da6" x="1051" y="22" width="29" height="18">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 28)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{29}.length() > 3 ? $P{29}.substring( 0, $P{29}.length() - 1 ) : $P{29}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="719c2a7f-7b36-4181-bfbb-ace7d3da90be" x="1081" y="22" width="29" height="18">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 29)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{30}.length() > 3 ? $P{30}.substring( 0, $P{30}.length() - 1 ) : $P{30}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8240326c-c2ce-4754-84af-9acbb8b67db4" x="1111" y="22" width="30" height="18">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 30)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{31}.length() > 3 ? $P{31}.substring( 0, $P{31}.length() - 1 ) : $P{31}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="4b13e2b9-a70d-4d4b-97e2-3f4413b85ba0" x="104" y="3" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="05085d24-fb7c-4d05-bf22-6387c425c5bb" x="33" y="3" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="850024a6-2a53-48e2-82f6-1ced7bc268c9" x="1" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="00d0fad5-e14f-411c-8c6e-395290d07369" x="209" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="46928286-a529-4e65-8dde-6808ee518204" x="238" y="3" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="df85cbce-b9b6-4831-962e-abf826776bc9" x="2" y="40" width="1345" height="1"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="ee4cc6c3-7db9-4ac1-9d86-dfe9ce6321fe" x="420" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="749036ea-439b-481a-8765-733fd531ca1f" x="449" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="ecefbcf7-2751-45ea-a9a3-6ba39c6f5c1b" x="480" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="02f204f4-6ea3-48a0-be96-dbc0475480d5" x="509" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="2a9759fd-17ec-4dc3-a4ea-f2fb903add3e" x="539" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="752ee0a0-214d-42bf-adb9-6e1e2b348e38" x="269" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="847f68bb-c24e-4edb-ba12-df0bc59cabc3" x="299" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="f5189b3c-eef1-4c13-929e-2fec730d0a69" x="330" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="c33c31f7-b575-4bab-8a2a-a7a21cd92a95" x="359" y="2" width="1" height="36"/>
+			</line>
+			<line>
+				<reportElement uuid="e021e26c-7cea-44c7-9824-bddc61bab624" x="390" y="2" width="1" height="36"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26">
+			<line>
+				<reportElement uuid="f0246c83-174c-4966-a19c-69468bfe080e" x="33" y="0" width="1" height="25"/>
+			</line>
+			<textField>
+				<reportElement uuid="8c3fe8fd-f3ad-4700-8619-cd908fe9e566" x="3" y="2" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="930cec73-5645-4864-af87-ef1dbf2a1335" x="104" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="713a3c0a-4422-4b79-82d1-f680e2c71c53" x="269" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="e7b7282a-f4f7-466c-aa51-6389ffd2efdc" x="299" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="2f34bbfa-d479-4fd9-a155-5a15e2877177" x="330" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="88f99462-5e35-4215-a633-ef0d78ca2dc5" x="359" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="27b628c5-fa56-4437-b698-395db01c91dc" x="390" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="c6cfea7d-8602-4912-9971-ddb4e2d38d2a" x="420" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="6252b007-4c53-4b31-8bec-acad3f31354e" x="449" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="b8a4a913-b4ac-4b15-a19c-1927d397b2a4" x="480" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="e77b997e-bc5b-4f1f-8c10-e05fce508b4e" x="509" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="449ff7bd-ce68-415e-9c94-2b9a81e1d3d4" x="539" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="44f6a9a7-c8f6-41e0-8abc-fb0af2ebda1d" x="568" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="cd5e7ff6-7ffc-4a04-b0df-77281d7eb844" x="599" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="66a06067-5423-4675-86a9-3a35deaeef50" x="628" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="aba6193a-d3cc-4935-beda-09f638adf36d" x="659" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="42bae97a-ae2c-4eb4-9f51-144537294dbb" x="689" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="1cf98d8a-c8f0-4d96-9d02-f5df48c9f5f6" x="719" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="d96621d7-4eec-4d1b-9b68-72ae7795d10e" x="750" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="61ab5764-079b-466a-842e-510e721af621" x="779" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="8a854c0d-d277-4d3f-847a-36eb5dbe1744" x="810" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="4ec61684-a07f-4631-aa0f-f6903c4e33ba" x="839" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="d2952899-eaa5-4eeb-bee6-24552cb7b0d6" x="869" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="ea6f3161-7a22-46f5-b61b-be6166ab0c5d" x="899" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="6e2019ac-e7d8-435b-af2f-544c045dafdb" x="929" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="11730de7-6993-4381-9f1c-a1cefdab0eb7" x="959" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="f307202f-04c2-4066-9bee-7aa7093eb81a" x="989" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="0e8bd263-0fa6-4040-bef4-3958c366747c" x="1019" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="6bae2472-3426-4cb5-93b9-3664c2ff0ee8" x="1049" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="5526ff8c-db27-4e9d-9ce2-f409f9ccd0d8" x="1079" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="12f8fa8e-ef9c-4b11-855e-a7d11137470a" x="1109" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="c36e8a69-9175-4729-8804-392a289585df" x="1140" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="4f04c31c-2a8a-4224-b812-22e855de78f9" x="1" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="f36516c6-ce8d-4642-95d8-80a0742e8fb8" x="1220" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="1995c4ff-6a58-45ae-96ed-f2772b76561b" x="1293" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="72edf6af-50ff-46a0-9ed9-b68dad81ca56" x="1346" y="0" width="1" height="25"/>
+			</line>
+			<textField>
+				<reportElement uuid="dfdf1fd8-10d0-4953-9c7b-7fe34bb901fc" style="style4" x="300" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1dbbe6cc-6814-43f8-b4c1-43ae53a88bb2" style="style5" x="331" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a7953cb5-053e-4a24-977d-97637b3445d0" style="style6" x="360" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4c157240-87b0-404d-857c-ac3118d81b59" style="style7" x="391" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f41de6d6-1f60-4503-a4e1-65726b8fa347" style="style8" x="421" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1458862a-0155-4a5d-ad77-87d8d7fc1918" style="style9" x="450" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5795ed06-013d-4d20-a23d-b644cdd8c49c" style="style10" x="481" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="818e3f16-e925-4137-83ab-3b4f73242cf1" style="style11" x="510" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fed779cd-ef36-4d7e-b53c-0fd94ad789a2" style="style12" x="540" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a02aae6c-d49a-4ac9-8946-6644ea7eb2fa" style="style13" x="570" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="87a43972-f00b-4968-ac60-6e36de88e16e" style="style14" x="601" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d14}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d23fb63f-2fd7-4fb0-9250-1b1a566ab343" style="style15" x="630" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d15}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1b7ffeca-77f7-47b0-ad6f-39bb303bde80" style="style16" x="661" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d16}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b5c96e04-eff3-4adb-a364-1fac69ce190a" style="style17" x="691" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d17}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="25d99de5-6ba5-4de6-898d-31bb2b355aa0" style="style18" x="721" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d18}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6f30fa3f-97de-47c3-82e1-ce51cf4f300f" style="style19" x="752" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d19}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="32fa5771-8574-412c-a982-bb330c43175f" style="style20" x="781" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d20}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="87f99e65-8c1d-4ee5-8c62-4dcdabaa0c10" style="style21" x="812" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4b15d951-4ba1-4434-b213-0baece5bee86" style="style22" x="841" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d22}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ba7d8c0a-12e9-4d1c-bba3-e0691ea2c4b7" style="style23" x="871" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f6a00551-068d-40c8-9694-e67f06c44a09" style="style24" x="901" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d24}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0cff7a73-102a-431d-8fe3-bf20c394f91a" style="style25" x="931" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d25}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b54dbc61-8ff7-43f5-ae4b-7e3f99f37937" style="style26" x="961" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d26}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ee488953-96a6-45fd-b55e-29c98760b60f" style="style27" x="991" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d27}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="04533c82-5824-4635-93cc-d16b09600996" style="style28" x="1021" y="0" width="29" height="24">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 27)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d28}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5cef6e1c-41eb-401f-94b7-6b6a5b0835aa" style="style29" x="1051" y="0" width="29" height="24">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 28)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d29}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d9ae663c-b8a2-43f5-8b9e-cfaa3a118215" style="style30" x="1081" y="0" width="29" height="24">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue() > 29)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d30}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c385b770-0988-4f62-8599-5be9023ebffb" style="style31" x="1111" y="0" width="30" height="24">
+					<printWhenExpression><![CDATA[new Boolean($P{totmonthdays}.intValue()> 30)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d31}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="c93d5891-8c5d-401f-a50e-6b0649011e1d" x="209" y="-1" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="a9cb7f9a-ad97-4be2-a9d5-6881896c6c72" x="238" y="0" width="1" height="25"/>
+			</line>
+			<line>
+				<reportElement uuid="7561e0cc-529b-4544-88be-dd147561fc2a" x="2" y="24" width="1346" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="ebb95aff-d910-4e31-a31d-c144760222fc" style="style33" x="270" y="0" width="29" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d3}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="6e442d6b-52b2-4a9d-91ac-3198eab5d923" x="1161" y="0" width="1" height="25"/>
+			</line>
+			<textField>
+				<reportElement uuid="4d9dd32b-4a8e-4052-8e9e-9a21e6a5a26c" x="39" y="0" width="63" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="159ba41c-5694-485b-911b-7bd5a52166cd" x="1162" y="3" width="57" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{presentDay}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6c585a1d-4ced-4db9-8536-d1fe01f40d57" x="1219" y="2" width="72" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{lateDays}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8aacdebd-116b-4792-8ba8-3b6bd823d7ca" x="1294" y="2" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{absentDays}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0fa27f43-08b8-4873-97d3-908c91d0b30a" style="style32" x="238" y="0" width="30" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a4c89f32-e4e4-4a8f-88dd-ea02f15e1145" x="107" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{empName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="39524877-f934-44ec-842e-222db0d13bfc" style="style34" x="209" y="0" width="28" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{d1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25"/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

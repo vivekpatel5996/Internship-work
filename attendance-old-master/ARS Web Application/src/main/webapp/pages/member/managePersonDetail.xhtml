@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <body>
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+
+                <script>
+                    $(document).ready(function() {
+                        datePicker('dateofbirth');
+                        datePicker('doj');
+                        datePicker('doc');
+                    } );
+                        
+                    function datePicker(id)
+                    {
+                        $( '#'+id ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'dd-mm-yy',
+                            maxDate: "-15Y"
+                        }).attr( 'readOnly' , 'true' );
+                    }
+                </script>
+                <div id="main">
+                    <center><h2><font style="color:brown">My Profile </font></h2></center>
+                    <f:event listener="#{userServiceBean.retrievePersonalInformation()}" type="preRenderComponent"/>
+                    <h:outputLabel value="#{messageDataBean.message}" style="color : #{messageDataBean.isSuccess ? 'green' : 'red'}" id="message"/>
+                    <h:outputText value="#{flash.messageDataBean.message}" rendered="#{flash.messageDataBean.isSuccess and flash.messageDataBean.message != null}" style="color: green"/>
+                    <h:outputText value="#{flash.messageDataBean.message}" rendered="#{not flash.messageDataBean.isSuccess and flash.messageDataBean.message != null}" style="color: red"/>
+
+                    <h:form prependId="false">
+                        <div align="center">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form-table">
+                                <tr>
+                                    <td width="23%"></td>
+                                    <td width="27%"></td>
+                                    <td width="23%"></td>
+                                    <td width="27%"></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">Employee Type :</th>
+                                    <td>
+                                        <h:inputHidden value="#{userDataBean.id}"/>
+                                        <h:outputText value="#{userDataBean.empType}"/>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr >
+                                    <th align="right">User Id:</th>
+                                    <td colspan="2">
+                                        <h:outputText value="#{userDataBean.userId}"/>
+                                    </td>
+                                    <td>&#160;</td>
+                                </tr>  
+
+                                <tr>
+                                    <th align="right">Employee Id:</th>
+                                    <td colspan="2">
+                                        <h:outputText value="#{userDataBean.empId}"/>
+                                    </td>
+                                    <td>&#160;</td>
+                                </tr>             
+
+                                <tr>
+                                    <th width="23%" align="right">First Name:</th>
+                                    <td width="27%">
+                                        <h:inputText style="width: 75%" value="#{userDataBean.firstName}" id="firstName" maxlength="50" required="true" requiredMessage="Enter first name">
+                                        </h:inputText>&#160;<font color="red">*</font>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="firstName" style="color: red"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th width="23%" align="right">Middle Name:</th>
+                                    <td width="27%">
+                                        <h:inputText style="width: 75%" value="#{userDataBean.middleName}" id="middleName" maxlength="50"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="middleName" style="color: red"/></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">Last Name:</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.lastName}" id="lastName" maxlength="50" required="true" requiredMessage="Enter last name">
+
+                                        </h:inputText>&#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="lastName" style="color: red"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th align="right">Email Id:</th>
+                                    <td><h:outputText value="#{userDataBean.email}"/></td>
+                                </tr>
+                                
+                                <tr>
+                                    <th align="right">Gender:</th>
+                                    <td>
+                                        <h:selectOneMenu id="gender" style="width:180px" value="#{userDataBean.gender}">
+                                            <f:selectItem itemValue="M" itemLabel="Male"/>
+                                            <f:selectItem itemValue="FM" itemLabel="Female"/>
+                                        </h:selectOneMenu>&#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">Date Of Birth:</th>
+                                    <td>
+                                        <h:inputText id="dateofbirth" value="#{userDataBean.dob}" style="width: 75%" required="true" requiredMessage="Enter date of birth">
+                                            <f:convertDateTime pattern ="dd-MM-yyyy" timeZone="IST" for="dateofbirth"/>
+                                        </h:inputText>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="dateofbirth" style="color: red"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th align="right">Mobile No:</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.phoneNo}" id="phoneNo" maxlength="10" required="true" requiredMessage="Enter phone no.">
+                                        </h:inputText>&#160;<font color="red">*</font>                                 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="phoneNo" style="color: red"/></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td><h:outputText value="(e.g, 9898053422)" style="color: grey"/></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">Residential No:</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.alternatePhoneNo}" id="alternatePhoneNo" maxlength="20">
+                                        </h:inputText>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="alternatePhoneNo" style="color: red"/></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td><h:outputText value="(e.g, 0265225314 or 9898053422)" style="color: grey"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="vertical-align: top" align="right">Address:</th>
+                                    <td>
+                                        <h:inputTextarea id="address" value="#{userDataBean.address}" required="true" requiredMessage="Enter address" onfocus="counterForTextArea('address','addressCounter',300)" onkeyup="counterForTextArea('address','addressCounter',300)" cols="28" rows="4">
+                                        </h:inputTextarea> &#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><h:message for="address" style="color: red"/></td>
+                                </tr>
+                                <tr>
+                                    <th>&#160;</th>
+                                    <td>
+                                        <div style="text-align:left" ><i><h:outputText value="(You can type" style="color: grey;"/> &#160;<h:outputText id="addressCounter"  value=" 300 " style="color: grey;"/> &#160;<h:outputText value="more characters)" style="color: grey;"/></i></div>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">Join Date :</th>
+                                    <td><h:outputText value="#{userDataBean.doj}"/></td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <a4j:outputPanel id="employeeJobDetail">
+                                <a4j:outputPanel  style="display: #{userDataBean.empType eq 'Contractual' or userDataBean.empType eq null ? 'none' : 'display'}">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form-table" align="center">
+
+                                        <tr>
+                                            <th width="23%">Department:</th>
+                                            <td width="27%"><h:outputText value="#{userDataBean.departmnetName}"/></td>
+                                            <td width="23%"></td>
+                                            <td width="27%"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Designation:</th>
+                                            <td>
+                                                <h:outputText value="#{userDataBean.designationName}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shift:</th>
+                                            <td>
+                                                <h:outputText value="#{userDataBean.shiftName}" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </a4j:outputPanel>
+
+                            </a4j:outputPanel>
+                            <hr/>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="button-table">
+                                <tr>
+                                    <td>&#160;</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:commandButton value="Update Profile" action="#{userServiceBean.updateProfile()}"  />
+                                        <h:commandButton value="Change Password" action="changePassword?faces-redirect=true" immediate="true" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </h:form>
+                </div>
+                <script type="text/javascript">
+                    function loadingPanel()
+                    {
+                        $("#main").mask("Loading...");
+                       
+                    }
+                    
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

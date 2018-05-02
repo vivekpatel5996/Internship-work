@@ -1,0 +1,20 @@
+<br>
+<br>
+
+
+<!-- uppercase is custom filter -->
+Details of Phone Id:{{$ctrl.phoneId | uppercase}}
+<div>
+	<img src="{{$ctrl.mainImgUrl}}">
+ 
+    {{$ctrl.phone.storage.flash}}
+	  
+</div>	
+
+<div>
+	 
+    <div ng-repeat="img in $ctrl.phone.images">
+       <img src="{{img}}" ng-click="$ctrl.setImage(img)"/>
+    </div>
+
+</div>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+
+    <body>
+        <center><h2><font style="color:brown">System Configuration Detail</font></h2></center>
+        <br></br>
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <h:head>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                    <script>
+                        $(document).ready(function() {
+                            $('#sysconfigtable').dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers",
+                                "bRetrieve": true
+                            });
+                        });
+                    </script>
+                </h:head>
+                <h:body>
+                    <f:metadata>
+                        <f:event listener="#{systemConfigurationServiceBean.retrieveSystemConfiguration}" type="preRenderView"/>
+                    </f:metadata>
+                    <center>
+                        <br/><br/>
+                        <h:outputLabel value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green"/>
+                        <h:outputLabel value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/>
+                        <h:form>
+                            <table style="width: 50%;widows: 50%">
+                                <tr>
+                                    <td><h:outputText value="Key" /></td>
+                                    <td><h:outputText value="Value" /></td>
+                                    <td><h:outputText value="Action" /></td>
+                                </tr>
+                                <tr>
+                                    <td><h:message for="keyid" style="color: red"/></td>
+                                    <td><h:message id="messagevalue" for="valueid" style="color: red"/></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><h:inputText id="keyid" value="#{systemConfigurationDataBean.systemKey}" required="true" requiredMessage="System key Required"/></td>
+                                    <td><h:inputText id="valueid" value="#{systemConfigurationDataBean.keyValue}" required="true" requiredMessage="Key value Required"/></td>
+                                    <td> <h:commandLink action="#{systemConfigurationServiceBean.createSystemConfiguration}" value="#{msg.Add}"   title="Add Key value pair" style="text-align: center"/></td>
+                                </tr>
+                            </table>
+                        </h:form>
+                        <h:form prependId="false">
+                            <h:outputLabel value="#{msg.NoKeyvaluepairexists} !!!"  style="font-size: x-large;font-weight: bold" rendered="#{empty systemResultViewUtil.systemConfigurationDataBeanList}"/>
+                            <h:dataTable styleClass="data-table" id="sysconfigtable" value="#{systemResultViewUtil.systemConfigurationDataBeanList}"  rendered="#{not empty systemResultViewUtil.systemConfigurationDataBeanList}" var="systemconfigBean">
+                                <h:column>
+                                    <f:facet name="header">
+                                        System Key
+                                    </f:facet>
+                                    <h:outputText value="#{systemconfigBean.systemKey}" style="text-align: left;padding-right: 120px" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Key Value
+                                    </f:facet>
+                                    <h:inputText id="keyvalue" value="#{systemconfigBean.keyValue}" style="text-align: left;border: 0;">
+                                    </h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Update
+                                    </f:facet>
+                                    <h:commandLink value="#{msg.Update}" action="#{systemConfigurationServiceBean.updateSystemConfiguration}"  title="Update Key" style="margin-left: 15%" >
+                                        <f:setPropertyActionListener target="#{systemResultSessionUtil.key}" value="#{systemconfigBean.systemKey}"/>
+                                        <f:setPropertyActionListener target="#{systemResultSessionUtil.value}" value="#{systemconfigBean.keyValue}"/>
+                                    </h:commandLink>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Delete
+                                    </f:facet>
+                                    <h:commandLink value="#{msg.Delete}" action="#{systemConfigurationServiceBean.deleteSystemConfiguration}"  immediate="true" title="Remove Key value pair">
+                                        <f:setPropertyActionListener target="#{systemResultSessionUtil.key}" value="#{systemconfigBean.systemKey}"/>
+                                        <f:setPropertyActionListener target="#{systemResultSessionUtil.value}" value="#{systemconfigBean.keyValue}"/>
+                                    </h:commandLink>
+                                </h:column>
+                            </h:dataTable>
+                        </h:form>
+                    </center>
+                </h:body>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

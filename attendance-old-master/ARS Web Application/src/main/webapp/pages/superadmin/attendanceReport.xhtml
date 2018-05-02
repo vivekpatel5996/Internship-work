@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      >
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <title>Attendance Report</title>
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.button.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                <script>
+                    function dialog(id)
+                    {
+                        $( "#"+id ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: 'auto',
+                            modal: true 
+                        });
+                    }
+                    $(function() {
+                        dialog("workingHoursDetail");
+                        dialog("cardLogDetail");
+                        dialog("lateDaysDetail");
+                        dialog("absentDaysDetail");
+                        dialog("leaveDetail");
+                    });
+                    $(document).ready(function() {
+                        dateRange();
+                    } );
+                    
+                    function dateRange()
+                    {
+                        var dates = $( "#fromDate, #toDate" ).datepicker({
+                            defaultDate: "+1w",
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'dd-mm-yy',
+                            numberOfMonths: 1,
+                            maxDate : 0,
+                            required:true,
+                            onSelect: function( selectedDate ) {
+                                var option = this.id == "fromDate" ? "minDate" : "maxDate",
+                                instance = $( this ).data( "datepicker" ),
+                                date = $.datepicker.parseDate(
+                                instance.settings.dateFormat ||
+                                    $.datepicker._defaults.dateFormat,
+                                selectedDate, instance.settings );
+                                dates.not( this ).datepicker( "option", option, date );
+                            }
+                        }).attr( 'readOnly' , 'true' );
+                    }
+                    
+                    function attendanceListDataTable()
+                    {
+                        $('#attendanceListTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "bAutoWidth": false,
+                            "aaSorting": [[ 1, "asc" ]],
+                            "aoColumns": [
+                                null,
+                                null,
+                                { "sType": "eu_float" },
+                                { "sType": "eu_float" },
+                                { "sType": "eu_float" },
+                                null,
+                                null,
+                                { "sType": "eu_float" },
+                            ]
+                           
+                        } );
+                        
+                    }                
+                    function leaveDaysDataTable()
+                    {
+                        $('#leaveListTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "bAutoWidth": false,
+                            "aaSorting": [[ 2, "desc" ]],
+                            "aoColumns": [
+                                null,
+                                null,
+                                { "sType": "eu_date" },
+                                { "sType": "eu_date" },
+                                null,
+                                null,
+                            ]
+                           
+                        } );
+                        
+                    }
+                    
+                    function absentDayDetailDataTable()
+                    {
+                        $('#absentDaysTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "bAutoWidth": false,
+                            "aaSorting": [[ 1, "desc" ]],
+                            "aoColumns": [
+                                null,
+                                { "sType": "eu_date" },
+                            ]
+                           
+                        } );
+                        
+                    }
+                    function workingHourDataTable()
+                    {
+                        $('#jobBreakTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "bAutoWidth": false,
+                            "aaSorting": [[0 , "desc" ]],
+                            "aoColumns": [
+                                { "sType": "eu_date" },
+                                null,
+                                null,
+                            ]
+                           
+                        } );
+                    }
+                    function dataTable(id)
+                    {
+                        $('#'+id).dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "bAutoWidth": false,
+                            "aaSorting": [[ 0, "desc" ]],
+                            "aoColumns": [
+                                { "sType": "eu_date" },
+                                { "sType": "eu_time" },
+                            ]
+                        } );
+                    }
+                    function openLeaveDetail()
+                    {
+                        $( "#leaveDetail" ).dialog("open");
+                        leaveDaysDataTable();
+                    }
+                    function openCardLogDetail()
+                    {
+                        $( "#cardLogDetail" ).dialog("open");
+                        dataTable('cardLogTable');
+                    }
+                    function openLateDaysDetail()
+                    {
+                        $( "#lateDaysDetail" ).dialog("open");
+                        dataTable('lateDaysTable');
+                    }
+                    function openAbsentDaysDetail()
+                    {
+                        $( "#absentDaysDetail" ).dialog("open");
+                        absentDayDetailDataTable();
+                    }
+                    function openWorkingHoursDetail()
+                    {
+                        $( "#workingHoursDetail" ).dialog("open");
+                        workingHourDataTable();
+                    }
+                </script>
+            </h:head>
+
+            <h:body>
+                <div id="main">
+                    <center>
+                        <h2><font style="color:brown">Attendance Report</font></h2>
+                    </center>
+                    <f:event listener="#{reportServiceBean.retrieveUserName}" type="preRenderComponent"/>
+                    <h:form id="cardLogForm" prependId="false">
+                        <a4j:outputPanel id="cardLogFormPanel">
+
+
+                            <table id="attendanceTable" style="width: 80%;" align="center">
+                                <tr>
+                                    <td><h:outputText value="Employee Name" style="font-weight: bold"/></td>
+                                    <td><h:outputText value="From Date" style="font-weight: bold"/></td>
+                                    <td><h:outputText value="To Date" style="font-weight: bold"/></td>
+                                    <td></td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td>
+                                        <h:selectOneMenu  value="#{attendanceDataBean.id}">
+                                            <f:selectItem itemLabel="All" />
+                                            <f:selectItems value="#{systemResultViewUtil.userDataBeanList}" var="user" itemValue="#{user.id}" itemLabel="#{user.firstName} #{user.lastName}"/>
+                                        </h:selectOneMenu>
+                                    </td>
+                                    <td>
+                                        <h:inputText value="#{attendanceDataBean.fromDate}" id="fromDate" required="true" requiredMessage="Please Enter From Date">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" for="fromDate"/>
+                                        </h:inputText>
+                                        <font color="red">*</font> 
+                                    </td>
+                                    <td><h:inputText value="#{attendanceDataBean.toDate}" id="toDate" required="true" requiredMessage="Please Enter To Date">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" for="toDate"/>
+                                        </h:inputText>
+                                        <font color="red">*</font> 
+                                    </td>
+                                    <td>
+                                        <a4j:commandButton onbegin="$('#main').mask('Loading...');" value="View Attendance" action="#{reportServiceBean.retrieveAttendance()}" render="list cardLogFormPanel" oncomplete="attendanceListDataTable();dateRange();$('#main').unmask();"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <h:message for="fromDate" style="color: red;"/>
+                                    </td>
+                                    <td>
+                                        <h:message for="toDate" style="color: red;"/>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <h:inputHidden value="#{reportServiceBean.totalWorkingDays}" id="workingDays"/>
+                            <h:commandButton action="#{reportServiceBean.convertAttendanceReportToPdf()}" value="Pdf" rendered="#{systemResultViewUtil.attendanceDataBeanList.size() gt 0}"/>
+                        </a4j:outputPanel>
+                    </h:form> 
+                    <h:panelGrid id="message">
+                        <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: red" />
+                    </h:panelGrid>
+                    <h:form id="attendanceReport" prependId="false"> 
+                        <div>
+                            <h:panelGrid id="list" width="100%">
+                                <h:outputText value="No record found." rendered="#{systemResultViewUtil.attendanceDataBeanList.size() eq 0}" style="color: red"/>
+                                
+                                <h:outputText value="Working days : #{reportServiceBean.totalWorkingDays}" rendered="#{systemResultViewUtil.attendanceDataBeanList.size() gt 0}"/>
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.attendanceDataBeanList}" var="attendanceBean" id="attendanceListTable" rendered="#{systemResultViewUtil.attendanceDataBeanList.size() gt 0}" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Emp Id
+                                        </f:facet>
+                                        <h:outputText value="#{attendanceBean.empId}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Employee Name
+                                        </f:facet>
+                                        <h:outputText value="#{attendanceBean.userName}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Present Days
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" action="#{reportServiceBean.retrievePresentDays()}" oncomplete="openCardLogDetail();$('#main').unmask();" render="cardLogDetailPanel" rendered="#{attendanceBean.presentDays ne 0}">
+                                            <h:outputText value="#{attendanceBean.presentDays}"/>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.fromDate}" value="#{attendanceBean.fromDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.toDate}" value="#{attendanceBean.toDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.id}" value="#{attendanceBean.id}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{userDataBean.firstName}" value="#{attendanceBean.userName}"></f:setPropertyActionListener>
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{attendanceBean.presentDays}" rendered="#{attendanceBean.presentDays eq 0.0}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Leave Days
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" action="#{leaveServiceBean.retrieveApproveLeaveBetweenDates()}" oncomplete="openLeaveDetail();$('#main').unmask();" render="leaveDaysPanel" rendered="#{attendanceBean.leaveDays ne 0}">
+                                            <h:outputText value="#{attendanceBean.leaveDays}"/>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveFromDate}" value="#{attendanceBean.fromDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveToDate}" value="#{attendanceBean.toDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.userId}" value="#{attendanceBean.id}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{userDataBean.firstName}" value="#{attendanceBean.userName}"></f:setPropertyActionListener>
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{attendanceBean.leaveDays}" rendered="#{attendanceBean.leaveDays eq 0}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Absent Days
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" action="#{reportServiceBean.retrieveAbsentDays()}" oncomplete="openAbsentDaysDetail();$('#main').unmask();" render="absentDaysDetailPanel" rendered="#{attendanceBean.absentDays ne 0}">
+                                            <h:outputText value="#{attendanceBean.absentDays}"/>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.fromDate}" value="#{attendanceBean.fromDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.toDate}" value="#{attendanceBean.toDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.id}" value="#{attendanceBean.id}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{userDataBean.firstName}" value="#{attendanceBean.userName}"></f:setPropertyActionListener>
+
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{attendanceBean.absentDays}" rendered="#{attendanceBean.absentDays eq 0}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Total working Hours
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" action="#{personalServiceBean.retrieveJobBreak()}" oncomplete="openWorkingHoursDetail();$('#main').unmask();" render="workingHoursDetailPanel" rendered="#{attendanceBean.totalWorkingHours ne '00 hrs 00 mins'}">
+                                            <h:outputText value="#{attendanceBean.totalWorkingHours}" />
+                                            <f:setPropertyActionListener target="#{personalServiceBean.user}" value="#{attendanceBean.id}"/>
+                                            <f:setPropertyActionListener target="#{personalServiceBean.fromDate}" value="#{attendanceBean.fromDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{personalServiceBean.toDate}" value="#{attendanceBean.toDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{userDataBean.firstName}" value="#{attendanceBean.userName}"></f:setPropertyActionListener>
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{attendanceBean.totalWorkingHours}" rendered="#{attendanceBean.totalWorkingHours eq '00 hrs 00 mins'}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Average working Hours
+                                        </f:facet>
+                                        <h:outputText value="#{attendanceBean.averageWorkingHours}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Late Coming Days
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" action="#{reportServiceBean.retrieveLateDays()}" oncomplete="openLateDaysDetail();$('#main').unmask();" render="lateDaysDetailPanel" rendered="#{attendanceBean.lateDays ne 0}">
+                                            <h:outputText value="#{attendanceBean.lateDays}"/>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.fromDate}" value="#{attendanceBean.fromDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.toDate}" value="#{attendanceBean.toDate}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{reportServiceBean.id}" value="#{attendanceBean.id}"></f:setPropertyActionListener>
+                                            <f:setPropertyActionListener target="#{userDataBean.firstName}" value="#{attendanceBean.userName}"></f:setPropertyActionListener>
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{attendanceBean.lateDays}" rendered="#{attendanceBean.lateDays eq 0}" />
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </div>
+                        <div id="leaveDetail" title="Leave Detail">
+                            <br></br>
+                            <h:panelGrid id="leaveDaysPanel" width="100%">
+                                Employee Name: #{userDataBean.firstName}
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.leaveDataBeans}" var="leaveBean" id="leaveListTable" rendered="#{systemResultViewUtil.leaveDataBeans.size() gt 0}">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Leave Type
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.leaveType}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Subject
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.leaveSubject}"/>
+                                        <h:outputText value="Restricted Holiday" rendered="#{leaveBean.leaveSubject eq null}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            From Date
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.fromDate}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            To Date
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.toDate}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Leave Days
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.noOfDays}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Reason
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.reason}"/>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:outputText rendered="#{systemResultViewUtil.leaveDataBeans.size() eq 0}" value="  No Record Found.." style="size:10; color: red; text-align: center"  id="message2"/>
+                            </h:panelGrid>
+                        </div>
+                        <div id="workingHoursDetail" align="center" title="Working Hours Detail"> 
+                            <br></br>
+                            <h:panelGrid id="workingHoursDetailPanel" width="100%">
+                                Employee Name: #{userDataBean.firstName}
+                                <h:dataTable styleClass="data-table" binding="#{table1}" value="#{systemResultViewUtil.jobBreakDataBeanList}" var="jobBreakBean" id="jobBreakTable" rendered="#{systemResultViewUtil.jobBreakDataBeanList.size() gt 0}">
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Date
+                                        </f:facet>
+                                        <h:outputText value="#{jobBreakBean.cardPunchingTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Total In Time
+                                        </f:facet>
+                                        <h:outputText value="#{jobBreakBean.totalInTime}" style="text-align: left"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Official Break
+                                        </f:facet>
+                                        <h:outputText value="#{jobBreakBean.officialBreak != null ? jobBreakBean.officialBreak : '-'}" style="text-align: left" />
+                                    </h:column>
+                                </h:dataTable>
+                                <h:outputText rendered="#{systemResultViewUtil.jobBreakDataBeanList.size() eq 0}" value="  No Record Found.." style="color: red; text-align: center" id="message1"/>
+                            </h:panelGrid>
+                        </div>
+                        <div id="cardLogDetail" align="center" title="Present Days"> 
+                            <br></br>
+                            <h:panelGrid id="cardLogDetailPanel" width="100%">
+                                Employee Name: #{userDataBean.firstName}
+                                <h:dataTable styleClass="data-table" binding="#{table2}" value="#{systemResultViewUtil.cardLogDataBeanList}" var="cardLogBean" id="cardLogTable" rendered="#{systemResultViewUtil.cardLogDataBeanList.size() gt 0}">
+
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Date
+                                        </f:facet>
+                                        <h:outputText value="#{cardLogBean.cardPunchingTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                        </h:outputText>
+                                        <h:outputText value="#{cardLogBean.weekend}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Entry Time
+                                        </f:facet>
+                                        <h:outputText value="#{cardLogBean.cardPunchingTime ne null ? cardLogBean.cardPunchingTime : '-'}" style="text-align: left">
+                                            <f:convertDateTime type="date" pattern="hh:mm:ss a" timeZone="GMT+5:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:outputText rendered="#{systemResultViewUtil.cardLogDataBeanList.size() eq 0}" value="  No Record Found.." style="color: red; text-align: center" id="message5"/>
+                            </h:panelGrid>
+                        </div>
+                        <div id="lateDaysDetail" align="center" title="Late Days"> 
+                            <br></br>
+                            <h:panelGrid id="lateDaysDetailPanel" width="100%">
+                                Employee Name: #{userDataBean.firstName}
+                                <h:dataTable styleClass="data-table" binding="#{table3}" value="#{systemResultViewUtil.cardLogDataBeanList}" var="lateBean" id="lateDaysTable" rendered="#{systemResultViewUtil.cardLogDataBeanList.size() gt 0}">
+
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Date
+                                        </f:facet>
+                                        <h:outputText value="#{lateBean.cardPunchingTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Entry Time
+                                        </f:facet>
+                                        <h:outputText value="#{lateBean.cardPunchingTime}" style="text-align: left">
+                                            <f:convertDateTime type="date" pattern="hh:mm:ss a" timeZone="GMT+5:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:outputText rendered="#{systemResultViewUtil.cardLogDataBeanList.size() eq 0}" value="  No Record Found.." style="color: red; text-align: center" id="message6"/>
+                            </h:panelGrid>
+                        </div>
+                        <div id="absentDaysDetail" align="center" title="Absent Days"> 
+                            <br></br>
+                            <h:panelGrid id="absentDaysDetailPanel" width="100%">
+                                Employee Name: #{userDataBean.firstName}
+                                <h:dataTable styleClass="data-table" binding="#{table4}" value="#{systemResultViewUtil.cardLogDataBeanList}" var="absentBean" id="absentDaysTable" rendered="#{systemResultViewUtil.cardLogDataBeanList.size() gt 0}">
+                                    <h:column>
+                                        <f:facet name="header"><font style="font-weight: bold">Sr. No.</font></f:facet>
+                                        #{table4.rowIndex + SessionsController.firstRow + 1}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Date
+                                        </f:facet>
+                                        <h:outputText value="#{absentBean.cardPunchingTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                        </h:outputText><h:outputText value="#{absentBean.weekend}"/>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:outputText rendered="#{systemResultViewUtil.cardLogDataBeanList.size() eq  0}" value="  No Record Found.." style="color: red; text-align: center" id="message8"/>
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

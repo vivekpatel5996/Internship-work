@@ -1,0 +1,14 @@
+type of ioc ,role
+type of injection
+autowire types
+bean scope
+annotation vs xml ,when to use,pros & cons
+spring ,pros & cons
+stereotype with its use
+resource , autowire , required
+postconstruct & predestroy 
+bean postprocessor
+use of properties &message resource
+component scan(internal work , what if don't write)
+priority: postconstruct, postprocessr,init ,static block
+

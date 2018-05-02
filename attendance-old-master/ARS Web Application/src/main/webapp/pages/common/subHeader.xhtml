@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+        <div align="right" style="width: 100%;">
+             <h:form>
+            <b><h:outputText value="#{msg.Welcome}, #{loginDataBean.name}"/></b>&#160;&#160;
+            <h:outputText value="(#{msg.Lastloggedin} : " rendered="#{loginDataBean.lastLoginDateTime != null}"/>
+            <h:outputText value="#{loginDataBean.lastLoginDateTime}" rendered="#{loginDataBean.lastLoginDateTime != null}">
+                <f:convertDateTime type="both" pattern="dd/MM/yyyy hh:mm a" timeZone="#{systemPropertyUtil.serverTimeZone}" />
+            </h:outputText>
+            <h:outputText value=")" rendered="#{loginDataBean.lastLoginDateTime != null}"/>        
+           
+                <h:commandLink value="#{msg.Logout}" action="#{loginServiceBean.doLogout}" style="text-align: right; font-weight: bold;text-decoration: none;" />
+            </h:form>
+        </div>
+    </ui:composition>
+
+</html>
+

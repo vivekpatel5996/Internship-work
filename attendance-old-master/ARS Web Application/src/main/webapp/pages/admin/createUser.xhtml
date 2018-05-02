@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+    <h:head>
+        <title>Facelet Title</title>
+
+    </h:head>
+    <body>
+
+        <ui:composition template="../layout/homeLayout.xhtml">         
+            <ui:define name="content">
+                <div id="content">
+                    <h3>#{msg.AddUser}</h3>
+                    <hr/>
+                    <h:form prependId="false">
+                        <h:outputLabel rendered="#{messageDataBean.isSuccess and messageDataBean.message != null}" >
+                            <div class="succmsg"><ul><li>#{messageDataBean.message}</li></ul></div>
+                        </h:outputLabel>
+                        <h:outputLabel rendered="#{not messageDataBean.isSuccess and messageDataBean.message != null}">
+                            <div class="errmsg" style="width: 70%"><ul><li>#{messageDataBean.message}</li></ul></div>
+                        </h:outputLabel>
+                        <rich:messages styleClass="errormessages" />
+                        <fieldset class="full">
+                            <legend>#{msg.UserDetails}</legend>
+                            <div align="right"> <h:outputText value="(#{msg.Fieldsmarkedwitharemandatory})" styleClass="infomessages"/></div><br/>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form-table" align="center">
+                                <tr>
+                                    <td width="23%"></td>
+                                    <td width="27%"></td>
+                                    <td width="23%"></td>
+                                    <td width="27%"></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.UserId}</th>
+                                    <td colspan="2">
+                                        <a4j:region>
+                                            <h:inputText id="username" value="#{userDataBean.userId}" style="width: 40.5%" required="true" requiredMessage="Enter UserId" maxlength="20">
+                                                <rich:validator/>
+                                                <a4j:ajax event="blur" listener="#{userServiceBean.isUserExist()}" render="check" />
+                                            </h:inputText>
+                                        </a4j:region>&#160;<font color="red">*</font>&#160;&#160;
+                                        <h:outputText id="check" value="#{userServiceBean.isUserAvailable}" style="color: #{userServiceBean.isUserExist ? 'green' : 'red'}"/>
+                                    </td>
+                                    <td>&#160;</td>
+                                </tr>                                                       
+                                <tr>
+                                    <th width="23%">#{msg.FirstName}</th>
+                                    <td width="27%">
+                                        <h:inputText style="width: 75%" value="#{userDataBean.firstName}" id="firstName" maxlength="50" required="true" requiredMessage="Enter first name">
+                                            <rich:validator/>
+                                        </h:inputText>&#160;<font color="red">*</font>
+                                    </td>
+                                    <th width="23%">#{msg.MiddleName}</th>
+                                    <td width="27%">
+                                        <h:inputText style="width: 75%" value="#{userDataBean.middleName}" id="middleName" maxlength="50">
+                                            <rich:validator/>
+                                        </h:inputText>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.Lastname}</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.lastName}" id="lastName" maxlength="50" required="true" requiredMessage="Enter last name">
+                                            <rich:validator/>
+                                        </h:inputText>&#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.Password}</th>
+                                    <td>
+                                        <h:inputSecret style="width: 75%" value="#{userDataBean.password}" id="password" maxlength="16" required="true" requiredMessage="Enter password" onkeyup="testPassword(this.value);">
+<!--                                            <rich:validator/>-->
+                                        </h:inputSecret>&#160;<font color="red">*</font>
+                                    </td>
+                                    <td valign='top' colspan="2">
+                                        <a id='Words'></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td colspan="3"><h:outputText value="#{msg.Passwordmusthaveeightcharacterslongandcontainsaleastonenumericvalue}" style="color: grey"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.ConfirmPassword}</th>
+                                    <td>
+                                        <h:inputSecret style="width: 75%" value="#{userDataBean.rePassword}" id="rePassword" maxlength="16" required="true" requiredMessage="Enter confirm password">
+<!--                                            <rich:validator/>-->
+                                        </h:inputSecret>&#160;<font color="red">*</font>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.EmailId}</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.email}" id="email" maxlength="50" required="true" requiredMessage="Enter email id">
+                                            <rich:validator/>
+                                        </h:inputText>&#160;<font color="red">*</font></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.Gender}</th>
+                                    <td>
+                                        <h:selectOneMenu id="gender" style="width:180px" value="#{userDataBean.gender}">
+                                            <f:selectItem itemValue="M" itemLabel="#{msg.Male}"/>
+                                            <f:selectItem itemValue="FM" itemLabel="#{msg.Female}"/>
+                                        </h:selectOneMenu>&#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.DateOfBirth}</th>
+                                    <td>
+                                        <h:inputText id="dateofbirth" value="#{userDataBean.dob}" readonly="true" style="width: 75%" required="true" requiredMessage="Enter date of birth">
+                                            <f:convertDateTime dateStyle="dd/mm/yyyy" for="dateofbirth"/>
+                                            <rich:validator/>
+                                        </h:inputText>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.PhoneNo}</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.phoneNo}" id="phoneNo" maxlength="20" required="true" requiredMessage="Enter phone no.">
+                                            <rich:validator/>
+                                        </h:inputText>&#160;<font color="red">*</font>                                  
+                                    </td>
+                                    <th>#{msg.ResidentialNo}</th>
+                                    <td>
+                                        <h:inputText style="width: 75%" value="#{userDataBean.alternatePhoneNo}" id="alternatePhoneNo" maxlength="20">
+                                            <rich:validator/>
+                                        </h:inputText>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td><h:outputText value="(e.g, 9898053422)" style="color: grey"/></td>
+                                    <th></th>
+                                    <td><h:outputText value="(e.g, 0265225314 or 9898053422)" style="color: grey"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="vertical-align: top">#{msg.Address}</th>
+                                    <td>
+                                        <h:inputTextarea id="address" value="#{userDataBean.address}" required="true" requiredMessage="Enter address" onfocus="counterForTextArea('address','addressCounter',300)" onkeyup="counterForTextArea('address','addressCounter',300)" cols="28" rows="4">
+                                            <rich:validator/>
+                                        </h:inputTextarea> &#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>&#160;</th>
+                                    <td>
+                                        <div style="text-align:left" ><i><h:outputText value="(#{msg.Youcantype}" style="color: grey;"/> &#160;<h:outputText id="addressCounter"  value="300" style="color: grey;"/> &#160;<h:outputText value="#{msg.morecharacters})" style="color: grey;"/></i></div>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.Status}</th>
+                                    <td>
+                                        <h:selectOneMenu id="status" style="width:180px" value="#{userDataBean.status}">
+                                            <f:selectItem itemValue="A" itemLabel="#{msg.Active}"/>
+                                            <f:selectItem itemValue="IA" itemLabel="#{msg.InActive}"/>
+                                        </h:selectOneMenu>&#160;<font color="red">*</font>
+                                    </td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th width="18%"></th>
+                                    <td colspan="3"><h:outputText value="#{msg.SelectRolefortheUser} (#{msg.pressandholdctrltoselectmultiplerolesatonce})" style="color: grey"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td colspan="3">
+                                        <h:selectManyMenu id="rolemultiSelect" value="#{userServiceBean.roleIdList}" style="width: 500px">
+                                            <f:converter converterId="userRoleConverter"/>
+                                            <f:selectItems value="#{userServiceBean.sourceRoleList}"/>
+                                        </h:selectManyMenu>
+                                    </td>
+                                </tr>                                                                               
+                            </table>
+                        </fieldset>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="button-table">
+                            <tr>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandButton value="#{msg.Create}" onclick="loadingPanel();" action="#{userServiceBean.createUser}" styleClass="button"></h:commandButton>&#160;
+                                    <h:commandButton value="#{msg.Cancel}" action="searchUser" styleClass="button" immediate="true"></h:commandButton>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
+                </div>
+                
+                <div>
+                    
+                </div>
+                <script type="text/javascript">
+            
+                  
+                   $("#dateofbirth").datepicker({
+                       changeMonth: true,
+                       changeYear: true,
+                       dateFormat: 'dd-mm-yy',
+                       maxDate:+0,
+                       height: 200,
+                       width:200
+                       
+                   });
+                   
+                   function loadingPanel()
+                   {
+                      $("#content").mask("Loading...");
+                       
+                   }
+                    
+                </script>
+
+            </ui:define>
+        </ui:composition>   
+
+
+    </body>
+</html>
+

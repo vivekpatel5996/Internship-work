@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="com.argusoft.telemed_telemed-model_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.argusoft.ars.model.RxpadField</class>
+    <class>com.argusoft.ars.model.UserRxpadField</class>
+    <class>com.argusoft.ars.model.Visitor</class>
+    <class>com.argusoft.ars.model.ShiftHistory</class>
+    <class>com.argusoft.ars.model.CardInventory</class>
+    <class>com.argusoft.ars.model.UsermanagementUserContact</class>
+    <class>com.argusoft.ars.model.UsermanagementSystemUser</class>
+    <class>com.argusoft.ars.model.ExitProcess</class>
+    <class>com.argusoft.ars.model.SystemConfiguration</class>
+    <class>com.argusoft.ars.model.OfficialBreak</class>
+    <class>com.argusoft.ars.model.ManualCardEntry</class>
+    <class>com.argusoft.ars.model.EmailFormat</class>
+    <class>com.argusoft.ars.model.Leave</class>
+    <class>com.argusoft.ars.model.Designation</class>
+    <class>com.argusoft.ars.model.CardLog</class>
+    <class>com.argusoft.ars.model.Department</class>
+    <class>com.argusoft.ars.model.LeaveOpinion</class>
+    <class>com.argusoft.ars.model.Shift</class>
+    <class>com.argusoft.ars.model.Holiday</class>
+    <class>com.argusoft.ars.model.SystemUserDetail</class>
+    <class>com.argusoft.ars.model.UserWiseLeader</class>
+    <properties>
+      <property name="hibernate.connection.username" value="postgres"/>
+      <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+      <property name="hibernate.connection.password" value="argusadmin"/>
+      <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/phmms"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+    </properties>
+  </persistence-unit>
+</persistence>

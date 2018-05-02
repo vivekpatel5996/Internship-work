@@ -1,0 +1,785 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <h:head>
+                    <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+
+                    <script>
+                    
+                        //                   
+                        $(function() {
+                            // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+                            $("#main").mask("Loading...");
+                            
+                            $( "#applyLeave" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true ,
+                                buttons: {
+                                    "Apply Leave" : function() {
+                                        $("#applyLeaveButton").click();
+                                    },
+                                    "Close" : function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                                }
+                            });
+                            $( "#updateLeave" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true ,
+                                buttons: {
+                                    "Modify Leave" : function() {
+                                        $("#updateLeaveButton").click();
+                                    },
+                                    "Close" : function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                               
+                                }
+                            });
+                            $( "#cancelLeave" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true ,
+                                buttons: {
+                                    "Yes" : function() {
+                                        $("#cancelLeaveButton").click();
+                                        $( this ).dialog( "close" );
+                                    },
+                                    "No" : function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                                }
+                            });
+                            $( "#leaveDetail" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true 
+                            });
+                        });
+                        
+                        var oTable;
+                        $(document).ready(function() {
+                            $('#main').unmask();
+                            leaveDataTable();
+                        }
+                    );
+                        
+                        function leaveDataTable()
+                        {
+                            oTable = $('#leaveListTable').dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers",
+                                "bRetrieve": true,
+                                "aaSorting": [[ 2, "desc" ]],
+                                "aoColumns": [
+                                    null,
+                                    null,
+                                    { "sType": "eu_date" },
+                                    { "sType": "eu_date" },
+                                    { "sType": "eu_float" },
+                                    null,
+                                    null,
+                                    { "bSortable": false },
+                                    { "bSortable": false },
+                                ]
+                            } );
+                        }
+                        function openApplyLeave()
+                        {
+                            applyLeaveDisplay();
+                            $( "#applyLeave" ).dialog( "open" );
+                            dateRangeJquery('addFromDate', 'AddToDate');
+                            return false;
+                        }
+                        function closeApplyLeave()
+                        {
+                            $( "#applyLeave" ).dialog( "close" );
+                            return false;
+                        }
+                        function openUpdateLeaveDialog()
+                        {
+                            updateLeaveDisplay();
+                            $( "#updateLeave" ).dialog( "open" );
+                            dateRangeJquery('updateFromDate', 'updateToDate');
+                            return false;
+                        }
+                        function closeUpdateLeaveDialog()
+                        {
+                            $( "#updateLeave").dialog( "close" );
+                            return false;
+                        }
+                        function openCancelLeaveDialog()
+                        {
+                            $( "#cancelLeave" ).dialog( "open" );
+                            return false;
+                        }
+                        
+                        function closeCancelLeaveDialog()
+                        {
+                            $( "#cancelLeave" ).dialog( "close" );
+                            return false;
+                        }
+                        function openLeaveDetailDialog()
+                        {
+                            $( "#leaveDetail" ).dialog( "open" );
+                            return false;
+                        }
+                        $(window).load(function() {
+                            jsf.ajax.addOnEvent(function (data) {
+                                if (data.status === "success") {
+                                    leaveDataTable();
+                                }
+                            })
+                        });
+                        function applyLeaveDisplay()
+                        {
+                            if($('#addLeaveTypeCombo').val()=="Restricted Holiday")
+                            {
+                                $('#addLeaveSubjectRow').hide();
+                                $('#addRestrictedHolidayRow').show();
+                                $('#addFromDateLeaveTypeRow').hide();
+                                $('#addFromDateRow').hide();
+                                $('#addToDateTypeRow').hide();
+                                $('#addToDateRow').hide();
+                                $('#addReasonRow').show();
+                                $('#addCCRow').show();
+                            }
+                            else if($('#addLeaveTypeCombo').val()== "")
+                            {
+                                $('#addLeaveSubjectRow').hide();
+                                $('#addRestrictedHolidayRow').hide();
+                                $('#addFromDateLeaveTypeRow').hide();
+                                $('#addFromDateRow').hide();
+                                $('#addToDateTypeRow').hide();
+                                $('#addToDateRow').hide();
+                                $('#addReasonRow').hide();
+                                $('#addCCRow').hide();
+                            }
+                            else
+                            {
+                                $('#addLeaveSubjectRow').show();
+                                $('#addRestrictedHolidayRow').hide();
+                                $('#addFromDateLeaveTypeRow').show();
+                                $('#addFromDateRow').show();
+                                $('#addToDateTypeRow').show();
+                                $('#addToDateRow').show();
+                                $('#addReasonRow').show();
+                                $('#addCCRow').show();
+                            }
+                        }
+                        
+                        function updateLeaveDisplay()
+                        {
+                            if($('#updateLeaveTypeCombo').val()=="Restricted Holiday")
+                            {
+                                $('#updateLeaveSubjectRow').hide();
+                                $('#updateRestrictedHolidayRow').show();
+                                $('#updateFromDateLeaveTypeRow').hide();
+                                $('#updateFromDateRow').hide();
+                                $('#updateToDateTypeRow').hide();
+                                $('#updateToDateRow').hide();
+                                $('#updateReasonRow').show();
+                                $('#updateCCRow').show();
+                            
+                            }
+                            else if($('#updateLeaveTypeCombo').val()== "")
+                            {
+                                $('#updateLeaveSubjectRow').hide();
+                                $('#updateRestrictedHolidayRow').hide();
+                                $('#updateFromDateLeaveTypeRow').hide();
+                                $('#updateFromDateRow').hide();
+                                $('#updateToDateTypeRow').hide();
+                                $('#updateToDateRow').hide();
+                                $('#updateReasonRow').hide();
+                                $('#updateCCRow').hide();
+                            }
+                            else
+                            {
+                                $('#updateLeaveSubjectRow').show();
+                                $('#updateRestrictedHolidayRow').hide();
+                                $('#updateFromDateLeaveTypeRow').show();
+                                $('#updateFromDateRow').show();
+                                $('#updateToDateTypeRow').show();
+                                $('#updateToDateRow').show();
+                                $('#updateReasonRow').show();
+                                $('#updateCCRow').show();
+                            }
+                        }
+                        
+                        function dateRangeJquery(fromDateId,toDateId)
+                        {
+                            var dates = $( '#'+fromDateId+',#'+toDateId ).datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                dateFormat: 'dd-mm-yy',
+                                numberOfMonths: 1,
+                                required:true,
+                                onSelect: function( selectedDate ) {
+                                    var option = this.id == fromDateId ? "minDate" : "maxDate",
+                                    instance = $( this ).data( "datepicker" ),
+                                    date = $.datepicker.parseDate(
+                                    instance.settings.dateFormat ||
+                                        $.datepicker._defaults.dateFormat,
+                                    selectedDate, instance.settings );
+                                    dates.not( this ).datepicker( "option", option, date );
+                                }
+                            }).attr( 'readOnly' , 'true' );
+                        }
+                    </script>
+                </h:head>
+                <h:body>
+                    <div id="main">
+                        <center><h2><font style="color:brown">My Leave Detail</font></h2></center>
+
+                        <f:event listener="#{leaveServiceBean.retrieveLeaveSubjectList()}" type="preRenderComponent"/>
+                        <f:event listener="#{leaveServiceBean.retrieveRestrictedHolidayList()}" type="preRenderComponent"/>
+                        <f:event listener="#{leaveServiceBean.retrieveleaveList()}" type="preRenderComponent"/>
+                        <table width="100%">
+                            <tr>
+                                <td align="left"><h:form><a4j:commandButton action="#{userServiceBean.retrieveUserListWithoutItself()}" oncomplete="openApplyLeave();$('#main').unmask();" onbegin="$('#main').mask('Loading...');" value="Apply Leave" render="addLeavePanelRender"/></h:form></td>
+                                <td align="right"><a href="#{facesContext.externalContext.requestContextPath}/personalLeaveQuota">My Leave Quota</a></td>
+                            </tr>
+                        </table>
+                        <h:panelGrid id="message">
+                            <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green" />
+                        </h:panelGrid>
+                        <div id="applyLeave" title="Apply Leave">
+                            <h:form prependId="false" id="applyLeaveForm">
+                                <a4j:outputPanel id="addLeavePanelRender">
+                                    <table>
+                                        <tr><td colspan="4"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td></tr>
+                                        <tr><td><h:outputText value="Leave Type:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.leaveType}" id="addLeaveTypeCombo"  requiredMessage="Please Select Leave Type" required="true">
+                                                    <f:selectItem itemLabel="Select Leave Type"/>
+                                                    <f:selectItem itemLabel="Restricted Holiday" itemValue="Restricted Holiday"/>
+                                                    <f:selectItem itemLabel="Casual Leave" itemValue="Casual" />
+                                                    <f:selectItem itemLabel="Earn Leave" itemValue="Earn"/>
+                                                    <f:selectItem itemLabel="Loss Of Pay" itemValue="Loss Of Pay"/>
+                                                    <f:selectItem itemLabel="Special Leave" itemValue="Special Leave"/>
+                                                    <a4j:ajax event="change" oncomplete="applyLeaveDisplay();dateRangeJquery('addFromDate', 'AddToDate');"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/></td>
+                                            <td><h:message for="addLeaveTypeCombo" style="color: red"/></td></tr>
+                                        <tr id="addRestrictedHolidayRow">
+                                            <td><h:outputText value="Restricted Holiday:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.holidayId}" id="addRestrictedHolidayCombo"  requiredMessage="Please Select the Restricted Holiday" >
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItems value="#{systemResultViewUtil.holidayList}"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.ristricedHolidayValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="addLeaveSubjectRow">
+                                            <td><h:outputText value="Leave Subject:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.leaveSubject}" id="addLeaveSubjectCombo" requiredMessage="Please Select Levae Subject" >
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItems value="#{systemResultViewUtil.systemConfigurationDataBeanList}" var="leaveSubject" itemLabel="#{leaveSubject.keyValue}" itemValue="#{leaveSubject.keyValue}"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/></td>
+                                            <td><h:outputText value="#{leaveDataBean.leaveSubjectValidationMessage}" style="color: red" /></td>
+                                        </tr>
+
+                                        <tr id="addFromDateLeaveTypeRow">
+                                            <td><h:outputText value="From Date Type:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.fromDateLeaveType}" id="addFromDateLeavetype"  requiredMessage="Please select the fromDate Leave type">
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItem itemLabel="Full Day" itemValue="FD"/>
+                                                    <f:selectItem itemLabel="Half Day Morning" itemValue="HDM"/>
+                                                    <f:selectItem itemLabel="Half Day Evening" itemValue="HDE"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.fromDateTypeValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="addFromDateRow">
+                                            <td><h:outputText value="From Date:" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{leaveDataBean.fromDate}" requiredMessage="Please Select the date" id="addFromDate">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.fromDateValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="addToDateTypeRow">
+                                            <td><h:outputText value="To Date Type:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.toDateLeaveType}" id="addToDateType">
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItem itemLabel="Full Day" itemValue="FD"/>
+                                                    <f:selectItem itemLabel="Half Day Morning" itemValue="HDM"/>
+                                                    <f:selectItem itemLabel="Half Day Evening" itemValue="HDE"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.toDateTypeValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="addToDateRow">
+                                            <td><h:outputText value="To Date:" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{leaveDataBean.toDate}" id="AddToDate">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.toDateValidationMessage}" style="color: red" /></td>
+                                        </tr>
+
+                                        <tr id="addReasonRow">
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:inputTextarea value="#{leaveDataBean.reason}" id="AddReason"/>
+                                                <h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.reasonValidationMessage}" style="color: red" /></td>
+                                        </tr>
+<!--                                        <tr id="addCCRow">
+                                            <td>
+                                                <h:outputText value="CC:" style="font-weight: bold" rendered="{loginDataBean.role ne 'ROLE_SADMIN'}"/>
+                                            </td>
+                                            <td>
+                                                <h:selectManyMenu value="{leaveDataBean.userIdList}" id="opinionList" rendered="{loginDataBean.role ne 'ROLE_SADMIN'}" style="height: 100px ">
+                                                    <f:selectItems value="{systemResultViewUtil.systemUserDetailDataBeansList}" var="user" itemValue="{user.userId}" itemLabel="{user.name}"/>
+                                                </h:selectManyMenu>
+                                            </td>
+                                            <td></td>
+                                        </tr>-->
+                                    </table>
+
+                                </a4j:outputPanel>
+                                <a4j:commandButton onbegin="$('#applyLeave').mask('Loading...');" action="#{leaveServiceBean.applyLeave}" value="Apply Leave" id="applyLeaveButton" oncomplete="if(#{messageDataBean.isSuccess eq true}){closeApplyLeave()}else{applyLeaveDisplay();dateRangeJquery('addFromDate', 'AddToDate');}$('#applyLeave').unmask();" render="applyLeaveForm:addLeavePanelRender :message listOfLeave:leavelist" style="display: none">
+                                    <f:setPropertyActionListener target="#{leaveDataBean.userId}" value="#{loginDataBean.id}"/>
+                                </a4j:commandButton>
+                            </h:form>
+                        </div>
+
+                        <h:form id="listOfLeave" prependId="false">
+                            <br></br>
+                            <h:panelGrid id="leavelist" width="100%">
+                                <h:outputText value="No Leave till Now apply" rendered="#{systemResultViewUtil.leaveDataBeans.size() eq null}" style="color: red"/>
+
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.leaveDataBeans}" var="leaveBean" id="leaveListTable" rendered="#{systemResultViewUtil.leaveDataBeans.size() gt 0}" rowClasses="">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Leave Type
+                                        </f:facet>
+                                        <a4j:commandLink value="#{leaveBean.leaveType}" action="#{leaveServiceBean.fillLeaveDetail('withResponseBy')}" onbegin="$('#main').mask('Loading...');" render="leaveDetailPanel" oncomplete="openLeaveDetailDialog();$('#main').unmask();" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leaveBean.leaveId}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Subject
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.leaveSubject}" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}"/>
+                                        <h:outputText value="Restricted Holiday" rendered="#{leaveBean.leaveSubject eq null}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            From Date
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.fromDate}" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            To Date
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.toDate}" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Leave Days
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.noOfDays}" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Status
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.approvalStatus}" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}"/>
+                                        <h:outputText value="Cancel" rendered="#{leaveBean.approvalStatus eq null}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Reason
+                                        </f:facet>
+                                        <h:outputText value="#{leaveBean.reason}" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'} " />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Modify
+                                        </f:facet>
+                                        <a4j:commandLink value="Modify"  action="#{leaveServiceBean.fillLeaveDetail('edit')}" onbegin="$('#main').mask('Loading...');" oncomplete="openUpdateLeaveDialog();$('#main').unmask();" render="updateLeavePanel"  style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leaveBean.leaveId}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Cancel
+                                        </f:facet>
+                                        <a4j:commandLink value="Cancel" action="#{leaveServiceBean.fillLeaveDetail('cancel')}" onbegin="$('#main').mask('Loading...');" oncomplete="openCancelLeaveDialog();$('#main').unmask();" render="cancelLeavePanel" rendered="#{leaveBean.approvalStatus ne null and leaveBean.appliedStatus ne 'Approve-Cancel' and leaveBean.approvalStatus ne 'Disapprove' }" style="color: #{leaveBean.appliedStatus eq 'Approve-Cancel' ? 'red' : leaveBean.appliedStatus eq 'Disapprove-Modified' or leaveBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leaveBean.leaveId}" />
+                                        </a4j:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </h:form>
+                        <div id="updateLeave" title="Modify applied leave">
+                            <h:form prependId="false" id="updateLeaveForm">
+                                <a4j:outputPanel id="updateLeavePanel">
+                                    <table>
+                                        <tr>
+                                            <td colspan="4"><h:outputText value="#{messageDataBean.message}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Leave Type:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:inputHidden value="#{leaveDataBean.leaveId}"/>
+                                                <h:selectOneMenu value="#{leaveDataBean.leaveType}" id="updateLeaveTypeCombo"  requiredMessage="Please Select Leave Type" required="true">
+                                                    <f:selectItem itemLabel="Select Leave Type"/>
+                                                    <f:selectItem itemLabel="Restricted Holiday" itemValue="Restricted Holiday"/>
+                                                    <f:selectItem itemLabel="Casual Leave" itemValue="Casual" />
+                                                    <f:selectItem itemLabel="Earn Leave" itemValue="Earn"/>
+                                                    <f:selectItem itemLabel="Loss Of Pay" itemValue="Loss Of Pay"/>
+                                                    <f:selectItem itemLabel="Special Leave" itemValue="Special Leave"/>
+                                                    <a4j:ajax event="change" oncomplete="updateLeaveDisplay();"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:message for="updateLeaveTypeCombo" style="color : red"/></td>
+                                        </tr>
+                                        <tr id="updateRestrictedHolidayRow">
+                                            <td><h:outputText value="Restricted Holiday:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.holidayId}" id="updateRestrictedHolidayCombo"  requiredMessage="Please Select the Restricted Holiday">
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItems value="#{systemResultViewUtil.holidayList}"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.ristricedHolidayValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="updateLeaveSubjectRow">
+                                            <td><h:outputText value="Leave Subject:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.leaveSubject}" id="updateLeaveSubjectCombo" requiredMessage="Please Select Levae Subject" >
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItems value="#{systemResultViewUtil.systemConfigurationDataBeanList}" var="leaveSubject" itemLabel="#{leaveSubject.keyValue}" itemValue="#{leaveSubject.keyValue}"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/></td>
+                                            <td><h:outputText value="#{leaveDataBean.leaveSubjectValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="updateFromDateLeaveTypeRow">
+                                            <td><h:outputText value="From Date Type:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.fromDateLeaveType}" id="updateFromDateLeavetype">
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItem itemLabel="Full Day" itemValue="FD"/>
+                                                    <f:selectItem itemLabel="Half Day Morning" itemValue="HDM"/>
+                                                    <f:selectItem itemLabel="Half Day Evening" itemValue="HDE"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.fromDateTypeValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="updateFromDateRow">
+                                            <td><h:outputText value="From Date:" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{leaveDataBean.fromDate}" id="updateFromDate">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.fromDateValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="updateToDateTypeRow">
+                                            <td><h:outputText value="To Date Type:" style="font-weight: bold"/></td>
+                                            <td><h:selectOneMenu value="#{leaveDataBean.toDateLeaveType}" id="updateToDateType">
+                                                    <f:selectItem itemLabel="----Select----"/>
+                                                    <f:selectItem itemLabel="Full Day" itemValue="FD"/>
+                                                    <f:selectItem itemLabel="Half Day Morning" itemValue="HDM"/>
+                                                    <f:selectItem itemLabel="Half Day Evening" itemValue="HDE"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.toDateTypeValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="updateToDateRow">
+                                            <td><h:outputText value="To Date:" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{leaveDataBean.toDate}" id="updateToDate">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText><h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.toDateValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        <tr id="updateReasonRow">
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:inputTextarea value="#{leaveDataBean.reason}" />
+                                                <h:outputText value="*" style="color: red"/>
+                                            </td>
+                                            <td><h:outputText value="#{leaveDataBean.reasonValidationMessage}" style="color: red" /></td>
+                                        </tr>
+                                        
+                                    </table>
+                                    <a4j:commandButton action="#{leaveServiceBean.modifyLeave()}" onbegin="$('#updateLeave').mask('Loading...');" value="Modify Leave" id="updateLeaveButton" oncomplete="if(#{messageDataBean.isSuccess eq true}){closeUpdateLeaveDialog()}else{updateLeaveDisplay();dateRangeJquery('updateFromDate', 'updateToDate');}$('#updateLeave').unmask();" render="updateLeaveForm:updateLeavePanel :message listOfLeave:leavelist" style="display: none">
+                                        <f:setPropertyActionListener target="#{leaveDataBean.userId}" value="#{loginDataBean.id}"/>
+                                    </a4j:commandButton>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                        <div id="cancelLeave" title="Cancel applied leave">
+                            <h:form prependId="false" id="cancelLeaveForm">
+                                <a4j:outputPanel id="cancelLeavePanel">
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Leave Type:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:inputHidden value="#{leaveDataBean.leaveId}"/>
+                                                <h:outputText value="#{leaveDataBean.leaveType}"/>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel id="forRestrictedHoliday" rendered="#{leaveDataBean.leaveType eq 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Holiday Name:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.holidayName}"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="Holiday Date:" style="font-weight: bold"/>
+                                                </td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <a4j:outputPanel id="forOtherHolidayType" rendered="#{leaveDataBean.leaveType ne 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Leave Subject:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.leaveSubject}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From Date Type:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDateLeaveType}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From Date:" style="font-weight: bold"/>
+                                                </td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}"><f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To Date Type:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.toDateLeaveType}" rendered="#{leaveDataBean.toDateLeaveType ne null}"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To Date:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.toDate}" rendered="#{leaveDataBean.toDateLeaveType ne null}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Leave Days:" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.noOfDays}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Admin Comment:" rendered="#{leaveDataBean.adminComment ne null}" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.adminComment}" style="white-space: pre" escape="true"/>
+                                                <h:outputText value="N/A" rendered="#{leaveDataBean.adminComment eq null or leaveDataBean.adminComment.trim() eq ''}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold" />
+                                            </td>
+                                            <td width="200px">
+                                                <h:outputText value="#{leaveDataBean.reason}" escape="true"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <a4j:commandButton action="#{leaveServiceBean.cancelLeave()}" onbegin="$('#updateLeave').mask('Loading...');" value="Cancel Leave" id="cancelLeaveButton" oncomplete="if(#{messageDataBean.isSuccess eq true}){closeCancelLeaveDialog()}$('#updateLeave').unmask();" render="message leavelist" style="display: none">
+                                        <f:setPropertyActionListener target="#{leaveDataBean.userId}" value="#{loginDataBean.id}"/>
+                                    </a4j:commandButton>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+
+                        <div id="leaveDetail" title="Leave Detail">
+                            <h:form>
+                                <a4j:outputPanel id="leaveDetailPanel">
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Leave Type:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:inputHidden value="#{leaveDataBean.leaveId}"/>
+                                                <h:outputText value="#{leaveDataBean.leaveType}"/>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel id="forRestrictedHoliday" rendered="#{leaveDataBean.leaveType eq 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Holiday Name:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.holidayName}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="Holiday Date:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText></td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <a4j:outputPanel id="forOtherHolidayType" rendered="#{leaveDataBean.leaveType ne 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Leave Subject:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.leaveSubject}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From Date Type:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="Full Day" rendered="#{leaveDataBean.fromDateLeaveType eq 'FD'}"/>
+                                                    <h:outputText value="Half Day Moring" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDM'}"/>
+                                                    <h:outputText value="Half Day Evening" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDE'}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From Date:" style="font-weight: bold"/>
+                                                </td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}"><f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To Date Type:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="Full Day" rendered="#{leaveDataBean.toDateLeaveType eq 'FD'}" />
+                                                    <h:outputText value="Half Day Moring" rendered="#{leaveDataBean.toDateLeaveType eq 'HDM'}" />
+                                                    <h:outputText value="Half Day Evening" rendered="#{leaveDataBean.toDateLeaveType eq 'HDE'}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To Date:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.toDate}" rendered="#{leaveDataBean.toDateLeaveType ne null}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Leave Days:" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.noOfDays}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold"/>
+                                            </td>
+                                            <td width="200px">
+                                                <h:outputText value="#{leaveDataBean.reason}" escape="true"/>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel rendered="#{leaveDataBean.approvalStatus ne 'Pending' or leaveDataBean.resposeByUserName ne null }">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <hr/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText value="Response By:" style="font-weight: bold"/>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{leaveDataBean.resposeByUserName}"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText value="Admin Comment:" style="font-weight: bold"/>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{leaveDataBean.adminComment}" style="white-space: pre" escape="true"/>
+                                                    <h:outputText value="N/A" rendered="#{leaveDataBean.adminComment eq null or leaveDataBean.adminComment.trim() eq ''}"/>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <tr>
+                                            <td colspan="2">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" align="center">
+                                                <h:outputText value="Leave Opinion" style="font-weight: bold"/>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel rendered="#{systemResultViewUtil.leaveOpinionDataBeans.size() ne 0}">
+                                            <ui:repeat value="#{systemResultViewUtil.leaveOpinionDataBeans}" var="leaveOpinion" >
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{leaveOpinion.userName}:" style="font-weight: bold"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{leaveOpinion.opinion}" style="white-space: pre" escape="true"/>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </a4j:outputPanel>
+                                        <a4j:outputPanel rendered="#{systemResultViewUtil.leaveOpinionDataBeans.size() eq 0}">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <h:outputText value="No leave opinion" />
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+
+                                    </table>
+                                    <br/>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                        <br/>
+                        <fieldset>  
+                            <legend>Note</legend>
+                            <ul>
+                                <li><h:outputText value="* Cancellation request sent." style="color: red"/> </li>
+                                <li><h:outputText value="* Modification request sent." style="color: blue"/></li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                </h:body>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

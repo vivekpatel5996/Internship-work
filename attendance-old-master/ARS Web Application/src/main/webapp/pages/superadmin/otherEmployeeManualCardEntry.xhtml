@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery-ui-1.8.16.custom.css" />
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/dataTable/jquery.dataTables_themeroller.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                <script>
+                    function dateRangeJquery(fromDateId,toDateId)
+                    {
+                        var dates = $( '#'+fromDateId+',#'+toDateId ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'dd-mm-yy',
+                            numberOfMonths: 1,
+                            maxDate: "+0D",
+                            required:true,
+                            onSelect: function( selectedDate ) {
+                                var option = this.id == fromDateId ? "minDate" : "maxDate",
+                                instance = $( this ).data( "datepicker" ),
+                                date = $.datepicker.parseDate(
+                                instance.settings.dateFormat ||
+                                    $.datepicker._defaults.dateFormat,
+                                selectedDate, instance.settings );
+                                dates.not( this ).datepicker( "option", option, date );
+                            }
+                        }).attr( 'readOnly' , 'true' );
+                    }
+                    $(function(){
+                    
+                        dateRangeJquery('fromDate','toDate');     
+                    });
+                    
+                </script>
+
+                <h:panelGrid id="message">
+                    <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green" />
+                    <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/>
+                </h:panelGrid>
+
+                <center><h2><font style="color:brown">Manual Card Entry</font></h2></center>
+                <center>
+                    <div id="applyManualCardEntry" title="Manual Card Entry Request">
+                        <f:event listener="#{systemConfigurationServiceBean.retrieveType('CardEntryReason')}" type="preRenderComponent"/>
+                        <f:event listener="#{userServiceBean.retrieveUserList()}" type="preRenderComponent"/>
+                        <h:form prependId="false" id="manualCardEntryRequestForm">
+                            <a4j:outputPanel id="manualCardEntryListFromPanel">
+                                <table>
+                                    <tr>
+                                        <td><h:outputText value="User Name" style="font-weight: bold"/></td>
+                                        <td><h:outputText value=":"/></td>
+                                        <td><h:selectOneMenu value="#{manualCardEntryDataBean.userId}" id="userIdCombo" requiredMessage="Please select the User Name" required="true">
+                                                <f:selectItem itemLabel="-----Select------"/>
+                                                <f:selectItems value="#{systemResultViewUtil.systemUserDetailDataBeansList}" var="user" itemLabel="#{user.name}" itemValue="#{user.userId}"/>
+                                            </h:selectOneMenu></td>
+                                        <td><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="userIdCombo" style="color: red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="From Date" style="font-weight: bold"/></td>
+                                        <td><h:outputText value=":"/></td>
+                                        <td><h:inputText value="#{manualCardEntryDataBean.date}" requiredMessage="Please enter the date" id="fromDate" required="true">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:inputText>
+                                        </td>
+                                        <td><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="fromDate" style="color: red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="To Date" style="font-weight: bold"/></td>
+                                        <td><h:outputText value=":"/></td>
+                                        <td><h:inputText value="#{manualCardEntryDataBean.toDate}" id="toDate" requiredMessage="Please enter the date" required="true">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:inputText>
+                                        </td>
+                                        <td><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="toDate" style="color: red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Select In/Out" style="font-weight: bold"/></td>
+                                        <td><h:outputText value=":"/></td>
+                                        <td><h:selectBooleanCheckbox value="#{manualCardEntryDataBean.inStatus}" id="Instatus"/>
+                                            <h:outputText value="In :"/>
+                                            <h:selectBooleanCheckbox value="#{manualCardEntryDataBean.outStatus}" id="Outstatus"/>
+                                            <h:outputText value="Out :"/>
+                                        </td>
+                                        <td><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:outputText value="#{manualCardEntryDataBean.inOutStatusValidation}" style="color: red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Reason" style="font-weight: bold"/></td>
+                                        <td><h:outputText value=":"/></td>
+                                        <td><h:selectOneMenu value="#{manualCardEntryDataBean.reason}" id="CardEntryReasonCombo" requiredMessage="Please select the Reason" required="true">
+                                                <f:selectItem itemLabel="Select Reason"/>
+                                                <f:selectItems value="#{systemResultViewUtil.systemConfigurationDataBeanList}" var="cardEntryReason" itemLabel="#{cardEntryReason.keyValue}" itemValue="#{cardEntryReason.keyValue}"/>
+                                            </h:selectOneMenu></td>
+                                        <td><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="CardEntryReasonCombo" style="color: red"/></td>
+                                    </tr>
+                                </table>
+                            </a4j:outputPanel>
+                            <a4j:commandButton action="#{manualCardEntryServiceBean.requestForManualCardEntry()}" value="Apply" oncomplete="dateRangeJquery('fromDate','toDate');" render="manualCardEntryListFromPanel message"/>
+                        </h:form>
+                    </div>
+                </center>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

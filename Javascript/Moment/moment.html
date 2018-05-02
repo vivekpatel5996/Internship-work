@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://momentjs.com/downloads/moment.js"></script>
+    <script type="text/javascript" src="myFunctions.js"></script> 
+
+</head>
+<body>
+
+<form name="momentform" onsubmit="return false">
+<input type="button" onclick="getStartEndDate()" value="start date and end date for 6 month">
+<p id="sta_end_dates"></p>
+
+First Date:
+<input type="date" name="date1">  
+
+<br>
+Second Date:
+<input type="date" name="date2">  <br>
+
+
+<button onclick="getDifference()"> Get Difference</button>
+<p id="diff"></p>
+
+Enter number of days to add:
+<input type="text" name="adddays" onblur="addDays(this.value)"> 
+<br>
+Resuly date is:<p id="resultdate"></p>
+
+
+<br>
+
+</form>
+
+</body>
+</html>

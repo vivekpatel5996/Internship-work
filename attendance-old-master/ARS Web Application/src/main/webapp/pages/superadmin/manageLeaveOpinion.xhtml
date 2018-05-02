@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <body>
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+
+
+                <f:event listener="#{userServiceBean.retrieveUserList()}" type="preRenderComponent"/>
+
+                <!--<f:event listener="{leaveServiceBean.retrieveLeaveOpinionList()}" type="preRenderComponent"/>-->
+                <div id="leaveOpinionList">
+                    <h:form prependId="false">
+
+                        <center><h2><font style="color:brown">Leave Opinion List</font></h2></center>
+                        <div id="picklist" style="position:absolute;left:30%; ">
+                            <a4j:outputPanel id='leaveOpinionPanel'>
+
+                                <!--                                <script>
+                                                                    alert('call');
+                                                                </script>-->
+                                <table>
+                                    <tr>
+                                        <td width="125px"><h:outputText value="User Name:" style="font-weight: bold"/></td>
+                                        <td>
+                                            <h:selectOneMenu value="#{systemResultViewUtil.empId}" >
+                                                <f:selectItem itemLabel="-----Select------"/>
+                                                <f:selectItems value="#{systemResultViewUtil.systemUserDetailDataBeansList}" var="user" itemLabel="#{user.name}" itemValue="#{user.userId}"/>
+                                                <f:ajax event="change" onbegin="$('#main').mask('Loading...');" oncomplete="$('#main').unmask();" listener="#{leaveServiceBean.retrieveOpinionList}" render="leaveOpinionPanel" execute="@this"/>
+                                            </h:selectOneMenu><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="userNameCombo" style="color: red"/></td>
+                                    </tr>
+                                </table>
+                                <a4j:outputPanel rendered="#{systemResultViewUtil.empId != null}">
+                                    <h:outputText value="Select the employees for him leave opinion can given" style="font-weight: bold"/><br/>
+                                    <h:outputText value="#{messageDataBean.message}" style="color: #{messageDataBean.isSuccess eq true ?'green' :'red'}"/>
+                                    <h:selectManyMenu value="#{leaveDataBean.userIdList}" id="opinionList" >
+                                        <f:selectItems value="#{systemResultViewUtil.systemUserDetailDataBeansList}" var="user" itemValue="#{user.userId}" itemLabel="#{user.name}"/>
+                                    </h:selectManyMenu>
+                                    <br/>
+                                    <h:commandButton action="#{leaveServiceBean.submitLeaderUsersList()}" value="submit" />
+                                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.ui.widget.min.js"></script>
+                                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/pickList/jquery-picklist.js"></script>
+                                    <script type="text/javascript">
+                                        $(function()
+                                        {
+                                            $("#opinionList").pickList();
+                                        });
+                                    </script>
+                                    <style type="text/css">
+                                        .pickList_sourceListContainer, .pickList_controlsContainer, .pickList_targetListContainer { float: left; margin: 0.25em; }
+                                        .pickList_controlsContainer { text-align: center; margin-top: 120px;}
+                                        .pickList_controlsContainer button { display: block; width: 100%; text-align: center ; alignment-adjust:auto;}
+                                        .pickList_list { list-style-type: none; margin: 0; padding: 0; float: left; width: 150px; height: 300px; border: 1px inset; overflow-y: auto; cursor: default;  }
+                                        .pickList_selectedListItem { background-color: #A3C8F5; }
+                                        .pickList_listLabel { font-size: 0.9em; font-weight: bold; text-align: center; }
+                                        .pickList_clear { clear: both; }
+                                    </style>
+                                </a4j:outputPanel>
+                            </a4j:outputPanel>
+                        </div>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

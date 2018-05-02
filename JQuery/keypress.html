@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title></title>
+	<script type="text/javascript">
+		$(document).ready(
+			function()
+			{
+				$(this).keypress(
+                  function(event)
+                  {
+                     document.getElementById("pressedkey").innerHTML="pressed key is "+String.fromCharCode(event.which)+" "+event.which;
+				  });
+            });
+	</script>
+</head>
+<body>
+   <p id="pressedkey"></p>
+</body>
+</html>

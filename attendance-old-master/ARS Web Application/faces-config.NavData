@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="pages/common/footer.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="pages/superadmin/manageHoliday.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="pages/admin/createUser.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="pages/layout/loginHomeLayout.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="pages/errorPage.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="pages/home.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="pages/forgotPassword.xhtml" x="1156" y="150" zoom="true"/>
+        <Node id="pages/temp.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="pages/superadmin/manageDepartment.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="pages/admin/updateRole.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="pages/superadmin/manageDesignation.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="pages/admin/searchUser.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="pages/layout/homeLayout.xhtml" x="592" y="151" zoom="true"/>
+        <Node id="pages/accessDeniedPage.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="pages/common/header.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="pages/admin/searchRole.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="pages/common/homeHeader.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="pages/index.jsp" x="863" y="148" zoom="true"/>
+        <Node id="pages/login.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="pages/superadmin/manageSystemConfiguration.xhtml" x="150" y="750" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

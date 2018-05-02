@@ -1,0 +1,140 @@
+/* CSS Document */
+*{ padding:0px; margin:0px;}
+
+body{ font-family:Arial, Helvetica, sans-serif; }
+
+.clearing{ clear:both;}
+#main-wrapper{
+    width:980px; margin:0px auto; background:white;  border:1px solid #B4DED3; padding-top:15px;
+}
+
+hr{ border-bottom:1px solid #000066; border-left:none; border-top:none; border-right:none; margin-bottom:20px;}
+hr.light{ border-bottom:1px solid #BABABA; border-left:none; border-top:none; border-right:none; margin-bottom:20px;}
+
+.content{ background:white; min-height:350px; max-height:auto; margin:0px 25px; padding-bottom:80px;}
+
+#header{
+	 width:980px; margin:0px auto; padding:0px 0px; margin-top:1px; border-top:1px solid #B4DED3;
+		}
+#header-inner{
+	  background-image: url(../images/header.jpg); background-repeat:no-repeat; height:102px; width:980px; margin:0px auto; padding:0px 0px; margin-top:1px; border-top:1px solid #B4DED3;
+		}
+#header-inner-login{
+background-image: url(../images/logo.jpg); background-repeat:no-repeat; height:134px; width:980px; margin:0px auto; padding:0px 0px; margin-top:1px; border-top:1px solid #B4DED3;
+}
+.login-inner{
+    width:450px;padding:0px;margin-right:90px;margin-top:8px;margin-bottom: 0px;margin-left: auto;}
+
+.scope{
+	   height: 80px; width:350px; margin:0px auto; padding:0px 0px;  margin-right:10px; margin-top:-10px;
+		}
+/*#seperator{
+		 background-image: url(../images/seperator.gif); background-repeat: repeat-x; height:20px;
+	 	}
+*/
+.login{ background-image:url(../images/login-bg.gif); background-repeat: no-repeat; width:376px; height:203px; vertical-align:middle; text-align:center; margin:50px auto; padding:5px; font-size:11px;}
+
+th{ text-align:right; font-weight:normal; padding:3px; font-size:12px;}
+td{ text-align:left; font-weight:normal; padding:3px; font-size:12px;}
+
+legend{ font-size:12px; font-weight:bold; margin-left:20px;}
+
+fieldset{ width:50%; border:1px solid #888;}
+
+fieldset.full{ width:100%; border:1px solid #888;}
+fieldset.small{ width:60%; border:1px solid #C6E5DC;}
+legend.small{ color:white;}
+
+
+input[type=text]{ height:20px;  border:1px solid #B4DED3; font-size: 12px;}
+input[type=password]{ height:20px;  border:1px solid #B4DED3; font-size: 12px;}
+textarea{ border:1px solid #B4DED3; font-size: 12px;}
+select{ border:1px solid #B4DED3; font-size: 12px; height: 20px;}
+
+.navigation{height:32px; background-image:url(../images/nav-bg.gif); background-repeat:repeat-x;  color:white; width:980px; margin:0px auto;}
+
+#navigation{ margin:0px; padding:0px; display:block; float:right; font-size:13px; font-family:Verdana, Arial, Helvetica, sans-serif; }
+
+#navigation li{  float:left; color:white; list-style-type:none;  height:32px; display:block; font-weight: 600; vertical-align:middle; }
+
+#navigation li a{ color:#fff; text-decoration:none;  display:block; height:32px;   padding-top:8px;  padding-right:20px; padding-left:20px;}
+
+#navigation li a:hover{ color:#000; background-image: url(../images/hover-bg.gif); background-repeat:repeat-x;  text-decoration:none;  display:block;height:24px;   padding-right:20px; padding-left:20px;}
+
+#navigation li.active a{ color:#000; background-image: url(../images/hover-bg.gif); background-repeat:repeat-x;  text-decoration:none;  display:block;height:24px;  padding-right:20px; padding-left:20px; }
+
+#navigation1{ margin:0px; padding:0px; display:block; float:right; font-size:13px; font-family:Verdana, Arial, Helvetica, sans-serif; }
+
+#navigation1 li a{ color:#fff; text-decoration:none;  display:block; height:32px;   padding-top:8px;  padding-right:6px; padding-left:6px;}
+
+#navigation1 li a:hover{ color:#000; background-image: url(../images/hover-bg.gif); background-repeat:repeat-x;  text-decoration:none;  display:block;height:24px;   padding-right:6px; padding-left:6px;}
+
+h3{ font-size:22px; color:#5AB49C; background-image:url(../images/arrow_icon.jpg); background-repeat:no-repeat; padding-left:23px; background-position:left 4px; }
+
+.left-cols{ width:200px; float:left;  padding:5px; border:1px solid #888;  }
+
+.right-cols{ padding:5px; margin-left:220px; width:670px;  }
+
+.form-table th{ text-align:right; font-weight:bold; padding:5px; font-size:12px; color: #444; }
+.form-table th.white{ text-align:right; font-weight:bold; padding:5px; font-size:12px; color: #fff; }
+.form-table td{ text-align:left; font-weight:normal; padding:5px;  font-size:12px;}
+.form-table td.heading{ text-align:left; font-weight:bold; padding:5px;  font-size:12px; padding-left:20px; }
+
+.button{ background-color: #5DB89F; color:white; padding:3px 15px; border:1px solid #51A991; font-size:11px; font-weight:bold; min-width:100px; height:25px; }
+
+#channels li{ color:white;border:1px solid #444; list-style-type:none; font-size:12px;  background:#000066; margin-bottom:1px;padding:5px;}
+
+#channels li a{ color:white; text-decoration:none;  }
+
+#channels li:hover{ color:white; background:#F8C200; cursor: pointer; color:black;}
+
+.paging img{ float:left; margin:5px 18px; display:block;}
+
+.display-table01 th{ text-align:left; font-size:12px; font-weight:bold; background:#6BBFA8; color:white; padding:6px; }
+.display-table01 th.center{ text-align:center; font-size:12px; font-weight:bold; background:#6BBFA8; color:white; padding:6px; }
+.display-table01 td{  text-align:left; font-size:12px; font-weight:normal;   padding:6px;  border-top:1px solid #B4DED3;border-collapse:collapse;}
+.display-table01 td.center{  text-align:center; font-size:12px; font-weight:normal;   padding:6px;  border-top:1px solid#B4DED3;border-collapse:collapse;}
+
+.display-graph th{ text-align:left; font-size:12px; font-weight:bold; background:#629395; color:white; padding:6px; border: none; }
+.display-graph th.center{ text-align:center; font-size:12px; font-weight:bold; background:#629395; color:white; padding:6px; }
+.display-graph td{  text-align:left; font-size:12px; font-weight:normal;   padding:6px;  border: none; border-collapse:collapse;}
+.display-graph th.right{ text-align:right; font-size:12px; font-weight:bold; background:#629395; color:white; padding:6px; }
+.display-graph td.center{  text-align:center; font-size:12px; font-weight:normal;   padding:6px;  border:none; border-collapse:collapse;}
+.display-graph td.right{  text-align:right; font-size:12px; font-weight:normal;   padding:6px;  border:none; border-collapse:collapse;}
+
+.display-table th{ text-align:left; font-size:12px; font-weight:bold; background:#6BBFA8; color:white; padding:6px; }
+.display-table th.center{ text-align:center; font-size:12px; font-weight:bold; background:#6BBFA8; color:white; padding:6px; }
+.display-table td{  text-align:left; font-size:12px; font-weight:normal;   padding:6px;  border-top:1px solid #B4DED3; border-collapse:collapse;}
+.display-table td.center{  text-align:center; font-size:12px; font-weight:normal;   padding:6px;  border-top:1px solid #B4DED3; border-collapse:collapse;}
+
+.button-table td{ text-align:center;}
+
+.loggedinuser{ color:white; font-size:12px; font-weight:bold; float:left; width:400px; padding-left:10px; padding-top:10px; }
+.for-border{ border:1px solid #B4DED3; width:100%; }
+.for-border01{ border:1px solid #B4DED3; width:100%; margin:0 auto; }
+.footer{ padding:5px 5px; background:#E0F3EE url(../images/footer-bg.gif); background-position: left bottom; font-size:11px; color:white; width:970px; margin:0px auto; border:1px solid #B4DED3; color:black; background-repeat:repeat-x;}
+.errormessages {
+    font-size: 14px;
+    color: red;
+    padding: 5px;
+}
+.successmessages {
+    font-size: 14px;
+    color: green;
+    padding: 5px;
+}
+.infomessages {
+    font-size: 12px;
+    color: black;
+    padding: 5px;
+}
+.errmsg{-moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; background:#840101; padding:5px 15px; width:50%; margin:0px auto; radius:6px; color:white; margin-bottom:5px;}
+.errmsg li{ list-style-type:none; color:white; font-family:Arial, Helvetica, sans-serif; font-size:11px;  list-style-position:inside;font-weight: bold; text-align: center;}
+.succmsg{-moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; background:#85B600; padding:5px 15px; width:50%; margin:0px auto; radius:6px; color:white; margin-bottom:5px;}
+.succmsg li{ list-style-type:none; color:white; font-family:Arial, Helvetica, sans-serif; font-size:11px;  list-style-position:inside;font-weight: bold; text-align: center;}
+
+.headingFormat {
+    vertical-align: top;
+    text-align: left;
+    border: none;
+}

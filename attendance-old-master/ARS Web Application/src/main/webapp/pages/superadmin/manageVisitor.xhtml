@@ -1,0 +1,465 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+
+            <ui:define name="content">
+                <h:head>
+                    <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.button.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                    <script>
+                        function modelDailog(id)
+                        {
+                            $( '#'+id ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: "auto",
+                                modal: true
+                            });
+                        }
+                        
+                        $(function() {
+                            modelDailog('add');
+                            modelDailog('update');
+                            modelDailog('delete');
+                            modelDailog('endVisit');
+                        });
+                        
+                        var oTable;
+                        $(document).ready(function() {
+                            visitorListTable();
+                        
+                        } );
+                        
+                        function dateRangeJquery(fromDateId,toDateId)
+                        {
+                            var dates = $( '#'+fromDateId+',#'+toDateId ).datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                dateFormat: 'dd-mm-yy',
+                                numberOfMonths: 1,
+                                required:true,
+                                onSelect: function( selectedDate ) {
+                                    var option = this.id == fromDateId ? "minDate" : "maxDate",
+                                    instance = $( this ).data( "datepicker" ),
+                                    date = $.datepicker.parseDate(
+                                    instance.settings.dateFormat ||
+                                        $.datepicker._defaults.dateFormat,
+                                    selectedDate, instance.settings );
+                                    dates.not( this ).datepicker( "option", option, date );
+                                }
+                            }).attr( 'readOnly' , 'true' );
+                        }
+                        function datePicker(id)
+                        {
+                            $( '#'+id ).datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                dateFormat: 'dd-mm-yy',
+                                maxDate: '+0d'
+                            }).attr( 'readOnly' , 'true' );
+                        }
+	
+                        $(window).load(function() {
+                            jsf.ajax.addOnEvent(function (data) {
+                                if (data.status === "success") {
+                                    visitorListTable();
+                                }
+                            })
+                        });
+                        
+                        function visitorListTable()
+                        {
+                            
+                            $('#visitorListTable').dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers",
+                                "bRetrieve": true,
+                                "aaSorting": [[ 2, "desc" ]],
+                                "aoColumns": [
+                                    null,
+                                    null,
+                                    { "sType": "eu_date" },
+                                    { "sType": "eu_date" },
+                                    null,
+                                    null,
+                                ]
+                            } );
+                        }
+                    </script>
+                </h:head>
+                <h:body>
+                    <center><h2><font style="color:brown">Visitor Detail</font></h2></center>
+
+                    <h:panelGrid id="message">
+                        <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green"/>
+                    </h:panelGrid>
+                    <h:form>
+                        <a4j:commandButton oncomplete="$( '#add' ).dialog( 'open' );dateRangeJquery('addVisitorFromDate','addVisitorToDate');$('#add').unmask();" onbegin="$('#add').mask('Loading...');" action="#{visitorServiceBean.doNullVisitorDataBean}" render="addVisitorPanel message" value="Add Visitor" />
+                    </h:form>
+                    <div id="add" title="Add Visitor">
+                        <h:form id="addVisitor" prependId="false">
+                            <a4j:outputPanel id="addVisitorPanel">
+                                <table>
+                                    <tr>
+                                        <td colspan="4"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Visitor Name" style="font-weight: bold" /></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.visitorName}" id="addVisitorName" required="true" requiredMessage="Enter the visitor name" maxlength="50"/><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="addVisitorName" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Card Id:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:selectOneMenu value="#{visitorDataBean.cardIdPk}" id="addVisitorCardId" required="true" requiredMessage="Please select card id">
+                                                <f:selectItem itemLabel="Select card id"/>
+                                                <f:selectItems value="#{systemResultViewUtil.cardInventoryDataBeansList}" var="cardInventory" itemLabel="#{cardInventory.cardId}" itemValue="#{cardInventory.id}" />
+                                            </h:selectOneMenu><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="addVisitorCardId" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><h:outputText value="Address:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputTextarea value="#{visitorDataBean.address}" id="addVisitorAddress" rows="3" onfocus="counterForTextArea('addVisitorAddress','descCounter',300)" onkeyup="counterForTextArea('addVisitorAddress','descCounter',300);"/>
+                                            <div style="text-align:left" ><i><h:outputText value="(You can type" style="color: grey;"/> &#160;<h:outputText id="descCounter"  value="300" style="color: grey;"/> &#160;<h:outputText value="more characters)" style="color: grey;"/></i></div></td>
+                                        <td><h:message for="addVisitorAddress" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="City:" style="font-weight: bold" /></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.city}" id="addVisitorCity" maxlength="30"/></td>
+                                        <td><h:message for="addVisitorCity" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="State:" style="font-weight: bold" /></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.state}" id="addVisitorState" maxlength="25"/></td>
+                                        <td><h:message for="addVisitorState" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Pincode:" style="font-weight: bold" /></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.pincode}" id="addVisitorPincode" maxlength="6"/></td>
+                                        <td><h:message for="addVisitorPincode" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Mobile No:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.mobileNo}" id="addVisitorMobileNo" maxlength="10"/></td>
+                                        <td><h:message for="addVisitorMobileNo" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><h:outputText value="Email:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.email}" id="addVisitorEmail" maxlength="40"/></td>
+                                        <td><h:message for="addVisitorEmail" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Vist From Date:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td>
+                                            <h:inputText value="#{visitorDataBean.fromDate}" id="addVisitorFromDate" required="true" requiredMessage="From date require" ><h:outputText value="*" style="color: red"/>
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:inputText><h:outputText value="*" style="color: red"/>
+                                        </td>
+                                        <td><h:message for="addVisitorFromDate" style="color: red;font-size: 15px"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Visit To Date:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.toDate}" id="addVisitorToDate" required="true" requiredMessage="To date require">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:inputText><h:outputText value="*" style="color: red"/>
+                                        </td>
+                                        <td><h:message for="addVisitorToDate" style="color: red;font-size: 15px" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Reason To Visit:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputTextarea value="#{visitorDataBean.reasonToVisit}" id="addVisitorReasonToVisit" rows="3" onfocus="counterForTextArea('addVisitorReasonToVisit','descCounter1',200)" onkeyup="counterForTextArea('addVisitorReasonToVisit','descCounter1',200);"/>
+                                            <div style="text-align:left" ><i><h:outputText value="(You can type" style="color: grey;"/> &#160;<h:outputText id="descCounter1"  value="200" style="color: grey;"/> &#160;<h:outputText value="more characters)" style="color: grey;"/></i></div></td>
+                                        <td><h:message for="addVisitorReasonToVisit" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"><hr/></td>
+                                    </tr>
+                                </table>   
+                            </a4j:outputPanel>
+                            <a4j:commandButton onbegin="$('#add').mask('Loading...');" oncomplete="if(#{messageDataBean.isSuccess eq true}){$( '#add' ).dialog( 'close' );}else{dateRangeJquery('addVisitorFromDate','addVisitorToDate');}$('#add').unmask();" value="Add Visitor" action="#{visitorServiceBean.createVisitor}" id="addVisitorButton"
+                                               render="visitorlist addVisitor message" />
+                            <a4j:commandButton onbegin="$('#add').mask('Loading...');" oncomplete="$('#add').unmask();" onclick="$( '#add' ).dialog( 'close' );" value="close"/>
+                        </h:form>
+                    </div>
+                    <f:event listener="#{visitorServiceBean.retrieveVisitorList}" type="preRenderComponent"/>
+                    <h:form id="listOfVisitor" prependId="false">
+                        <div id="list">
+                            <br></br>
+                            <h:panelGrid id="visitorlist" width="100%">
+                                <h:outputText value="No visitor added!!!" rendered="#{empty systemResultViewUtil.visitorDataBeansList}" style="color: red"/>
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.visitorDataBeansList}" var="visitorBean" id="visitorListTable" rendered="#{not empty systemResultViewUtil.visitorDataBeansList}">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Visitor Name
+                                        </f:facet>
+                                        <a4j:commandLink value="#{visitorBean.visitorName}" onbegin="$('#update').mask('Loading...');"  action="#{visitorServiceBean.fillVisitorDetail('update')}" oncomplete="$('#update').dialog('open');dateRangeJquery('updateVisitorFromDate','updateVisitorToDate');$('#update').unmask();" render="updateVisitorPanel endVisitDatePanel">
+                                            <f:setPropertyActionListener target="#{visitorServiceBean.visitorId}" value="#{visitorBean.visitorId}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Card id
+                                        </f:facet>
+                                        <h:outputText value="#{visitorBean.cardId}" />  
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            From Date
+                                        </f:facet>
+                                        <h:outputText value="#{visitorBean.fromDate}">
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            To Date
+                                        </f:facet>
+                                        <h:outputText value="#{visitorBean.toDate}" rendered="#{visitorBean.visitEndDate eq null}">
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                        </h:outputText>
+                                        <h:outputText value="#{visitorBean.visitEndDate}" rendered="#{visitorBean.visitEndDate ne null}">
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            City
+                                        </f:facet>
+                                        <h:outputText value="#{visitorBean.city},#{visitorBean.state}" rendered="#{visitorBean.city ne '' and visitorBean.state ne ''}" style="text-align: left; white-space: pre" />
+                                        <h:outputText value="N/A" style="text-align: left" rendered="#{visitorBean.city eq '' and visitorBean.state eq ''}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Action
+                                        </f:facet>
+                                        <a4j:commandLink value="Delete" action="#{visitorServiceBean.fillVisitorDetail('delete')}" onbegin="$('#delete').mask('Loading...');"  oncomplete="$( '#delete' ).dialog( 'open' );$('#delete').unmask();" render="deleteVisitorPanel message" rendered="#{visitorBean.visitEndDate ne null}">
+                                            <f:setPropertyActionListener target="#{visitorServiceBean.visitorId}" value="#{visitorBean.visitorId}" />
+                                        </a4j:commandLink>
+                                        <a4j:commandLink value="End Visit" action="#{visitorServiceBean.fillVisitorDetail('endVisit')}" onbegin="$('#endVisit').mask('Loading...');"  oncomplete="$('#endVisit').dialog( 'open' ); datePicker('visitEndDate');$('#endVisit').unmask();" render="endVisitPanel endVisitMsg message" rendered="#{visitorBean.visitEndDate eq null}">
+                                            <f:setPropertyActionListener target="#{visitorServiceBean.visitorId}" value="#{visitorBean.visitorId}" />
+                                        </a4j:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+
+                    <div id="update" title="Update Visitor">
+                        <h:form id="updateVisitor" prependId="false">
+                            <a4j:outputPanel id="updateVisitorPanel">
+
+
+                                <table>
+                                    <tr>
+                                        <td colspan="4"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <h:inputHidden value="#{visitorDataBean.visitorId}" />
+                                        <td><h:outputText value="Visitor Name" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.visitorName}" id="updateVisitorName" required="true" requiredMessage="Enter the visitor name" maxlength="50"/><h:outputText value="*" style="color: red"/></td>
+                                        <td><h:message for="updateVisitorName" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Card Id:" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><a4j:outputPanel style="display: #{visitorDataBean.visitEndDate eq null ? 'disply' : 'none'}"><h:selectOneMenu value="#{visitorDataBean.cardIdPk}" id="updateVisitorCardId" required="true" requiredMessage="Please select the card id">
+                                                    <f:selectItem itemLabel="Select card id" itemValue=""/>
+                                                    <f:selectItems value="#{systemResultViewUtil.cardInventoryDataBeansList}" var="cardInventory" itemLabel="#{cardInventory.cardId}" itemValue="#{cardInventory.id}"/>
+                                                </h:selectOneMenu><h:outputText value="*" style="color: red"/></a4j:outputPanel>
+                                            <a4j:outputPanel style="display: #{visitorDataBean.visitEndDate eq null ? 'none' : 'display'}">
+                                                <h:outputText value="#{visitorDataBean.cardId}"/>
+                                            </a4j:outputPanel>
+                                        </td>
+                                        <td><h:message for="updateVisitorCardId" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Address" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputTextarea value="#{visitorDataBean.address}" id="updateVisitorAddress" rows="3" onfocus="counterForTextArea('updateVisitorAddress','updatedescCounter',300)" onkeyup="counterForTextArea('updateVisitorAddress','updatedescCounter',300);"/>
+                                            <div style="text-align:left" ><i><h:outputText value="(You can type" style="color: grey;"/> &#160;<h:outputText id="updatedescCounter"  value="300" style="color: grey;"/> &#160;<h:outputText value="more characters)" style="color: grey;"/></i></div></td>
+                                        <td><h:message for="updateVisitorAddress" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="City" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.city}" id="updateVisitorCity" maxlength="30"/></td>
+                                        <td><h:message for="updateVisitorCity" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="State" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.state}" id="updateVisitorState" maxlength="25"/></td>
+                                        <td><h:message for="updateVisitorState" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Pincode" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.pincode}" id="updateVisitorPincode" maxlength="6"/></td>
+                                        <td><h:message for="updateVisitorPincode" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Mobile No" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.mobileNo}" id="updateVisitorMobileNo" maxlength="10"/></td>
+                                        <td><h:message for="updateVisitorMobileNo" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><h:outputText value="Email" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.email}" id="updateVisitorEmail" maxlength="40"/></td>
+                                        <td><h:message for="updateVisitorEmail" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Vist From Date" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><a4j:outputPanel style="display: #{visitorDataBean.visitEndDate eq null ? 'disply' : 'none'}">
+                                                <h:inputText value="#{visitorDataBean.fromDate}" id="updateVisitorFromDate" required="true" requiredMessage="From date require" ><h:outputText value="*" style="color: red"/>
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText><h:outputText value="*" style="color: red"/>
+                                            </a4j:outputPanel>
+
+                                            <a4j:outputPanel style="display: #{visitorDataBean.visitEndDate eq null ? 'none' : 'disply'}">
+                                                <h:outputText value="#{visitorDataBean.fromDate}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:outputText>
+                                            </a4j:outputPanel>
+                                        </td>
+                                        <td><h:message for="updateVisitorFromDate" style="color: red;font-size: 15px"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Vist To Date" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><a4j:outputPanel style="display: #{visitorDataBean.visitEndDate eq null ? 'disply' : 'none'}">
+                                                <h:inputText value="#{visitorDataBean.toDate}" id="updateVisitorToDate" required="true" requiredMessage="To date require">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText><h:outputText value="*" style="color: red"/>
+                                            </a4j:outputPanel>
+                                            <a4j:outputPanel style="display: #{visitorDataBean.visitEndDate eq null ? 'none' : 'disply'}">
+                                                <h:outputText value="#{visitorDataBean.toDate}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:outputText>
+
+                                            </a4j:outputPanel>
+                                        </td>
+                                        <td><h:message for="updateVisitorToDate" style="color: red;font-size: 15px" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Reason To Visit" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputTextarea value="#{visitorDataBean.reasonToVisit}" id="updateVisitorReasonToVisit" rows="3" onfocus="counterForTextArea('updateVisitorReasonToVisit','updatedescCounter1',200)" onkeyup="counterForTextArea('updateVisitorReasonToVisit','updatedescCounter1',200);"/>
+                                            <div style="text-align:left" ><i><h:outputText value="(You can type" style="color: grey;"/> &#160;<h:outputText id="updatedescCounter1"  value="200" style="color: grey;"/> &#160;<h:outputText value="more characters)" style="color: grey;"/></i></div></td>
+                                        <td><h:message for="updateVisitorReasonToVisit" style="color: red;font-size: 15px"/></td>
+                                    </tr>
+                                </table> 
+                            </a4j:outputPanel>
+
+                            <a4j:commandButton onbegin="$('#update').mask('Loading...');"  oncomplete="if(#{messageDataBean.isSuccess eq true}){ $('#update').dialog('close')}else{dateRangeJquery('updateVisitorFromDate','updateVisitorToDate');}$('#update').unmask();" value="Update Visitor" action="#{visitorServiceBean.updateVisitor}" id="updateVisitorButton"
+                                               render="listOfVisitor:visitorlist updateVisitorPanel :message"  /> 
+                            <a4j:commandButton onbegin="$('#update').mask('Loading...');" oncomplete="$('#update').unmask();" onclick="$('#update').dialog( 'close' );" value="close"/>
+
+                        </h:form>
+                    </div>
+
+                    <div id="delete" title="Delete Visitor">
+                        <h:form id="deleteVisitor" prependId="false">    
+                            <h:outputText value="Are you sure you want to delete this visitor?" style="font-weight: bold"/>
+                            <br/>
+                            <h:panelGrid id="deleteVisitorPanel" columns="3">
+                                <h:inputHidden value="#{visitorDataBean.visitorId}" />
+                                <h:outputText value="Visitor Name : " style="font-weight: bold"/>
+                                <h:outputText value="#{visitorDataBean.visitorName}"/>
+                            </h:panelGrid>
+                            <hr/>
+                            <h:commandButton value="Yes" action="#{visitorServiceBean.deleteVisitor}" id="deleteVisitorButtton" onclick="$( '#delete' ).dialog( 'close' );">
+                                <f:ajax execute="@form" render=":listOfVisitor :message"/>
+                            </h:commandButton>
+                            <h:commandButton value="No" onclick="$( '#delete' ).dialog( 'close' );">
+                                <f:ajax/>
+                            </h:commandButton>
+
+                        </h:form>
+                    </div>
+
+                    <div id="endVisit" title="End Visit">
+                        <h:outputText value="#{messageDataBean.message}" style="color: red" id="endVisitMsg"/>
+                        <h:form id="endVisitForm" prependId="false">
+
+                            <a4j:outputPanel id="endVisitPanel">
+                                <h:inputHidden value="#{visitorDataBean.visitorId}" />
+                                <h:inputHidden value="#{visitorDataBean.cardIdPk}" />
+                                <table>
+                                    <tr>
+                                        <td><h:outputText value="Visitor Name" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:outputText value="#{visitorDataBean.visitorName}"/></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Card Id" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:outputText value="#{visitorDataBean.cardId}"/></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="From Date" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:outputText value="#{visitorDataBean.fromDate}">
+                                            <f:convertDateTime timeZone="IST" pattern="dd-MM-yyyy"/>
+                                            </h:outputText></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="To Date" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:inputText value="#{visitorDataBean.toDate}" id="visitEndDate" required="true" requiredMessage="Please enter the date" >
+                                                <f:convertDateTime timeZone="IST" pattern="dd-MM-yyyy"/>
+                                            </h:inputText><font color="red">*</font></td>
+                                        <td><h:message for="visitEndDate" style="color: red" id="visitEndDateMessage"/></td>
+                                    </tr>
+                                </table>
+                            </a4j:outputPanel>
+                            <hr/>
+                            <a4j:commandButton onbegin="$('#endVisit').mask('Loading...');"  action="#{visitorServiceBean.endVisit()}" value="End visit" render="#{messageDataBean.isSuccess ? 'visitorlist message' : 'visitEndDateMessage endVisitMsg'}" oncomplete="if(#{messageDataBean.isSuccess eq true}){ $('#endVisit').dialog('close')}$('#endVisit').unmask();"/>
+                        </h:form>
+                    </div>
+                </h:body>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

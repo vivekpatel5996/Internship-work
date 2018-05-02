@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		function test()
+		{
+			var text="Here in closure";
+			return function(){console.log(text)};
+		}
+		var res=test();
+		res();
+	</script>
+
+</body>
+</html>

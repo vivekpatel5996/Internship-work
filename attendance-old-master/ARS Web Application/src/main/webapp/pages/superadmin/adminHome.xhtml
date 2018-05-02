@@ -1,0 +1,1043 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <body>
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <h:head>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/accordion/jquery.multi-open-accordion-1.0.1.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.button.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                    <script>
+                        function jqueryDialogFunction(divId)
+                        {
+                            $( '#'+divId ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true 
+                            });
+                        }
+                        $(function(){
+                            jqueryDialogFunction('leaveNotificationDetail');
+                            jqueryDialogFunction('manualCardEntryNotificationDetail');
+                            jqueryDialogFunction('officialBreakNotificationDetail');
+                            jqueryDialogFunction('leaveOpinionNotificationDetail');
+                            jqueryDialogFunction('exitProcessNotificationDetail');
+                            jqueryDialogFunction('exitProcessReponseNotificationDetail');
+                            jqueryDialogFunction('leaveHistory');
+                        });
+                        
+                        function openDialog(divId)
+                        {
+                            $( '#'+divId ).dialog( "open" );
+                            return false;
+                        }
+                        function closeDialog(divId)
+                        {
+                            $( '#'+divId ).dialog( "close" );
+                            $('#leaveNotification').multiAccordion();
+                            $('#officialBreakNotification').multiAccordion();
+                            return false;
+                        }
+                        $(function(){
+                            $('#leaveNotification').multiAccordion();
+                            $('#manualCardEntryNotification').multiAccordion();
+                            $('#officialBreakNotification,#leaveOpinionNotification,#Notification,#exitProcessNotification,#exitProcessResponseNotification').multiAccordion();
+                        });
+                        
+                        function datePicker(Id)
+                        {
+                            $( '#'+ Id ).datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                dateFormat: 'dd-mm-yy',
+                                numberOfMonths: 1,
+                                required:true,
+                            }).attr( 'readOnly' , 'true' );
+                        }
+                        function dataTable(dataTableId)
+                        {
+                            $('#'+dataTableId).dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers",
+                                "bRetrieve": true,
+                                "aaSorting": [[ 2, "asc" ]],
+                                "aoColumns": [
+                                    null,
+                                    null,
+                                    { "sType": "eu_date" },
+                                    { "sType": "eu_date" },
+                                    null,
+                                    null,
+                                    null,
+                                ]
+                            } );
+                        }
+                    </script>
+                </h:head>
+                <h:body>
+                    <f:event listener="#{leaveServiceBean.retrieveleaveNotificationList()}" type="preRenderComponent"/>
+                    <f:event listener="#{manualCardEntryServiceBean.retrieveManualcardEntryPandingRequestList()}" type="preRenderComponent"/>
+                    <f:event listener="#{officialBreakServiceBean.retrieveOfficialBreakNotificationList()}" type="preRenderComponent"/>
+                    <f:event listener="#{leaveServiceBean.retrievePersonalLeaveOpinionNotificationDetail()}" type="preRenderComponent"/>
+                    <f:event listener="#{leaveServiceBean.retrieveNotification()}" type="preRenderComponent"/>
+                    <f:event listener="#{exitProcessServiceBean.retrievePandingResignNotification()}" type="preRenderComponent"/>
+                    <f:event listener="#{exitProcessServiceBean.cancelResignNotification()}" type="preRenderComponent"/>
+                    <f:event listener="#{exitProcessServiceBean.retrieveResignResponseNotification()}" type="preRenderComponent"/>
+                    <br/>
+                    <h:panelGrid id="message">
+                        <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green" />
+                    </h:panelGrid>
+                    <br/>
+                    <!--                    <a4j:outputPanel rendered="{systemResultViewUtil.leaveDataBeans ne null}">-->
+                    <a4j:outputPanel rendered="#{systemResultViewUtil.leaveDataBeans.size() gt 0}">
+                        <h:form>
+                            <a4j:outputPanel id="leaveNotificationPanel">
+                                <div id="leaveNotification">
+                                    <h3><a href="#">Leave waiting for your response</a></h3>
+                                    <div><table>     
+                                            <ui:repeat value="#{systemResultViewUtil.leaveDataBeans}" var="leave" >
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{leaveServiceBean.fillLeaveDetail('notificationLink')}" render="leaveDetailPanel" oncomplete="openDialog('leaveNotificationDetail')">
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leave.leaveId}"/>
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.userName}" value="#{leave.userName}"/>
+                                                            <h:outputText value=" #{leave.userName} "/>
+                                                            <h:outputText value="#{leave.fromDate}" >
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" to "/>
+                                                            <h:outputText value="#{leave.toDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" -#{leave.leaveSubject}"/>
+                                                            <h:outputText value=" -New" rendered="#{leave.appliedStatus eq 'New'}"/>
+                                                            <h:outputText value=" -New - modified" rendered="#{leave.appliedStatus eq 'New-Modified'}"/>
+                                                            <h:outputText value=" -Approve - modified" rendered="#{leave.appliedStatus eq 'Approve-Modified'}"/>
+                                                            <h:outputText value=" -Disapprove - modified" rendered="#{leave.appliedStatus eq 'Disapprove-Modified'}"/>
+                                                            <h:outputText value=" -Approve -cancel" rendered="#{leave.appliedStatus eq 'Approve-Cancel'}"/>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a4j:outputPanel>
+                        </h:form>
+                    </a4j:outputPanel>
+
+                    <a4j:outputPanel rendered="#{systemResultViewUtil.leaveDataBeans.size() gt 0 or systemResultViewUtil.cancelResignationNotificationList.size() gt 0}">
+                        <div id="leaveNotificationDetail" title="Leave response">
+                            <h:form>
+                                <a4j:outputPanel id="leaveDetailPanel">
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Employee name:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.userName}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Leave type:" style="font-weight: bold"/></td>
+                                            <td>
+
+                                                <h:inputHidden value="#{leaveDataBean.leaveId}"/>
+                                                <h:outputText value="#{leaveDataBean.leaveType}"/>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel id="forRestrictedHoliday" rendered="#{leaveDataBean.leaveType eq 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Holiday name:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.holidayName}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="Holiday date:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                                    </h:outputText></td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <a4j:outputPanel id="forOtherHolidayType" rendered="#{leaveDataBean.leaveType ne 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Leave subject:"  style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.leaveSubject}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From date type:" style="font-weight: bold"/></td>
+
+                                                <td><h:outputText value="Full day" rendered="#{leaveDataBean.fromDateLeaveType eq 'FD'}"/>
+                                                    <h:outputText value="Half day moring" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDM'}"/>
+                                                    <h:outputText value="Half day evening" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDE'}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From Date:" style="font-weight: bold"/>
+                                                </td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To date type:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="Full day" rendered="#{leaveDataBean.toDateLeaveType eq 'FD'}"/>
+                                                    <h:outputText value="Half day moring" rendered="#{leaveDataBean.toDateLeaveType eq 'HDM'}"/>
+                                                    <h:outputText value="Half day evening" rendered="#{leaveDataBean.toDateLeaveType eq 'HDE'}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To date:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.toDate}" rendered="#{leaveDataBean.toDateLeaveType ne null}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Leave days:" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.noOfDays}"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold"/>
+                                            </td >
+                                            <td  width="200px">
+                                                <h:outputText value="#{leaveDataBean.reason}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Available casual leaves :" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.availableCasualLeave}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Available earn leaves :" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.availableEarnLeave}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Available restricted holidays :" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.availableRestrictedHolidayLeave}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Loss of pay :" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.lossOfpayLeave}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputHidden value="#{leaveDataBean.userId}"/>
+                                                <a4j:commandLink value="Leave history" action="#{leaveServiceBean.retrieveLeaveHistoryDetail()}" render="leaveHistoryYear" oncomplete="dataTable('leaveHistoryListTable');openDialog('leaveHistory');">
+                                                    <f:setPropertyActionListener target="#{leaveServiceBean.userId}" value="#{leaveDataBean.userId}"/>
+                                                    <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leaveDataBean.leaveId}"/>
+                                                </a4j:commandLink>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" align="center">
+                                                <h:outputText value="Leave opinion" style="font-weight: bold"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <a4j:outputPanel rendered="#{systemResultViewUtil.leaveOpinionDataBeans.size() ne 0}">
+                                        <ui:repeat value="#{systemResultViewUtil.leaveOpinionDataBeans}" var="leaveOpinion" >
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{leaveOpinion.userName}:" style="font-weight: bold"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{leaveOpinion.opinion}" style="white-space: pre" escape="true"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </ui:repeat>
+                                    </a4j:outputPanel>
+                                    <a4j:outputPanel rendered="#{systemResultViewUtil.leaveOpinionDataBeans.size() eq 0}">
+                                        <h:outputText value="No leave opinion" />
+                                    </a4j:outputPanel>
+                                    <hr/>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Previous admin comment:" rendered="#{leaveDataBean.previosAdminComment ne null and leaveDataBean.previosAdminComment.trim() ne ''}" style="font-weight: bold"/>
+                                            </td>
+                                            <td width="200px">
+                                                <h:outputText value="#{leaveDataBean.previosAdminComment}" rendered="#{leaveDataBean.previosAdminComment ne null and leaveDataBean.previosAdminComment.trim() ne ''}"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Admin comment:" style="font-weight: bold ; display: #{leaveDataBean.approvalStatus eq null ? 'none': 'display'}"/>
+                                            </td>
+                                            <td width="200px">
+                                                <h:inputTextarea value="#{leaveDataBean.adminComment}" id="admincoment" style="display: #{leaveDataBean.approvalStatus eq null ? 'none': 'display'}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <a4j:outputPanel rendered="#{leaveDataBean.approvalStatus ne null}">
+                                        <hr/>
+                                    </a4j:outputPanel>
+
+                                    <br/>
+
+                                    <h:commandButton action="#{leaveServiceBean.approveLeave()}" value="Approve leave" id="approveLeaveButton"  style="display: #{leaveDataBean.approvalStatus eq null ? 'none' : 'display'}"/>
+                                    <h:commandButton action="#{leaveServiceBean.disApproveLeave()}" value="Disapprove leave" id="disApproveLeaveButton"  style="display: #{leaveDataBean.approvalStatus eq null ? 'none' : 'display'}"/>
+                                    <h:commandButton action="#{leaveServiceBean.cancelLeaveArchive()}" value="Archive leave" rendered="#{leaveDataBean.approvalStatus eq null}"/>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+
+                        <!--                    Leave History Form-->
+                        <div id="leaveHistory" title="Leave History">
+                            <h:form prependId="false">
+                                <a4j:outputPanel id="leaveHistoryYear"> 
+                                    <h:outputText value="Year:"/>
+                                    <h:selectOneMenu value="#{leaveServiceBean.year}">
+                                        <f:selectItem itemLabel="pre-cur-next"/>
+                                        <f:selectItems value="#{leaveServiceBean.leaveHistoryYearList}" var="historyYear" itemLabel="#{historyYear}" itemValue="#{historyYear}"/>
+                                        <a4j:ajax event="change" listener="#{leaveServiceBean.retrieveLeaveHistoryDetail()}" render="leaveHistoryYear" execute="@form" oncomplete="dataTable('leaveHistoryListTable');"/>
+                                    </h:selectOneMenu>
+                                    <h:inputHidden value="#{leaveServiceBean.userId}"/>
+                                    <h:inputHidden value="#{leaveServiceBean.leaveId}"/>
+                                    <br/>
+                                    <h:outputText value="No leave found" rendered="#{systemResultViewUtil.leaveHistoryList.size() eq 0}" style="color : red"/>
+                                    <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.leaveHistoryList}" var="leaveBean" id="leaveHistoryListTable" rendered="#{systemResultViewUtil.leaveHistoryList.size() gt 0}" >
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Type
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.leaveType}" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Subject
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.leaveSubject}" />                                   
+                                        </h:column> 
+                                        <h:column>
+                                            <f:facet name="header">
+                                                From date
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.fromDate}">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                To date
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.fromDate}">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Leave days
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.noOfDays}" style="text-align: left" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Reason
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.reason}" style="text-align: left" />
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Status
+                                            </f:facet>
+                                            <h:outputText value="#{leaveBean.approvalStatus}" style="text-align: left" />
+                                            <h:outputText value="Cancel" style="text-align: left" rendered="#{leaveBean.approvalStatus eq '' or leaveBean.approvalStatus eq null}"/>
+                                        </h:column>
+                                    </h:dataTable>
+                                </a4j:outputPanel>
+                            </h:form>
+
+                        </div>
+                    </a4j:outputPanel>
+
+
+
+                    <a4j:outputPanel rendered="#{systemResultViewUtil.officialBreakDataBeans ne null}">
+                        <h:form>
+                            <a4j:outputPanel id="officialBreakNotificationPanel">
+                                <a4j:outputPanel rendered="#{systemResultViewUtil.officialBreakDataBeans ne null}">
+                                    <div id="officialBreakNotification">
+                                        <h3><a href="#">Official break waiting for your response</a></h3>
+                                        <div>
+                                            <table>     
+                                                <ui:repeat value="#{systemResultViewUtil.officialBreakDataBeans}" var="officialBreak" >
+                                                    <tr>
+                                                        <td>
+                                                            <a4j:commandLink action="#{officialBreakServiceBean.fillOfficialBreakDetail('notificationLink')}" render="officialBreakDetailPanel" oncomplete="openDialog('officialBreakNotificationDetail')">
+                                                                <f:setPropertyActionListener target="#{officialBreakServiceBean.officialBreakId}" value="#{officialBreak.officialBreakId}"/>
+                                                                <f:setPropertyActionListener target="#{officialBreakServiceBean.userName}" value="#{officialBreak.userName}"/>
+                                                                <h:outputText value=" #{officialBreak.userName}"/>
+                                                                <h:outputText value=" -#{officialBreak.officialBreakType}"/>
+                                                                <h:outputText value="#{officialBreak.fromDate}" >
+                                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                                </h:outputText>
+                                                                <h:outputText value=" to "/>
+                                                                <h:outputText value="#{officialBreak.toDate}">
+                                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                                </h:outputText>
+                                                                <h:outputText value=" -New" rendered="#{officialBreak.appliedStatus eq 'New'}"/>
+                                                                <h:outputText value=" -New - modified" rendered="#{officialBreak.appliedStatus eq 'New-Modified'}"/>
+                                                                <h:outputText value=" -Approve - modified" rendered="#{officialBreak.appliedStatus eq 'Approve-Modified'}"/>
+                                                                <h:outputText value=" -Disapprove - modified" rendered="#{officialBreak.appliedStatus eq 'Disapprove-Modified'}"/>
+                                                                <h:outputText value=" -Cancel" rendered="#{officialBreak.appliedStatus eq 'Cancel'}"/>
+                                                                <h:outputText value=" -Approve -cancel" rendered="#{officialBreak.appliedStatus eq 'Approve-Cancel'}"/>
+                                                            </a4j:commandLink>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </a4j:outputPanel>
+                            </a4j:outputPanel>
+                        </h:form>
+
+                        <div id="officialBreakNotificationDetail" title="Official Break Response">
+                            <h:form>
+                                <a4j:outputPanel id="officialBreakDetailPanel">
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Employee name:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:outputText value="#{officialBreakDataBean.userName}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Officialbreak type:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:inputHidden value="#{officialBreakDataBean.officialBreakId}"/>
+                                                <h:outputText value="#{officialBreakDataBean.officialBreakType}"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><h:outputText value="From date:" style="font-weight: bold"/>
+                                            </td>
+                                            <td><h:outputText value= "#{officialBreakDataBean.fromDate}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+5:30"/>
+                                                </h:outputText>
+                                                <h:outputText value= "#{officialBreakDataBean.cardLogFromDate}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+5:30"/>
+                                                </h:outputText></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><h:outputText value="To date:" style="font-weight: bold"/>
+                                            </td>
+                                            <td><h:outputText value="#{officialBreakDataBean.toDate}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+5:30"/>
+                                                </h:outputText>
+
+                                                <h:outputText value= "#{officialBreakDataBean.cardLogToDate}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT+5:30"/>
+                                                </h:outputText>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Officialbreak time"  style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{officialBreakDataBean.breakDuration}"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold"/>
+                                            </td>
+                                            <td width="200px">
+                                                <h:outputText value="#{officialBreakDataBean.reason}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Admin comment:" style="font-weight: bold" />
+                                            </td>
+                                            <td width="200px">
+                                                <h:inputTextarea value="#{officialBreakDataBean.adminComment}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br/>
+                                    <h:commandButton action="#{officialBreakServiceBean.approveOfficialBreak()}" value="Approve official break" id="approveOfficialBreakButton"  style="display: #{officialBreakDataBean.approvalStatus eq null ? 'none' : 'disply'}"/>
+                                    <h:commandButton action="#{officialBreakServiceBean.disApproveOfficialBreak()}" value="Disapprove official break" id="disApproveOfficialBreakButton"  style="display: #{officialBreakDataBean.approvalStatus eq null ? 'none' : 'disply'}"/>
+                                    <h:commandButton action="#{officialBreakServiceBean.cancelOfficialBreakArchive()}" value="Archive official break" rendered="#{officialBreakDataBean.approvalStatus eq null}"/>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                    </a4j:outputPanel>
+                    <a4j:outputPanel rendered="#{systemResultViewUtil.manualCardEntryDataBeansList.size() ne 0}">
+                        <h:form>
+                            <a4j:outputPanel id="manualCardEntryNotificationPanel">
+                                <a4j:outputPanel rendered="#{systemResultViewUtil.manualCardEntryDataBeansList.size() ne 0 and systemResultViewUtil.manualCardEntryDataBeansList ne null}">
+                                    <div id="manualCardEntryNotification">
+                                        <h3><a href="#">Manual Card Entry waiting for response</a></h3>
+                                        <div>
+                                            <table>     
+                                                <ui:repeat value="#{systemResultViewUtil.manualCardEntryDataBeansList}" var="manualCardEntry" >
+                                                    <tr>
+                                                        <td>
+                                                            <a4j:commandLink action="#{manualCardEntryServiceBean.retrieveManualCardEntryRequestDetail}" render="manualCardEntryLeavePanel" oncomplete="openDialog('manualCardEntryNotificationDetail')">
+                                                                <f:setPropertyActionListener target="#{manualCardEntryServiceBean.manualCardEntryId}" value="#{manualCardEntry.manualCardEntryId}"/>
+                                                                <f:setPropertyActionListener target="#{manualCardEntryServiceBean.userName}" value="#{manualCardEntry.userName}"/>
+                                                                <h:outputText value="#{manualCardEntry.userName} "/>
+                                                                <h:outputText value="#{manualCardEntry.date}">
+                                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                                </h:outputText>
+                                                            </a4j:commandLink>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </a4j:outputPanel>
+                            </a4j:outputPanel>
+                        </h:form>
+
+                        <div id="manualCardEntryNotificationDetail" title="Manual card entry response">
+                            <h:form>
+                                <a4j:outputPanel id="manualCardEntryLeavePanel">
+                                    <table>
+                                        <h:inputHidden value="#{manualCardEntryDataBean.manualCardEntryId}"/>
+                                        <tr><td colspan="5"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td></tr>
+                                        <tr><td><h:outputText value="Employee id" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td><h:outputText value="#{manualCardEntryDataBean.userId}"/></td></tr>
+                                        <tr><td><h:outputText value="Employee name" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td><h:outputText value="#{manualCardEntryServiceBean.userName}"/></td></tr>
+                                        <tr>  
+                                            <td><h:outputText value="Date:" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td><h:outputText value="#{manualCardEntryDataBean.date}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                                </h:outputText></td></tr>
+                                        <tr>
+                                            <td><h:outputText value="Entry" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td><h:outputText value="In" rendered="#{manualCardEntryDataBean.inStatus eq true}"/>
+                                                <h:outputText value=" and " rendered="#{manualCardEntryDataBean.inStatus eq true and manualCardEntryDataBean.outStatus eq true}"/>
+                                                <h:outputText value="Out" rendered="#{manualCardEntryDataBean.outStatus eq true}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><h:outputText value="Reason" style="font-weight: bold" /></td>
+                                            <td>:</td>
+                                            <td width="200px"><h:outputText value="#{manualCardEntryDataBean.reason}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                        <tr><td><h:selectBooleanCheckbox value="#{manualCardEntryDataBean.isLateEntry}" rendered="#{manualCardEntryDataBean.inStatus ne false}"/> <h:outputText value="Late one hour" style="font-weight: bold" rendered="#{manualCardEntryDataBean.inStatus}"/></td>
+                                            <td></td>
+                                            <td></td></tr>
+                                        <tr><td><h:outputText value="Admin comment" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td width="200px"><h:inputTextarea value="#{manualCardEntryDataBean.adminComment}"/></td></tr>
+                                        <tr><td colspan="3"><hr/></td></tr>
+
+                                    </table>
+                                    <br/>
+                                    <h:commandButton action="#{manualCardEntryServiceBean.approveMannualCardEntryRequest()}" value="Approve" oncomplete="closeDialog('manualCardEntryNotificationDetail'); $('#manualCardEntryNotification').multiAccordion();" render="manualCardEntryNotificationPanel :message" />
+                                    <h:commandButton action="#{manualCardEntryServiceBean.disApproveMannualCardEntryRequest()}" value="Disapprove" oncomplete="closeDialog('manualCardEntryNotificationDetail'); $('#manualCardEntryNotification').multiAccordion();" render="manualCardEntryNotificationPanel :message" />
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                    </a4j:outputPanel>
+
+                    <h:form>
+                        <a4j:outputPanel id="leaveOpinionNotificationPanel">
+                            <a4j:outputPanel rendered="#{systemResultViewUtil.leaveDetailOfLeaveOpininList.size() gt 0 }">
+                                <div id="leaveOpinionNotification">
+                                    <h3><a href="#">Leave opinion waiting for your response</a></h3>
+                                    <div>
+                                        <table>     
+                                            <ui:repeat value="#{systemResultViewUtil.leaveDetailOfLeaveOpininList}" var="leaveOpinion" >
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{leaveServiceBean.fillLeaveDetail('leaveOpinion')}" render="leaveOpinionDetailPanel" oncomplete="openDialog('leaveOpinionNotificationDetail')">
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leaveOpinion.leaveId}"/>
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.userName}" value="#{leaveOpinion.userName}"/>
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveOpinionId}" value="#{leaveOpinion.leaveOpinionId}"/>
+                                                            <h:outputText value=" #{leaveOpinion.userName} "/>
+                                                            <h:outputText value="#{leaveOpinion.fromDate}" >
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" to "/>
+                                                            <h:outputText value="#{leaveOpinion.toDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" -#{leaveOpinion.leaveSubject}"/>
+                                                            <h:outputText value=" -New" rendered="#{leaveOpinion.appliedStatus eq 'New'}"/>
+                                                            <h:outputText value=" -New - modified" rendered="#{leaveOpinion.appliedStatus eq 'New-Modified'}"/>
+                                                            <h:outputText value=" -Approve - modified" rendered="#{leaveOpinion.appliedStatus eq 'Approve-Modified'}"/>
+                                                            <h:outputText value=" -Disapprove - modified" rendered="#{leaveOpinion.appliedStatus eq 'Disapprove-Modified'}"/>
+                                                            <h:outputText value=" -Cancel" rendered="#{leaveOpinion.appliedStatus eq 'Cancel'}"/>
+                                                            <h:outputText value=" -Approve -cancel" rendered="#{leaveOpinion.appliedStatus eq 'Approve-Cancel'}"/>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a4j:outputPanel>
+                        </a4j:outputPanel>
+                    </h:form>
+                    <a4j:outputPanel rendered="#{systemResultViewUtil.opinionLeaveResponseList.size() gt 0 or systemResultViewUtil.leaveDetailOfLeaveOpininList.size() gt 0}">
+                        <div id="leaveOpinionNotificationDetail" title="Leave opinion response">
+                            <h:form>
+                                <a4j:outputPanel id="leaveOpinionDetailPanel">
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Employee name:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.userName}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Leave type:" style="font-weight: bold"/></td>
+                                            <td>
+                                                <h:inputHidden value="#{leaveServiceBean.leaveOpinionId}"/>
+                                                <h:outputText value="#{leaveDataBean.leaveType}"/>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel id="forRestrictedHoliday" rendered="#{leaveDataBean.leaveType eq 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Holiday name:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.holidayName}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="Holiday date:" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                                    </h:outputText></td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <a4j:outputPanel id="forOtherHolidayType" rendered="#{leaveDataBean.leaveType ne 'Restricted Holiday'}">
+                                            <tr>
+                                                <td><h:outputText value="Leave subject:"  style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.leaveSubject}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From date type:" style="font-weight: bold"/></td>
+
+                                                <td><h:outputText value="Full day" rendered="#{leaveDataBean.fromDateLeaveType eq 'FD'}"/>
+                                                    <h:outputText value="Half day moring" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDM'}"/>
+                                                    <h:outputText value="Half day evening" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDE'}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="From date:" style="font-weight: bold"/>
+                                                </td>
+                                                <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To date type:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="Full day" rendered="#{leaveDataBean.toDateLeaveType eq 'FD'}"/>
+                                                    <h:outputText value="Half day moring" rendered="#{leaveDataBean.toDateLeaveType eq 'HDM'}"/>
+                                                    <h:outputText value="Half day evening" rendered="#{leaveDataBean.toDateLeaveType eq 'HDE'}"/></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><h:outputText value="To date:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                                <td><h:outputText value="#{leaveDataBean.toDate}" rendered="#{leaveDataBean.toDateLeaveType ne null}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                    </h:outputText>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Leave days:" style="font-weight: bold"/>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{leaveDataBean.noOfDays}"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="Reason:" style="font-weight: bold"/>
+                                            </td>
+                                            <td width="200px">
+                                                <h:outputText value="#{leaveDataBean.reason}" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <hr/>
+                                    <a4j:outputPanel id="opinionPanel">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h:outputText value="Opinion:" style="font-weight: bold"/>
+                                                </td>
+                                                <td>
+                                                    <h:inputTextarea value="#{leaveOpinionDataBean.opinion}" rendered="#{leaveOpinionDataBean.opinion eq null or leaveOpinionDataBean.opinion.trim() eq ''}"/>
+                                                    <h:outputText value="*" style="color:red" rendered="#{leaveOpinionDataBean.opinion eq null or leaveOpinionDataBean.opinion.trim() eq ''}"/>
+                                                    <h:outputText value="#{messageDataBean.message}" style="color: red"/>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{leaveOpinionDataBean.opinion}" rendered="#{leaveOpinionDataBean.opinion ne null}"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </a4j:outputPanel>
+                                    <hr/>
+                                    <br/>
+                                    <a4j:commandButton action="#{leaveServiceBean.submitLeaveOpinion()}" value="Send opinion" oncomplete="if(#{messageDataBean.isSuccess eq true}){window.location.reload();}" render="opinionPanel" rendered="#{leaveOpinionDataBean.opinion eq null or leaveOpinionDataBean.opinion.trim() eq ''}"/>
+                                    <h:commandButton action="#{leaveServiceBean.archiveLeaveOpinion()}" value="Archive" rendered="#{leaveOpinionDataBean.opinion eq null or leaveOpinionDataBean.opinion.trim() eq ''}"/>
+                                    <h:commandButton action="#{leaveServiceBean.archiveLeaveOpinionResponseNotification()}" value="Archive" style="display: #{leaveOpinionDataBean.opinion eq null or leaveOpinionDataBean.opinion.trim() eq '' ? 'none':'display'}"/>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                    </a4j:outputPanel>
+                    <h:form>
+                        <a4j:outputPanel id="NotificationPanel">
+                            <a4j:outputPanel rendered="#{systemResultViewUtil.leaveCancelNotificationList.size() gt 0 or systemResultViewUtil.opinionLeaveResponseList.size() gt 0 or systemResultViewUtil.cancelResignationNotificationList.size() gt 0}">
+                                <div id="Notification">
+                                    <h3><a href="#">Notification</a></h3>
+                                    <div>
+                                        <table>     
+                                            <ui:repeat value="#{systemResultViewUtil.leaveCancelNotificationList}" var="leaveCancel" >
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{leaveServiceBean.fillLeaveDetail('notificationLink')}" render="leaveDetailPanel" oncomplete="openDialog('leaveNotificationDetail')">
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{leaveCancel.leaveId}"/>
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.userName}" value="#{leaveCancel.userName}"/>
+                                                            <h:outputText value="Cancel leave- #{leaveCancel.userName} "/>
+                                                            <h:outputText value="#{leaveCancel.fromDate}" >
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" to "/>
+                                                            <h:outputText value="#{leaveCancel.toDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" -#{leaveCancel.leaveSubject}"/>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{systemResultViewUtil.opinionLeaveResponseList}" var="opinionLeaveResponse" >
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{leaveServiceBean.fillLeaveDetailWithLeaveOpinion()}" render="leaveOpinionDetailPanel" oncomplete="openDialog('leaveOpinionNotificationDetail')">
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveId}" value="#{opinionLeaveResponse.leaveId}"/>
+                                                            <f:setPropertyActionListener target="#{leaveDataBean.userName}" value="#{opinionLeaveResponse.userName}"/>
+                                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveOpinionId}" value="#{opinionLeaveResponse.leaveOpinionId}"/>
+                                                            <h:outputText value="Leave cancellation approve for #{opinionLeaveResponse.userName} " rendered="#{opinionLeaveResponse.appliedStatus eq 'Approve-Cancel-Approve'}"/>
+                                                            <h:outputText value="Leave cancellation disapprove for #{opinionLeaveResponse.userName} " rendered="#{opinionLeaveResponse.appliedStatus eq 'Approve-Cancel-Disapprove'}"/>
+                                                            <h:outputText value="Leave #{opinionLeaveResponse.approvalStatus} for #{opinionLeaveResponse.userName} " rendered="#{opinionLeaveResponse.appliedStatus ne 'Approve-Cancel-Approve' or opinionLeaveResponse.appliedStatus eq 'Approve-Cancel-Disapprove'}"/>
+                                                            <h:outputText value="#{opinionLeaveResponse.fromDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" to "/>
+                                                            <h:outputText value="#{opinionLeaveResponse.toDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" -#{opinionLeaveResponse.leaveType}"/>
+                                                            <h:outputText value=" -#{opinionLeaveResponse.leaveSubject}"/>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>     
+                                            <ui:repeat value="#{systemResultViewUtil.cancelResignationNotificationList}" var="cancelResignation">
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{exitProcessServiceBean.retrieveExitProcressDetailByExitId()}" render="exitProcessPanel" oncomplete="openDialog('exitProcessNotificationDetail');datePicker('actualRelieveDate')">
+                                                            <f:setPropertyActionListener target="#{exitProcessDataBean.exitId}" value="#{cancelResignation.exitId}"/>
+                                                            <h:outputText value="#{cancelResignation.userName} "/>
+                                                            <h:outputText value="#{cancelResignation.expectedReliveDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a4j:outputPanel>
+                        </a4j:outputPanel>
+                    </h:form>
+
+
+                    <!--rendered="{systemResultViewUtil.leaveCancelNotificationList.size() gt 0 or systemResultViewUtil.opinionLeaveResponseList.size() gt 0}"-->
+                    <a4j:outputPanel >
+                        <div id="exitProcessNotificationDetail" title="Resignation response">
+                            <h:form>
+                                <a4j:outputPanel id="exitProcessPanel">
+                                    <table>
+                                        <h:inputHidden value="#{exitProcessDataBean.exitId}"/>
+                                        <tr>
+                                            <td colspan="5"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Discription:" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.discription}" style="white-space: pre" escape="true"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Employee name" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.userName}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Expected relieve date" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.expectedReliveDate}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                                </h:outputText>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="File" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:commandLink action="#{exitProcessServiceBean.downloadFile}" value="#{exitProcessDataBean.fileName}" rendered="#{exitProcessDataBean.fileData ne null}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Previous comment" style="font-weight: bold" rendered="#{exitProcessDataBean.tempAdminComment ne null}"/></td>
+                                            <td><h:outputText value=":" rendered="#{exitProcessDataBean.tempAdminComment ne null}"/></td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.tempAdminComment}" rendered="#{exitProcessDataBean.tempAdminComment ne null}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Admin comment" style="font-weight: bold ; display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}"/></td>
+                                            <td><h:outputText value=":" style="display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}"/></td>
+                                            <td>
+                                                <h:inputTextarea value="#{exitProcessDataBean.adminComment}" style="display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}" />
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Actual relieve date :" style="font-weight: bold ; display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}"/></td>
+                                            <td><h:outputText value=":" style="display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}"/></td>
+                                            <td>
+                                                <h:inputText value="#{exitProcessDataBean.actualReliveDate}" id ="actualRelieveDate" style="display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}" >
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                </h:inputText>
+                                            </td>
+                                        </tr>
+                                        <a4j:outputPanel rendered="#{exitProcessDataBean.approvalStatus ne null}">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <hr/>
+                                                </td>
+                                            </tr>
+                                        </a4j:outputPanel>
+                                    </table>
+                                    <h:commandButton action="#{exitProcessServiceBean.approveResign()}" value="Approve" style = "display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}" oncomplete="closeDialog('exitProcessNotificationDetail'); $('#exitProcessNotification').multiAccordion();" render="exitProcessNotificationPanel :message" />
+                                    <h:commandButton action="#{exitProcessServiceBean.disApproveResign()}" value="Disapprove" style = "display: #{exitProcessDataBean.approvalStatus eq null ? 'none' : 'display'}" oncomplete="closeDialog('exitProcessNotificationDetail'); $('#exitProcessNotification').multiAccordion();" render="exitProcessNotificationPanel :message" />
+                                    <h:commandButton action="#{exitProcessServiceBean.archiveCancelResignationNotification}" rendered="#{exitProcessDataBean.approvalStatus eq null}" value="Archive"  oncomplete="closeDialog('exitProcessNotificationDetail'); $('#exitProcessNotification').multiAccordion();" render="exitProcessNotificationPanel :message" />
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                    </a4j:outputPanel>
+                    <h:form>
+                        <a4j:outputPanel id="exitProcessNotificationPanel">
+                            <a4j:outputPanel rendered="#{systemResultViewUtil.exitProcessDataBeansList.size() gt 0}">
+                                <div id="exitProcessNotification">
+                                    <h3><a href="#">Resignation waiting for response</a></h3>
+                                    <div>
+                                        <table>     
+                                            <ui:repeat value="#{systemResultViewUtil.exitProcessDataBeansList}" var="exitProcess">
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{exitProcessServiceBean.retrieveExitProcressDetailByExitId()}" render="exitProcessPanel" oncomplete="openDialog('exitProcessNotificationDetail');datePicker('actualRelieveDate')">
+                                                            <f:setPropertyActionListener target="#{exitProcessDataBean.exitId}" value="#{exitProcess.exitId}"/>
+                                                            <h:outputText value="#{exitProcess.userName} "/>
+                                                            <h:outputText value="#{exitProcess.expectedReliveDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                                            </h:outputText>
+                                                            <h:outputText value=" -New" rendered="#{exitProcess.appliedStatus eq 'New'}"/>
+                                                            <h:outputText value=" Modified" rendered="#{exitProcess.appliedStatus eq 'New-Modified'}"/>
+                                                            <h:outputText value=" Modified" rendered="#{exitProcess.appliedStatus eq 'Approve-Modified'}"/>
+                                                            <h:outputText value=" -Modified" rendered="#{exitProcess.appliedStatus eq 'Disapprove-Modified'}"/>
+                                                            <h:outputText value=" -Cancel" rendered="#{exitProcess.appliedStatus eq 'Cancel'}"/>
+                                                            <h:outputText value=" -Cancel" rendered="#{exitProcess.appliedStatus eq 'Approve-Cancel'}"/>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a4j:outputPanel>
+                        </a4j:outputPanel>
+                    </h:form>
+                    <a4j:outputPanel rendered="#{systemResultViewUtil.resignationResponseNotificationList.size() gt 0}">
+                        <h:form>
+                            <a4j:outputPanel id="exitProcessResponseNotificationPanel">
+                                <div id="exitProcessResponseNotification">
+                                    <h3><a href="#">Response of resignation</a></h3>
+                                    <div>
+                                        <table>     
+                                            <ui:repeat value="#{systemResultViewUtil.resignationResponseNotificationList}" var="exitProcessResponse">
+                                                <tr>
+                                                    <td>
+                                                        <a4j:commandLink action="#{exitProcessServiceBean.retrieveExitProcressDetailByExitId()}" render="exitProcessPanel" oncomplete="openDialog('exitProcessReponseNotificationDetail')">
+                                                            <f:setPropertyActionListener target="#{exitProcessDataBean.exitId}" value="#{exitProcessResponse.exitId}"/>
+                                                            <h:outputText value="Cancel resignation request approve by #{exitProcessResponse.responseUserName} " rendered="#{exitProcessResponse.appliedStatus eq 'Approve-Cancel-Approve'}"/>
+                                                            <h:outputText value="Cancel resignation request disapprove by #{exitProcessResponse.responseUserName} " rendered="#{exitProcessResponse.appliedStatus eq 'Approve-Cancel-Disapprove'}"/>
+                                                            <h:outputText value="Resignation #{exitProcessResponse.approvalStatus} by #{exitProcessResponse.responseUserName} " rendered="#{exitProcessResponse.appliedStatus ne 'Approve-Cancel-Approve' or exitProcessResponse.appliedStatus eq 'Approve-Cancel-Disapprove'}"/>
+                                                            <h:outputText value="#{exitProcessResponse.expectedReliveDate}">
+                                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+05:30"/>
+                                                            </h:outputText>
+                                                        </a4j:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a4j:outputPanel>
+                        </h:form>
+
+                        <div id="exitProcessReponseNotificationDetail" title="Resignation response">
+                            <h:form>
+                                <a4j:outputPanel id="exitProcessPanel">
+                                    <table>
+                                        <h:inputHidden value="#{exitProcessDataBean.exitId}"/>
+                                        <tr>
+                                            <td colspan="5"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Discription:" style="font-weight: bold" /></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.discription}" style="white-space: pre" escape="true"/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Expected relieve date" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.expectedReliveDate}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                                </h:outputText>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="File" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:commandLink action="#{exitProcessServiceBean.downloadFile}" value="#{exitProcessDataBean.fileName}" rendered="#{exitProcessDataBean.fileData ne null}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                        <tr>  
+                                            <td><h:outputText value="Admin comment" style="font-weight: bold"/></td>
+                                            <td>:</td>
+                                            <td>
+                                                <h:outputText value="#{exitProcessDataBean.tempAdminComment}" style="white-space: pre" escape="true"/>
+                                                <h:outputText value="N/A" rendered="#{exitProcessDataBean.tempAdminComment eq null}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <hr/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <h:commandButton action="#{exitProcessServiceBean.archiveResponseResignation()}" value="Archive" oncomplete="closeDialog('exitProcessNotificationDetail'); $('#exitProcessNotification').multiAccordion();" render="exitProcessNotificationPanel :message" />
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                    </a4j:outputPanel>
+                </h:body>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

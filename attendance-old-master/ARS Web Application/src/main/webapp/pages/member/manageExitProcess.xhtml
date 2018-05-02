@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                <script>
+                    if(RichFaces){if(RichFaces.ui){ if( RichFaces.ui.FileUpload) {
+                                jQuery.extend(RichFaces.ui.FileUpload.prototype, {
+                                    __updateButtons: function() {
+                                        if(this.list.children(".rf-fu-itm").size()) {
+                                            if (this.items.length) {
+                                                //                                        this.uploadButton.css("display", "inline-block");
+                                                this.uploadButton.click();
+                                                this.addButton.hide();
+                                       
+                                            } else {
+                                                this.uploadButton.hide();
+                                                this.addButton.hide();
+                                            }
+                                        }else{
+                                            this.uploadButton.hide();
+                                            this.addButton.show();
+                                        }
+                       
+                                    }
+                                });  
+                            }}}
+                    function jqueryDialogFunction(divId)
+                    {
+                        $( '#'+divId ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: 'auto',
+                            modal: true 
+                        });
+                    }
+                    $(function(){
+                        jqueryDialogFunction('resignConformation');
+                        jqueryDialogFunction('resignCancelConformation');
+                    });
+                    function openDialog(divId)
+                    {
+                        $( '#'+divId ).dialog( "open" );
+                        return false;
+                    }
+                    function closeDialog(divId)
+                    {
+                        $( '#'+divId ).dialog( "close" );
+                        return false;
+                    }
+                    function datePicker()
+                    {
+                        $( '#relieveDate' ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'dd-mm-yy',
+                            minDate : 0
+                        }).attr( 'readOnly' , 'true' );
+                    }
+                </script>
+                <script>
+                    $(document).ready(function() {
+                        datePicker();
+                    });
+                </script>
+                <div>
+                    <center><h2><font style="color:brown">Resignation Process</font></h2></center>
+
+                    <f:event listener="#{exitProcessServiceBean.retrievePersonalExitProcessDetail()}" type="preRenderComponent"/>
+                    <h:panelGrid id="message">
+                        <h:outputText value="#{messageDataBean.message}" style="color: #{messageDataBean.isSuccess ? 'green':'red'}" />
+                    </h:panelGrid>
+                    <center>
+                        <h:form id="exitDetail" prependId="false" >
+
+                            <a4j:outputPanel id="exitDetailPanel">
+                                <h:inputHidden value="#{exitProcessDataBean.exitId}"/>
+
+                                <table width="70%">
+                                    <tr>
+                                        <td align="right" width="30%"><h:outputText  value="Description:" style="font-weight: bold;"/></td>
+                                        <td align="left" width="45%"><h:inputTextarea value="#{exitProcessDataBean.discription}" id="discription" required="true" requiredMessage="Please enter the discription" style="width: 93%">
+                                                <!--                                            <a4j:ajax event="change" execute="@this"/>-->
+                                            </h:inputTextarea></td>
+                                        <td align="left" width="25%"><h:outputText style="color: red" value="*"/><h:message for="discription" style="color: red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right"><h:outputText  value="Expected Relieve Date:" style="font-weight: bold"/></td>
+                                        <td align="left"><h:inputText value="#{exitProcessDataBean.expectedReliveDate}" id="relieveDate" required="true" requiredMessage="Please enter the relieve date" style="width: 95%">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                            </h:inputText>
+                                        </td>
+                                        <td align="left"><h:outputText style="color: red" value="*"/><h:message for="relieveDate" style="color: red"/></td>
+                                    </tr>
+                                </table>
+                                <a4j:outputPanel id="fileUpload">
+                                    <table width="70%">
+                                        <tr>
+                                            <td align="right" width="30%"><h:outputText  value="File :     " style="font-weight: bold"/></td>
+                                            <td align="left" width="45%">
+                                                <rich:fileUpload fileUploadListener="#{exitProcessServiceBean.listener}" id="upload"  acceptedTypes="doc,docx,txt,pdf,odt" style="height: 80px ; display: #{exitProcessDataBean.fileData ne null ? 'none' : 'display'}" sizeExceededLabel="File size limit exceded" >
+                                                    <a4j:ajax event="uploadcomplete" execute="@none" render="fileUpload"/>
+                                                </rich:fileUpload>
+                                                <h:commandLink action="#{exitProcessServiceBean.downloadFile}" value="Download - #{exitProcessDataBean.fileName}" style="display: #{exitProcessDataBean.fileData eq null ? 'none' : 'display'}" immediate="true"/>
+                                                <h:outputText value="    "/>
+                                                <h:commandLink action="#{exitProcessServiceBean.clearFile}"  value="   Clear" style="display: #{exitProcessDataBean.fileData eq null ? 'none' : 'display'}" >
+                                                    <a4j:ajax render="fileUpload"/>
+                                                </h:commandLink>
+                                                <h:inputHidden value="#{exitProcessDataBean.fileName}" required="true" requiredMessage="Please select the file" id="fileUploadField"/>
+                                            </td>
+                                            <td align="left" width="25%"><h:outputText value="*" style="color: red ; display: #{exitProcessDataBean.fileData ne null ? 'none' : 'display'}"/><h:message for="fileUploadField" style="color: red"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td/>
+                                            <td><h:outputText value="(Allowed types are DOC, DOCX, TXT, PDF and ODT only)" style="color: grey"/><br/>
+                                                <h:outputText value="(Maximum Upload File-Size is 2 MB)" style="color: grey"/><br/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </a4j:outputPanel>
+                            </a4j:outputPanel>
+                            <a4j:commandButton value="submit" action="#{exitProcessServiceBean.setFlag}" oncomplete="if(#{messageDataBean.isSuccess eq true}){openDialog('resignConformation');}else{datePicker();}" render="exitDetailPanel" rendered="#{exitProcessDataBean.exitId eq null}"/>
+                            <a4j:commandButton value="update" action="#{exitProcessServiceBean.updateResign()}" rendered="#{exitProcessDataBean.exitId ne null}" render="exitDetailPanel message" oncomplete="datePicker();"/>
+                            <a4j:commandButton value="Cancel" oncomplete="openDialog('resignCancelConformation');datePicker();" rendered="#{exitProcessDataBean.exitId ne null}"/>
+                        </h:form>
+                    </center>
+                </div>
+
+                <div id="resignConformation" title="Resign Conformation">
+                    <h:panelGrid>
+                        <h:outputText value="Are you sure you want to Resign????" style="font-weight: bold"/>
+                    </h:panelGrid>
+                    <br/>
+                    <hr/>
+                    <h:form>
+                        <h:commandButton value="yes" action="#{exitProcessServiceBean.submitResign()}"/>
+                        <a4j:commandButton value="No" onclick="closeDialog('resignConformation');datePicker();"/>
+                    </h:form>
+                </div>
+
+                <div id="resignCancelConformation" title="Resign cancel Conformation">
+                    <h:panelGrid>
+                        <h:outputText value="Are you sure you want to cancel resign????" style="font-weight: bold"/>
+                    </h:panelGrid>
+                    <br/>
+                    <hr/>
+                    <h:form>
+                        <h:commandButton value="yes" action="#{exitProcessServiceBean.cancelResign()}"/>
+                        <a4j:commandButton value="No" onclick="closeDialog('resignCancelConformation');datePicker();"/>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

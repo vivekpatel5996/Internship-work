@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+
+            <ui:define name="content">
+                <h:head>
+                    <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                    <script>
+                        function jqueryDialogFunction(divId)
+                        {
+                            $( '#'+divId ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true 
+                            });
+                        }
+                        //
+                        $(function(){
+                            jqueryDialogFunction('unAssign');
+                            jqueryDialogFunction('add');
+                            jqueryDialogFunction('update');
+                            jqueryDialogFunction('assignCard');
+                            jqueryDialogFunction('delete');
+                        });
+                        function dataTable()
+                        {
+                            $('#cardInventoryListTable').dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers",
+                                "bRetrieve": true,
+                                "aoColumns": [
+                                    null,
+                                    { "sType": "eu_float"},
+                                    null,
+                                    { "bSortable": false },
+                                ]
+                
+                            } );
+                        }
+                        
+                        $(document).ready(function() {
+                            dataTable();
+                        } );
+                        
+                        $(window).load(function() {
+                            jsf.ajax.addOnEvent(function (data) {
+                                if (data.status === "success") {
+                                    dataTable();
+                                }
+                            })
+                        });
+                    </script>
+                </h:head>
+                <h:body>
+                    <div id="main">
+                        <center><h2><font style="color:brown">Card Inventory Detail</font></h2></center>
+                        <f:event listener="#{systemConfigurationServiceBean.retrieveType('CardDeleteReason')}" type="preRenderComponent"/>
+                        <h:panelGrid id="message">
+                            <h:outputText value="#{messageDataBean.message}" style="color: green"/>
+                        </h:panelGrid>
+                        <h:form prependId="false">
+                            <a4j:commandButton onbegin="$('#main').mask('Loading...');" oncomplete="$('#add').dialog('open');$('#main').unmask();" action="#{cardInventoryServiceBean.retrieveUserDetailWithoutCard()}" value="Add CardInventory" render="addCardInventoryPanel"/>
+                        </h:form>
+                        <div id="add" title="Add CardInventory">
+                            <h:form id="addCardInventory" prependId="false">
+                                <h:panelGrid>
+                                    <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/>
+                                </h:panelGrid>
+                                <a4j:outputPanel id="addCardInventoryPanel">
+                                    <table>
+                                        <tr>
+                                            <td><h:outputText value="Card Enrollment No :" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{cardInventoryDataBean.cardEnrollNo}" id="addCardEnrollNo" required="true" requiredMessage="Enter the CardEnrollment No"/>
+                                                <font color="red">*</font>
+                                            </td>
+                                            <td><h:message for="addCardEnrollNo" style="color: red;font-size: 15px"/></td>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                            <td><h:outputText value="Card Id:" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{cardInventoryDataBean.cardId}" converter="#{javax.faces.converter.DoubleConverter.LONG}" converterMessage="Enter valid CardId" id="addCardId" /></td>
+                                            <td><h:message for="addCardId" style="color: red;font-size: 15px"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><h:outputText value="Vendor:" style="font-weight: bold"/></td>
+                                            <td><h:inputTextarea value="#{cardInventoryDataBean.vendor}" id="addCardInventoryAddress" rows="3" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><h:outputText value="Employee Name:" style="font-weight: bold" rendered="#{systemResultViewUtil.systemUserDetailDataBeansList1.size() gt 0}"/></td>
+                                            <td><h:selectOneMenu value="#{cardInventoryDataBean.assigneUserId}" id="addCardInventoryEmployeeName" immediate="true" rendered="#{systemResultViewUtil.systemUserDetailDataBeansList1.size() gt 0}">
+                                                    <f:selectItem itemValue="" itemLabel="Select Name"/>
+                                                    <f:selectItems value="#{systemResultViewUtil.systemUserDetailDataBeansList1}" var="userDetail" itemLabel="#{userDetail.name}" itemValue="#{userDetail.userId}"/> 
+                                                </h:selectOneMenu>
+                                            </td>
+                                            <td><h:message for="addCardInventoryEmployeeName" style="color: red;font-size: 15px"/></td>
+                                        </tr>
+                                    </table>
+                                    <hr/>
+                                    <a4j:commandButton onbegin="$('#add').mask('Loading...');" oncomplete="if(#{messageDataBean.isSuccess eq true}){ $('#add').dialog('close');}$('#add').unmask();" value="Add" action="#{cardInventoryServiceBean.createCardInventory}" id="addCardInventoryButton"
+                                                       render="#{messageDataBean.isSuccess ? 'cardInventorylist message':'addCardInventory'}" />
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                        <f:event listener="#{cardInventoryServiceBean.retrieveCardInventoryList}" type="preRenderComponent"/>
+                        <h:form id="listOfCardInventory" prependId="false">
+                            <div id="list">
+                                <br></br>
+                                <h:panelGrid id="cardInventorylist" width="100%">
+                                    <h:outputText value="No Card Entry Done." rendered="#{empty systemResultViewUtil.cardInventoryDataBeansList}" style="color: red"/>
+                                    <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.cardInventoryDataBeansList}" var="cardInventoryBean" id="cardInventoryListTable" rendered="#{not empty systemResultViewUtil.cardInventoryDataBeansList}">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Card Enrollment No
+                                            </f:facet>
+                                            <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="#{cardInventoryBean.cardEnrollNo}"  action="#{cardInventoryServiceBean.fillCardInventoryDetail}" oncomplete="$( '#update' ).dialog( 'open' );$('#main').unmask();" render="updateCardInventoryPanel message">
+                                                <f:setPropertyActionListener target="#{cardInventoryServiceBean.id}" value="#{cardInventoryBean.id}"/>
+                                            </a4j:commandLink>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Card Id
+                                            </f:facet>
+                                            <h:outputText value="#{cardInventoryBean.cardId}"/>
+                                            <h:outputText value="N/A" rendered="#{cardInventoryBean.cardId == null}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Name
+                                            </f:facet>
+                                            <h:outputText value="#{cardInventoryBean.name}"/>
+                                            <h:outputText value="N/A" style="text-align: left" rendered="#{cardInventoryBean.name eq null and cardInventoryBean.cardId == null}" />
+                                            <h:outputText value=" - " rendered="#{cardInventoryBean.assigneUserId ne null}"/>
+                                            <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="Assign card"  action="#{cardInventoryServiceBean.retrieveUserDetailWithoutCard()}" oncomplete="if(#{messageDataBean.isSuccess eq true}){ $( '#assignCard' ).dialog( 'open' );}$('#main').unmask();" render="#{messageDataBean.isSuccess ? 'assignCardPanel':'message'}" rendered="#{cardInventoryBean.name eq null and cardInventoryBean.cardId != null}">
+                                                <f:setPropertyActionListener target="#{cardInventoryServiceBean.id}" value="#{cardInventoryBean.id}"/>
+                                            </a4j:commandLink>
+                                            <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="Unassign card"  action="#{cardInventoryServiceBean.fillCardInventoryDetail()}" oncomplete="$( '#unAssign' ).dialog( 'open' );$('#main').unmask();" render="unAssignCardPanel message" rendered="#{cardInventoryBean.assigneUserId ne null}">
+                                                <f:setPropertyActionListener target="#{cardInventoryServiceBean.id}" value="#{cardInventoryBean.id}"/>
+                                            </a4j:commandLink>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Delete
+                                            </f:facet>
+                                            <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="Delete" action="#{cardInventoryServiceBean.fillCardInventoryDetail}" oncomplete="$( '#delete' ).dialog( 'open' );$('#main').unmask();" render="deleteCardInventoryPanel message">
+                                                <f:setPropertyActionListener target="#{cardInventoryServiceBean.id}" value="#{cardInventoryBean.id}" />
+                                            </a4j:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:panelGrid>
+                            </div>
+                        </h:form>
+                        <div id="update" title="Update CardInventory">
+                            <h:form id="updateCardInventory" prependId="false">
+                                <a4j:outputPanel id="updateCardInventoryPanel">
+                                    <h:panelGrid>
+                                        <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/>
+                                    </h:panelGrid>
+                                    <table>
+                                        <tr>
+                                            <h:inputHidden value="#{cardInventoryDataBean.id}"/>
+                                            <td><h:outputText value="Card Enrollment No :" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{cardInventoryDataBean.cardEnrollNo}" id="updateCardEnrollNo" required="true" requiredMessage="Enter the CardEnrollment No"/>
+                                                <font color="red">*</font>
+                                            </td>
+                                            <td><h:message for="updateCardEnrollNo" style="color: red;font-size: 15px"/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><h:outputText value="Card Id:" style="font-weight: bold"/></td>
+                                            <td><h:inputText value="#{cardInventoryDataBean.cardId}" id="updateCardId" converter="#{javax.faces.converter.DoubleConverter.LONG}" converterMessage="Enter valid CardId"/></td>
+                                            <td><h:message for="updateCardId" style="color: red;font-size: 15px"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><h:outputText value="Vendor:" style="font-weight: bold"/></td>
+                                            <td><h:inputTextarea value="#{cardInventoryDataBean.vendor}" id="updateCardInventoryUpdateress" rows="3" />
+                                                <h:inputHidden value="#{cardInventoryDataBean.assigneUserId}"/>
+                                                <h:inputHidden value="#{cardInventoryDataBean.tempCardEnrollNo}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <hr/>
+                                    <a4j:commandButton onbegin="$('#update').mask('Loading...');" oncomplete="if(#{messageDataBean.isSuccess eq true}){ $( '#update' ).dialog( 'close' );}$('#update').unmask();"  value="Update" action="#{cardInventoryServiceBean.updateCardInventory}" id="updateCardInventoryButton"
+                                                       render="listOfCardInventory:cardInventorylist updateCardInventoryPanel :message"/>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                        <div id="assignCard" title="Assign Card">
+                            <h:form id="assignCardForm" prependId="false">
+                                <a4j:outputPanel id="assignCardPanel">
+                                    <h:panelGrid>
+                                        <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/>
+                                    </h:panelGrid>
+                                    <table>
+                                        <tr>
+                                            <td><h:inputHidden value="#{cardInventoryServiceBean.id}"/><h:outputText value="Employee Name" style="font-weight: bold"/></td>
+
+                                            <td><h:selectOneMenu value="#{cardInventoryDataBean.assigneUserId}" id="assignCardEmployeeName" required="true" requiredMessage="Please Select the User Name">
+                                                    <f:selectItem itemLabel="Select Name"/>
+                                                    <f:selectItems value="#{systemResultViewUtil.systemUserDetailDataBeansList1}" var="userDetail" itemLabel="#{userDetail.name}" itemValue="#{userDetail.userId}"/> 
+                                                </h:selectOneMenu>
+                                            </td>
+                                            <td><h:message for="assignCardEmployeeName" style="color: red;font-size: 15px"/></td>
+                                        </tr>
+                                    </table>
+                                    <hr/>
+                                    <a4j:commandButton onbegin="$('#assignCard').mask('Loading...');" oncomplete="if(#{messageDataBean.isSuccess eq true}){$( '#assignCard' ).dialog( 'close' );}$('#assignCard').unmask();" value="Assign Card" action="#{cardInventoryServiceBean.assignCard}" id="assignCardButton"
+                                                       render="#{messageDataBean.isSuccess ? 'cardInventorylist message' : 'assignCardPanel'}"/>
+                                </a4j:outputPanel>
+                            </h:form>
+                        </div>
+                        <div id="delete" title="Delete CardInventory">
+                            <h:form id="deleteCardInventory" prependId="false">    
+                                <h:panelGrid id="deleteCardInventoryPanel" columns="2">
+                                    <h:outputLabel value="Are you sure you want to delete cardInventory?" style="font-weight: bold"/>
+                                    <h:inputHidden value="#{cardInventoryDataBean.id}" />
+                                    <h:outputLabel value="Card Enrollment No: " style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.cardEnrollNo}"/>
+                                    <h:outputLabel value="Card Id:" rendered="#{cardInventoryDataBean.cardId ne null}" style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.cardId}" rendered="#{cardInventoryDataBean.cardId ne null}"/>
+                                    <h:outputLabel value="Vendor Name: " rendered="#{cardInventoryDataBean.vendor eq 0}" style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.vendor}" rendered="#{cardInventoryDataBean.vendor eq 0}"/>
+                                    <h:outputLabel value="User Name: " rendered="#{cardInventoryDataBean.name ne null}" style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.name}" rendered="#{cardInventoryDataBean.name ne null}"/>
+                                    <h:outputLabel value="Reason : " style="font-weight: bold"/>
+                                    <h:selectOneMenu value="#{cardInventoryDataBean.reason}" required="true" requiredMessage="Please select the reason">
+                                        <f:selectItem itemLabel="Select"/>
+                                        <f:selectItems value="#{systemResultViewUtil.systemConfigurationDataBeanList}" var="type" itemLabel="#{type.keyValue}" itemValue="#{type.keyValue}"/>
+                                    </h:selectOneMenu>
+                                    <h:inputHidden value="#{cardInventoryDataBean.assigneUserId}"/>
+                                </h:panelGrid>
+                                <hr/>
+                                <a4j:commandButton onbegin="$('#delete').mask('Loading...');" value="Yes" action="#{cardInventoryServiceBean.deleteCardInventory()}" id="deleteCardInventoryButtton" render="cardInventorylist message" oncomplete="$('#delete').dialog( 'close' );$('#delete').unmask();"/>
+                                <a4j:commandButton value="No" onclick="$('#delete').dialog( 'close' );"/>
+                            </h:form>
+                        </div>
+
+                        <div id="unAssign" title="Unassign  Card">
+                            <h:form id="unAssignCard" prependId="false">    
+                                <h:panelGrid id="unAssignCardPanel" columns="2">
+                                    <h:outputLabel value="Are you sure you want to unassign card?" style="font-weight: bold"/>
+                                    <h:inputHidden value="#{cardInventoryDataBean.id}" />
+                                    <h:outputLabel value="Card Enrollment No: " style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.cardEnrollNo}"/>
+                                    <h:outputLabel value="Card Id:" rendered="#{cardInventoryDataBean.cardId ne null}" style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.cardId}" rendered="#{cardInventoryDataBean.cardId ne null}"/>
+                                    <h:outputLabel value="Vendor Name: " rendered="#{cardInventoryDataBean.vendor eq 0}" style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.vendor}" rendered="#{cardInventoryDataBean.vendor eq 0}"/>
+                                    <h:outputLabel value="User Name: " rendered="#{cardInventoryDataBean.name ne null}" style="font-weight: bold"/>
+                                    <h:outputLabel value="#{cardInventoryDataBean.name}" rendered="#{cardInventoryDataBean.name ne null}"/>
+                                    <h:inputHidden value="#{cardInventoryDataBean.assigneUserId}"/>
+                                </h:panelGrid>
+                                <hr/>
+                                <a4j:commandButton onbegin="$('#unAssign').mask('Loading...');" value="Yes" action="#{cardInventoryServiceBean.unAssignCard()}" oncomplete="$('#unAssign').dialog('close');$('#unAssign').unmask();" render="cardInventorylist message"/>
+                                <a4j:commandButton value="No" onclick="$('#unAssign').dialog( 'close' );"/>
+                            </h:form>
+                        </div>
+                    </div>
+                </h:body>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

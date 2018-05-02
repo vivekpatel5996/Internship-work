@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+    <application>
+        <!-- Variable resolver for accessing spring beans as jsf beans -->
+        <variable-resolver>org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
+        
+<!--         View handler for internationalization (to define locale once user is authenticated) 
+-->        <view-handler>com.argusoft.ars.web.handler.CustomLocaleHandler</view-handler><!--
+        -->
+<!--         Default locale if no any specified -->
+        <locale-config>
+            <default-locale>en</default-locale>
+        </locale-config>
+        
+<!--         Resource bundle entry 
+-->        <resource-bundle>
+            <base-name>ValidationMessages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <message-bundle>ValidationMessages</message-bundle>
+    
+    </application>
+    <lifecycle>
+        <phase-listener>com.argusoft.ars.web.listener.LoginErrorPhaseListener</phase-listener>
+    </lifecycle>
+   
+    
+    <managed-bean>
+        <description>This class provides Basic Encryption functionality, and it belongs to jar so externally mentioned managedBean here in faces-config</description>
+        <managed-bean-name>basicPasswordEncryptor</managed-bean-name>
+        <managed-bean-class>org.jasypt.util.password.BasicPasswordEncryptor</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+<!--     added beans for jcapcha 
+    <managed-bean>
+        <managed-bean-name>captchaValidatorBean</managed-bean-name>
+        <managed-bean-class>com.argusoft.pbalance.captchavalidator.CaptchaValidatorBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>captchaEngine</managed-bean-name>
+        <managed-bean-class>com.octo.captcha.engine.image.gimpy.SimpleListImageCaptchaEngine</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>captchaServiceBean</managed-bean-name>
+        <managed-bean-class>com.argusoft.phmms.captcha.servicebean.CaptchaServiceBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>captchaService</property-name>
+            <value>#{captchaService}</value>
+        </managed-property>
+    </managed-bean>-->
+
+</faces-config>

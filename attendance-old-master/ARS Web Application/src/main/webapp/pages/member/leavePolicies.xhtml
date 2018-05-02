@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <title>Leave Policies</title>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery-1.7.1.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery-ui-1.8.16.custom.css" />
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/dataTable/jquery.dataTables_themeroller.css" />
+                <script> 
+                    $(document).ready(function() {
+                        $('#leavePolicyTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true
+                        });
+                    });
+                </script>
+            </h:head>
+            <h:body>
+                <center>
+                    <h2><font style="color:brown"> Leave Policies </font></h2>
+                </center>
+                <f:event listener="#{systemConfigurationServiceBean.retrieveType('LeavePolicy')}" type="preRenderComponent"/>
+                <h:form id="leavePolicyForm" prependId="false">
+                    <div id="list">
+                      
+                        <h:panelGrid id="holidaylist" width="100%">
+                            <h:dataTable styleClass="data-table" binding="#{table1}" value="#{systemResultViewUtil.systemConfigurationDataBeanList}" var="leavePolicyBean" id="leavePolicyTable" rendered="#{not empty systemResultViewUtil.systemConfigurationDataBeanList}">
+                                 <h:column>
+                                    <f:facet name="header"><font style="font-weight: bold">Sr. No.</font></f:facet>
+                                    #{table1.rowIndex + SessionsController.firstRow + 1}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Leave Type
+                                    </f:facet>
+                                    <h:outputText value="#{leavePolicyBean.systemKey}" style="text-align: left;padding-right: 120px" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Leave Days
+                                    </f:facet>
+                                    <h:outputText value="#{leavePolicyBean.keyValue}" style="text-align: left;padding-right: 120px" />
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGrid>
+                    </div>
+                </h:form>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+
