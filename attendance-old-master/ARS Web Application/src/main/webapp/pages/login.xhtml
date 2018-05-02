@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <h:body>
+        <f:metadata>
+            <f:event listener="#{loginServiceBean.checkCookie()}" type="preRenderView"/>
+        </f:metadata>
+        <ui:composition template="./layout/loginHomeLayout.xhtml">
+            <ui:define name="content">
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery-1.7.1.min.js"></script>
+
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                <div id="main">
+                    <h:form id="loginForm" prependId="false">   
+
+                        <div class="login-inner" align="right">
+
+                            <fieldset style="border-color:#71C1AB;" dir="LTR">
+
+                                <legend align="right">Login</legend>
+                                <center><h:inputHidden id="errorMsg" /><h:panelGrid id="message">
+                                        <h:outputText value="#{messageDataBean.message}" style="color:#{messageDataBean.isSuccess eq true ? 'green' : 'red'} ;font-size: 12px;"/>
+                                    </h:panelGrid>
+                                    <h:message id="errorMsgSpan" for="errorMsg" style="color:red;font-size: 12px;"/>&nbsp;</center>
+                                <table width="50%" border="0" cellpadding="0" cellspacing="0"  class="form-table" >                       
+                                    <tr>
+                                        <th style="padding:2px;"  width="27%" ><h:outputLabel value="#{msg.UserId}"/></th>
+                                        <td style="padding:2px;"  width="55%" > 
+                                            <h:inputText id="j_username" required="true" requiredMessage="Enter userId" autocomplete="off"  value="#{loginDataBean.userId}" styleClass="medium"  maxlength="30" onkeypress="var keycode;
+                                                    if (event) {
+                                                        keycode = event.keyCode;
+                                                    } else {
+                                                        return true;
+                                                    }
+                                                    if (keycode == 13) {
+                                                        document.getElementById('sin').click();
+                                                    } else {
+                                                        return true;
+                                                    }" style="width: 100%">
+                                                <!--<f:ajax event="blur" render="usernameMsg" />-->
+                                            </h:inputText><br/>
+                                            <h:message style="color: red;font-size: 12px;" for="j_username" id="usernameMsg" /> 
+                                        </td>
+                                        <td style="padding:2px;"  width="18%" >&#160;</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding:2px;" ><h:outputLabel value="#{msg.Password}"/></th>
+                                        <td style="padding:2px;" > 
+                                            <h:inputSecret id="j_password" required="true" requiredMessage="Enter password" value="#{loginDataBean.password}" autocomplete="off" styleClass="medium" maxlength="50" redisplay="true" onkeypress="var keycode;
+                                                    if (event) {
+                                                        keycode = event.keyCode;
+                                                    } else {
+                                                        return true;
+                                                    }
+                                                    if (keycode == 13) {
+                                                        document.getElementById('sin').click();
+                                                    } else {
+                                                        return true;
+                                                    }" style="width: 100%">
+                                                <!--                                            <f:ajax event="blur" render="pwdMsg" />-->
+                                            </h:inputSecret><br/><h:message style="color: red;font-size: 12px;" for="j_password" id="pwdMsg" />
+                                        </td>
+                                        <td style="padding:2px;" ><a4j:commandLink onbegin="$('#main').mask('Loading...');" oncomplete="$('#main').unmask();" action="#{userServiceBean.forgotPassword()}" title="#{msg.ResetPassword}" execute="j_username" render="errorMsgSpan message usernameMsg pwdMsg">(Reset)</a4j:commandLink></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="padding:2px;" >&#160;</th>
+                                        <td style="text-align:right; padding:2px; " colspan="2">                                                               
+                                            <h:selectBooleanCheckbox id="_spring_security_remember_me" value="#{loginDataBean.rememberMe}" />&#160;<label for="_spring_security_remember_me"><h:outputText value="#{msg.RememberMe}" /></label>&#160;&#160;&#160;
+                                            <h:commandButton value="Login" type="submit" id="sin" action="#{loginServiceBean.doLogin}"  style="padding:4px 10px; background:#71C1AB ; color:black; font-weight:bold; border:1px solid #fff;" />                                
+                                        </td>                            
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:2px;" ><h:outputLink value="/inOutReport1" target="_blank"> Who is In/Out</h:outputLink></td>
+                                    </tr>
+                                </table>                    
+                            </fieldset>
+                        </div>
+
+                    </h:form>  
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>       
+</html>
+

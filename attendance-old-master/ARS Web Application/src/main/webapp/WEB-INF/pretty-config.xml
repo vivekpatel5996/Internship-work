@@ -1,0 +1,252 @@
+
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0
+               http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
+    
+    <url-mapping id="login"> 
+        <pattern value="/" /> 
+        <view-id value="/pages/login.jsf" />
+    </url-mapping> 
+      
+    <url-mapping id="loginpage"> 
+        <pattern value="/login" /> 
+        <view-id value="/pages/login.jsf" />
+    </url-mapping>
+      
+    <url-mapping id="forgotPassword">
+        <pattern value="/forgotPassword" />
+        <view-id value="/pages/forgotPassword.jsf"/>
+    </url-mapping>
+    <url-mapping id="inOutReport1">
+        <pattern value="/inOutReport1" />
+        <view-id value="/pages/inOutReport.jsf"/>
+    </url-mapping>
+      
+    <url-mapping id="manageSuperAdminPage"> 
+        <pattern value="/manageSuperAdmin" /> 
+        <view-id value="/pages/superadmin/manageSuperAdmin.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="manageUserDetail"> 
+        <pattern value="/manageUserDetail" /> 
+        <view-id value="/pages/superadmin/manageUserDetail.jsf" />
+    </url-mapping> 
+      
+    <url-mapping id="manageAdminPage"> 
+        <pattern value="/manageAdmin" /> 
+        <view-id value="/pages/admin/manageAdmin.jsf" />
+    </url-mapping> 
+      
+    <url-mapping id="memberDashboard"> 
+        <pattern value="/memberDashboard" /> 
+        <view-id value="/pages/member/memberDashboard.jsf" />
+    </url-mapping> 
+      
+    <url-mapping id="accessDeniedPage"> 
+        <pattern value="/accessDenied" /> 
+        <view-id value="/pages/accessDeniedPage.jsf" />
+    </url-mapping> 
+      
+    <url-mapping id="manageSuperAdminPage"> 
+        <pattern value="/manageSystemConfiguration" /> 
+        <view-id value="/pages/superadmin/manageSystemConfiguration.jsf" />
+    </url-mapping> 
+         
+    <url-mapping id="searchUser"> 
+        <pattern value="/searchUser" /> 
+        <view-id value="/pages/admin/searchUser.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="createUser"> 
+        <pattern value="/createUser" /> 
+        <view-id value="/pages/admin/createUser.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="searchRole"> 
+        <pattern value="/searchRole" /> 
+        <view-id value="/pages/admin/searchRole.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="createRole"> 
+        <pattern value="/createRole" /> 
+        <view-id value="/pages/admin/createRole.jsf" />
+    </url-mapping> 
+    
+    <url-mapping id="updateRole"> 
+        <pattern value="/updateRole" /> 
+        <view-id value="/pages/admin/updateRole.jsf" />
+    </url-mapping>
+    <url-mapping id="errorPage"> 
+        <pattern value="/errorPage" /> 
+        <view-id value="/pages/errorPage.jsf" />
+    </url-mapping>
+    <url-mapping id="accessDeniedPage"> 
+        <pattern value="/accessDeniedPage" /> 
+        <view-id value="/pages/accessDeniedPage.jsf" />
+    </url-mapping>
+    <url-mapping id="department">
+        <pattern value="/manageDepartment"/>
+        <view-id value="/pages/superadmin/manageDepartment.jsf"/>
+    </url-mapping>
+    
+    <url-mapping id="designation">
+        <pattern value="/manageDesignation"/>
+        <view-id value="/pages/superadmin/manageDesignation.jsf"/>
+    </url-mapping>
+    
+    <url-mapping id="holiday">
+        <pattern value="/manageHoliday"/>
+        <view-id value="/pages/superadmin/manageHoliday.jsf"/>
+    </url-mapping>
+    
+    <url-mapping id="shift">
+        <pattern value="/manageShift"/>
+        <view-id value="/pages/superadmin/manageShift.jsf"/>
+    </url-mapping>
+    
+    <url-mapping id="visitor">
+        <pattern value="/manageVisitor"/>
+        <view-id value="/pages/superadmin/manageVisitor.jsf"/>
+    </url-mapping>
+    <url-mapping id="cardInventory">
+        <pattern value="/manageCardInventory"/>
+        <view-id value="/pages/superadmin/manageCardInventory.jsf"/>
+    </url-mapping>
+    <url-mapping id="leave">
+        <pattern value="/manageLeave"/>
+        <view-id value="/pages/member/manageLeave.jsf"/>
+    </url-mapping>
+    <url-mapping id="leaveOpinionResponse">
+        <pattern value="/leaveOpinionResponse"/>
+        <view-id value="/pages/member/leaveOpinionResponse.jsf"/>
+    </url-mapping>
+    <url-mapping id="manageOfficialBreak">
+        <pattern value="/manageOfficialBreak"/>
+        <view-id value="/pages/member/manageOfficialBreak.jsf"/>
+    </url-mapping>
+    <url-mapping id="adminHome">
+        <pattern value="/adminHome"/>
+        <view-id value="/pages/superadmin/adminHome.jsf"/>
+    </url-mapping>
+    <url-mapping id="cardLogReport"> 
+        <pattern value="/cardLogReport" /> 
+        <view-id value="/pages/superadmin/cardLogReport.jsf" />
+    </url-mapping> 
+    <url-mapping id="todaysAttendanceReport"> 
+        <pattern value="/todaysAttendanceReport" /> 
+        <view-id value="/pages/superadmin/todaysAttendanceReport.jsf" />
+    </url-mapping> 
+    <url-mapping id="cardLogTransaction"> 
+        <pattern value="/cardLogTransaction" /> 
+        <view-id value="/pages/member/cardLogTransaction.jsf" />
+    </url-mapping> 
+    <url-mapping id="inOutReport"> 
+        <pattern value="/inOutReport" /> 
+        <view-id value="/pages/superadmin/inOutReport.jsf" />
+    </url-mapping> 
+    <url-mapping id="myAttendanceReport"> 
+        <pattern value="/myAttendanceReport" /> 
+        <view-id value="/pages/member/myAttendanceReport.jsf" />
+    </url-mapping> 
+    <url-mapping id="attendanceReport"> 
+        <pattern value="/attendanceReport" /> 
+        <view-id value="/pages/superadmin/attendanceReport.jsf" />
+    </url-mapping>
+    <url-mapping id="leavePolicies"> 
+        <pattern value="/leavePolicies" /> 
+        <view-id value="/pages/member/leavePolicies.jsf" />
+    </url-mapping> 
+    <url-mapping id="personalLeaveQuota"> 
+        <pattern value="/personalLeaveQuota" /> 
+        <view-id value="/pages/member/personalLeaveQuota.jsf" />
+    </url-mapping> 
+    <url-mapping id="employeeLeaveQuota"> 
+        <pattern value="/employeeLeaveQuota" /> 
+        <view-id value="/pages/superadmin/employeeLeaveQuota.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="manualCardEntryResponse"> 
+        <pattern value="/manualCardEntryResponse" /> 
+        <view-id value="/pages/superadmin/manualCardEntryResponse.jsf" />
+    </url-mapping>
+    <url-mapping id="exitProcessResponse"> 
+        <pattern value="/exitProcessResponse" /> 
+        <view-id value="/pages/superadmin/exitProcessResponse.jsf" />
+    </url-mapping>
+    <url-mapping id="holidayList"> 
+        <pattern value="/holidayList" /> 
+        <view-id value="/pages/member/holidayList.jsf" />
+    </url-mapping> 
+    <url-mapping id="jobBreak"> 
+        <pattern value="/jobBreak" /> 
+        <view-id value="/pages/member/jobBreak.jsf" />
+    </url-mapping> 
+    <url-mapping id="attendanceManager"> 
+        <pattern value="/attendanceManager" /> 
+        <view-id value="/pages/superadmin/manageAttendanceManager.jsf" />
+    </url-mapping>
+ 
+    <url-mapping id="leaveHistoryReport"> 
+        <pattern value="/leaveHistoryReport" /> 
+        <view-id value="/pages/superadmin/leaveHistoryReport.jsf" />
+    </url-mapping>
+    <url-mapping id="managePersonalManualCardEntry"> 
+        <pattern value="/managePersonalManualCardEntry" /> 
+        <view-id value="/pages/member/managePersonalManualCardEntry.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="otherEmployeeManualCardEntry"> 
+        <pattern value="/otherEmployeeManualCardEntry" /> 
+        <view-id value="/pages/superadmin/otherEmployeeManualCardEntry.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="otherEmployeeLeave"> 
+        <pattern value="/otherEmployeeLeave" /> 
+        <view-id value="/pages/superadmin/otherEmployeeLeave.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="manageLeaveOpinion"> 
+        <pattern value="/manageLeaveOpinion" /> 
+        <view-id value="/pages/superadmin/manageLeaveOpinion.jsf" />
+    </url-mapping>
+    <url-mapping id="manageEmail"> 
+        <pattern value="/manageEmail" /> 
+        <view-id value="/pages/superadmin/manageEmail.jsf" />
+    </url-mapping>
+    <url-mapping id="managePersonDetail"> 
+        <pattern value="/managePersonDetail" /> 
+        <view-id value="/pages/member/managePersonDetail.jsf" />
+    </url-mapping>
+    <url-mapping id="leaveResponse"> 
+        <pattern value="/leaveResponse" /> 
+        <view-id value="/pages/superadmin/leaveResponse.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="manageExitProcess"> 
+        <pattern value="/manageExitProcess" /> 
+        <view-id value="/pages/member/manageExitProcess.jsf" />
+    </url-mapping>
+    <url-mapping id="sendConsecutiveMail"> 
+        <pattern value="/sendConsecutiveMail" /> 
+        <view-id value="/pages/superadmin/sendConsecutiveMail.jsf" />
+    </url-mapping>
+
+    <url-mapping id="addUser"> 
+        <pattern value="/addUser" /> 
+        <view-id value="/pages/superadmin/addUser.jsf" />
+    </url-mapping>
+    <url-mapping id="attendanceRegister"> 
+        <pattern value="/attendanceRegister" /> 
+        <view-id value="/pages/superadmin/attendanceRegister.jsf" />
+    </url-mapping>
+    <url-mapping id="changePassword"> 
+        <pattern value="/changePassword" /> 
+        <view-id value="/pages/member/changePassword.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="manageLeader"> 
+        <pattern value="/manageLeader" /> 
+        <view-id value="/pages/superadmin/manageLeaveOpinion1.jsf" />
+    </url-mapping>
+</pretty-config>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <f:event listener="#{leaveServiceBean.responseLeaveOpinion()}" type="preRenderComponent"/>
+                <center><h2><font style="color:brown">Leave Opinion Response</font></h2></center>
+                <div align="center">
+
+                    <table>
+                        <tr>
+                            <td><h:outputText value="#{messageDataBean.message}" style="color: #{messageDataBean.isSuccess ? 'green' : 'red'}"/></td>
+                        </tr>
+                        <a4j:outputPanel rendered="#{leaveDataBean.leaveId != null}">
+                            <tr>  
+                                <td><h:outputText value="Employee Name:" style="font-weight: bold"/></td>
+                                <td>
+                                    <h:outputText value="#{leaveDataBean.userName}"/>
+                                </td>
+                            </tr>
+                            <tr>  
+                                <td><h:outputText value="Leave Type:" style="font-weight: bold"/></td>
+                                <td>
+                                    <h:inputHidden value="#{leaveServiceBean.leaveOpinionId}"/>
+                                    <h:outputText value="#{leaveDataBean.leaveType}"/>
+                                </td>
+                            </tr>
+                            <a4j:outputPanel id="forRestrictedHoliday" rendered="#{leaveDataBean.leaveType eq 'Restricted Holiday'}">
+                                <tr>
+                                    <td><h:outputText value="Holiday Name:" style="font-weight: bold"/></td>
+                                    <td><h:outputText value="#{leaveDataBean.holidayName}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="Holiday Date:" style="font-weight: bold"/></td>
+                                    <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                        </h:outputText></td>
+                                </tr>
+                            </a4j:outputPanel>
+                            <a4j:outputPanel id="forOtherHolidayType" rendered="#{leaveDataBean.leaveType ne 'Restricted Holiday'}">
+                                <tr>
+                                    <td><h:outputText value="Leave Subject:"  style="font-weight: bold"/></td>
+                                    <td><h:outputText value="#{leaveDataBean.leaveSubject}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="From Date Type:" style="font-weight: bold"/></td>
+
+                                    <td><h:outputText value="Full Day" rendered="#{leaveDataBean.fromDateLeaveType eq 'FD'}"/>
+                                        <h:outputText value="Half Day Moring" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDM'}"/>
+                                        <h:outputText value="Half Day Evening" rendered="#{leaveDataBean.fromDateLeaveType eq 'HDE'}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="From Date:" style="font-weight: bold"/>
+                                    </td>
+                                    <td><h:outputText value="#{leaveDataBean.fromDate}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                        </h:outputText></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="To Date Type:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                    <td><h:outputText value="Full Day" rendered="#{leaveDataBean.toDateLeaveType eq 'FD'}"/>
+                                        <h:outputText value="Half Day Moring" rendered="#{leaveDataBean.toDateLeaveType eq 'HDM'}"/>
+                                        <h:outputText value="Half Day Evening" rendered="#{leaveDataBean.toDateLeaveType eq 'HDE'}"/></td>
+
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="To Date:" rendered="#{leaveDataBean.toDateLeaveType ne null}" style="font-weight: bold"/></td>
+                                    <td><h:outputText value="#{leaveDataBean.toDate}" rendered="#{leaveDataBean.toDateLeaveType ne null}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                        </h:outputText>
+                                    </td>
+                                </tr>
+                            </a4j:outputPanel>
+                            <tr>
+                                <td>
+                                    <h:outputText value="Leave Days:" style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{leaveDataBean.noOfDays}"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <h:outputText value="Reason:" style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{leaveDataBean.reason}" style="white-space: pre"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <hr/>            
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="Opinion:" style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{leaveOpinionDataBean.opinion}" rendered="#{leaveOpinionDataBean.opinion ne null}"/>
+                                </td>
+                            </tr>
+                        </a4j:outputPanel>
+                    </table>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

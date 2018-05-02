@@ -1,0 +1,4 @@
+https://www.javatpoint.com/mongodb-tutorial
+https://gist.github.com/theRemix/7305403e1ab6fc8674f0
+https://docs.mongodb.com/manual/reference/sql-comparison/
+https://www.tutorialspoint.com/mongodb/mongodb_online_test.htm

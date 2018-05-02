@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+    <h:body>
+
+        <ui:composition template="../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{roleServiceBean.retrieveAllRoles()}"/>
+                </f:metadata>
+                <div id="content">
+                    <h:form prependId="false">
+                        <h3>#{msg.ManageRole}</h3>
+                        <hr/>
+                        <a4j:outputPanel id="dataMessage">
+                            <h:outputLabel rendered="#{flash.messageDataBean.isSuccess and flash.messageDataBean.message != null}" >
+                                <div class="succmsg"><ul><li>#{flash.messageDataBean.message}</li></ul></div>
+                            </h:outputLabel>
+                            <h:outputLabel rendered="#{not flash.messageDataBean.isSuccess and flash.messageDataBean.message != null}">
+                                <div class="errmsg"><ul><li>#{flash.messageDataBean.message}</li></ul></div>
+                            </h:outputLabel>
+                        </a4j:outputPanel>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <img src="#{facesContext.externalContext.requestContextPath}/images/add_merchant.jpg" alt="add" width="16" height="16" align="absmiddle" title="#{msg.CreateNewRole}"/>&#160;
+                                    <h:commandLink action="#{roleServiceBean.navigateToCreateRole()}" value="#{msg.CreateNewRole}" title="#{msg.CreateNewRole}">
+                                    </h:commandLink>
+                                </td>
+                            </tr>                        
+                        </table>
+                        <br/>
+                        <div id="forBorder">
+                            <a4j:outputPanel id="rolesPanel">
+
+                                <rich:dataTable id="roleDataList" styleClass="display-table" rowKeyVar="rowId" style="width:100%;border:0" var="role" value="#{systemResultViewUtil.roleDataBeanList}" rendered="#{systemResultViewUtil.roleDataBeanList != null and not empty systemResultViewUtil.roleDataBeanList}" rows="10">
+                                    <f:facet name="header">
+                                        <rich:columnGroup>
+                                            <rich:column style="">
+                                                <h:outputText value="#{msg.RoleName}"/>
+                                            </rich:column>
+                                            <rich:column width="20%"  style="text-align: center;">
+                                                <h:outputText value="#{msg.Action}"/>
+                                            </rich:column>
+                                        </rich:columnGroup>
+                                    </f:facet>
+                                    <rich:column style="vertical-align: top">
+                                        <h:outputText value="#{role.roleName}" />
+                                    </rich:column>
+                                    <rich:column  style="text-align: center;vertical-align: top">
+                                        <h:commandLink title="#{msg.Edit}" action="#{roleServiceBean.navigateToUpdateRole()}" onclick="loadingPanel()">
+                                            <h:graphicImage value="/images/edit.gif" style="border: none;" />
+                                            <f:setPropertyActionListener target="#{masterDataBean.roleId}" value="#{role.roleId}"/>
+                                            <f:setPropertyActionListener target="#{masterDataBean.roleName}" value="#{role.roleName}"/>
+                                        </h:commandLink>&#160;&#160;&#160;&#160;
+                                        <h:outputLabel rendered="#{not role.isDefaultRole}" id="statusPanel">
+                                            <a4j:commandLink title="#{msg.ClickheretoDeactivate}" onclick="loadingPanel();" action="#{roleServiceBean.changeRoleStatus}" rendered="#{role.isActive != null}" render="rolesPanel" oncomplete="stopPanel();">
+                                                <h:graphicImage value="#{role.isActive ?'/images/activate.gif' :'/images/deactivate.gif'}" style="border: none;" />
+                                                <f:setPropertyActionListener target="#{masterDataBean.roleId}" value="#{role.roleId}"/>
+                                                <f:setPropertyActionListener target="#{masterDataBean.roleStatus}" value="#{role.isActive}"/>
+                                            </a4j:commandLink>
+                                        </h:outputLabel>
+                                        <h:outputLabel rendered="#{role.isDefaultRole}">
+
+                                            &#160;&#160;&#160;&#160;&#160;&#160;
+                                        </h:outputLabel>
+                                    </rich:column>                                
+                                </rich:dataTable>
+                                <rich:dataScroller for="roleDataList" rendered="#{systemResultViewUtil.roleDataBeanList!=null and not empty systemResultViewUtil.roleDataBeanList}"></rich:dataScroller>
+                            </a4j:outputPanel>
+                        </div>
+                    </h:form>
+                    <script type="text/javascript">
+                    function loadingPanel()
+                   {
+                      $("#content").mask("Loading...");
+                   }
+                   function stopPanel(){
+                         $("#content").unmask();
+                   }
+                    </script>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

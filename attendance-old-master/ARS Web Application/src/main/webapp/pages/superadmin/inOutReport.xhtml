@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <title>In Out Report</title>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                
+                <script> 
+                    var oTable;
+                    $(document).ready(function() {
+                        oTable = $('#inOutReportListTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "aaSorting": [[ 3, "desc" ]],
+                            "bRetrieve": true,
+                            "aoColumns": [
+                                null,
+                                null,
+                                null,
+                                { "sType": "eu_datetime"},
+                                null,                               
+                            ]
+                        } );
+                    } );
+                </script>
+            </h:head>
+            <h:body><center>
+                    <h2><font style="color:brown"> In Out Report</font></h2></center>
+               
+                <h:panelGrid id="message">
+                    <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green"/>
+                </h:panelGrid>
+                <f:event listener="#{reportServiceBean.employeeLastPunchingCardLogDetail()}" type="preRenderComponent"/>
+                <h:form id="inOutList" prependId="false">
+                    <div id="list">
+                        <br></br>
+                        <h:panelGrid id="list" width="100%">
+                            <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.cardLogDataBeanList}" var="cardLogBean" id="inOutReportListTable" rendered="#{systemResultViewUtil.cardLogDataBeanList.size() gt 0}">
+                                <h:column>
+                                    <f:facet name="header">
+                                        Emp Id
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.empId}" style="text-align: left" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Employee Name
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.userName}" style="text-align: left" title="(M)#{cardLogBean.mobileNo}"/>
+                                </h:column>
+                                
+                                <h:column>
+                                    <f:facet name="header">
+                                        In/Out
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.cardEntryType}" style="text-align: left" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Punching Time
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.cardPunchingTime}">
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Duration
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.duration}" style="text-align: left" />
+                                </h:column>                              
+                            </h:dataTable>
+                            <h:outputText rendered="#{systemResultViewUtil.cardLogDataBeanList.size() eq 0}" value="  No Record Found.." style="size:10; color: red; text-align: center"  id="message1"/>
+                        </h:panelGrid>
+                    </div>
+                </h:form>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

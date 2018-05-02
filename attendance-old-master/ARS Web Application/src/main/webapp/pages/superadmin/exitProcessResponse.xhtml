@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <f:event listener="#{exitProcessServiceBean.responseExitProcess}" type="preRenderComponent"/>
+            <div id="leaveDetail" title="Leave Detail">
+                <h:form>
+                    <center><h2><font style="color:brown">Resignation Response</font></h2></center>
+                    <center><a4j:outputPanel id="exitProcessPanel">
+                            <table>
+                                <h:inputHidden value="#{exitProcessDataBean.exitId}"/>
+                                <tr>
+                                    <td colspan="5"><h:outputText value="#{messageDataBean.message}"  style="color: #{messageDataBean.isSuccess ? 'green':'red'}"/></td>
+                                </tr>
+                                <tr>  
+                                    <td><h:outputText value="Discription:" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td>
+                                        <h:outputText value="#{exitProcessDataBean.discription}" style="white-space: pre" escape="true"/>
+                                    </td>
+                                </tr>
+                                <tr>  
+                                    <td><h:outputText value="Employee Name" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td>
+                                        <h:outputText value="#{exitProcessDataBean.userName}"/>
+                                    </td>
+                                </tr>
+                                <tr>  
+                                    <td><h:outputText value="Expected Relieve Date" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td>
+                                        <h:outputText value="#{exitProcessDataBean.expectedReliveDate}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                        </h:outputText>
+                                    </td>
+                                </tr>
+                                <tr>  
+                                    <td><h:outputText value="File" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td>
+                                        <h:commandLink action="#{exitProcessServiceBean.downloadFile}" value="#{exitProcessDataBean.fileName}" rendered="#{exitProcessDataBean.fileData ne null}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>  
+                                    <td><h:outputText value="admin Comment" style="font-weight: bold" rendered="#{exitProcessDataBean.tempAdminComment ne null}"/></td>
+                                    <td><h:outputText value=":" rendered="#{exitProcessDataBean.tempAdminComment ne null}"/></td>
+                                    <td>
+                                        <h:outputText value="#{exitProcessDataBean.tempAdminComment}" rendered="#{exitProcessDataBean.tempAdminComment ne null}"/>
+                                    </td>
+                                </tr>
+                                
+                                <a4j:outputPanel rendered="#{exitProcessDataBean.approvalStatus ne null}">
+                                    <tr>
+                                        <td colspan="3">
+                                            <hr/>
+                                        </td>
+                                    </tr>
+                                </a4j:outputPanel>
+                            </table>
+                        </a4j:outputPanel>
+                    </center>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

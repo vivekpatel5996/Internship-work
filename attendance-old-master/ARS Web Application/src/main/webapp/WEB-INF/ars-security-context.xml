@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <http pattern="/login" security="none"/>
+    <http pattern="/accessDenied" security="none"/>
+    <http auto-config="true">
+        <remember-me/>
+        <!-- Don't set any role restrictions on login.jsf -->
+        <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/pages/superadmin/*" access="ROLE_SADMIN" />
+        <intercept-url pattern="/pages/admin/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/pages/member/*" access="ROLE_MEMBER,ROLE_SADMIN" />
+        
+        <!-- Set the login page and what to do if login fails -->
+        <form-login login-page="/login" authentication-failure-url="/login"
+                    authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
+        
+        <logout success-handler-ref="customLogoutSuccessHandler" />
+        <access-denied-handler ref="customAccessDeniedHandler"/>
+        
+    </http>
+    
+    <beans:bean id="jasyptPasswordEncryptor" class="org.jasypt.util.password.BasicPasswordEncryptor" />
+    <beans:bean id="passwordEncoder" class="org.jasypt.spring.security3.PasswordEncoder">
+        <beans:property name="passwordEncryptor">
+            <beans:ref bean="jasyptPasswordEncryptor" />
+        </beans:property>
+    </beans:bean>
+    
+    <authentication-manager alias="authenticationManagerAlias">
+        <authentication-provider>
+            <password-encoder ref="passwordEncoder"/>
+            <jdbc-user-service data-source-ref="dataSourceARS"
+                               users-by-username-query="SELECT user_id, password, is_active FROM usermanagement_system_user where user_id=?"
+                               authorities-by-username-query="SELECT user_id,type FROM usermanagement_system_user WHERE user_id=?" />
+        </authentication-provider>
+    </authentication-manager>
+    
+    <beans:bean id="customAuthenticationSuccessHandler" class="com.argusoft.ars.web.handler.CustomAuthenticationSuccessHandler">
+    </beans:bean>
+        
+    <beans:bean id="customLogoutSuccessHandler" class="com.argusoft.ars.web.handler.CustomLogoutSuccessHandler">
+    </beans:bean>
+        
+    <beans:bean id="customAccessDeniedHandler" class="com.argusoft.ars.web.handler.CustomAccessDeniedHandler">
+    </beans:bean>
+    
+</beans:beans>

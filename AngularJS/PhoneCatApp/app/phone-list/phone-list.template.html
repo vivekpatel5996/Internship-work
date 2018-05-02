@@ -1,0 +1,48 @@
+ <div>
+
+ <ul>
+ 	 Available Phones:<br><br>
+
+        <li ng-repeat="p in $ctrl.phones">
+             {{p.name}}
+             {{p.snippet}}
+       </li>
+</ul>
+
+</div>
+
+
+<div>
+
+Serch mobile Here:<input ng-model="$ctrl.query"/>
+
+<br><br><br>
+
+Order By:<select ng-model="$ctrl.orderProp">
+	      	<option value="name">Name</option>
+			<!-- For reverse do minus -->
+			<option value="-age">Launch Time</option>
+
+	     </select>
+
+</div>
+
+<div>
+ <ul>
+ 	 <!-- <li ng-repeat="p in $ctrl.phones">
+             {{p.name}}<br>
+             {{p.snippet}}<br>
+             {{p.age}}
+       </li> -->
+        <li ng-repeat="p in $ctrl.phones| filter:$ctrl.query | orderBy:$ctrl.orderProp">
+             <img ng-src="{{p.ImgURL}}" alt="phone image"><br>
+             {{p.name}}<br>
+             {{p.snippet}}<br>
+             {{p.age}}<br>
+             {{p.id}}
+             <a href="#/phones/{{p.id}}">more details</a>
+       </li>
+
+</ul>
+</div>
+

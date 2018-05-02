@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"  
+             xmlns:beans="http://www.springframework.org/schema/beans"  
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+             xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/security  
+    http://www.springframework.org/schema/security/spring-security.xsd">  
+    <http auto-config="true">
+           
+           
+   <intercept-url pattern="/loginpage" access="hasRole('ROLE_ADMIN')" />
+                
+        <form-login login-page="/loginpage" default-target-url="/success" 
+                    authentication-failure-url="/home"
+                    username-parameter="username" 
+                    password-parameter="password"  />
+        <!--                <session-management invalid-session-url="/login" session-fixation-protection="newSession" >
+           <concurrency-control max-sessions=   "1" error-if-maximum-exceeded="true" />
+        </session-management>-->
+        <!--		<logout logout-success-url="/login" delete-cookies="JSESSIONID" />-->
+    </http> 
+	
+    <authentication-manager>
+        <authentication-provider>
+            <!--          <jdbc-user-service data-source-ref="ds"></jdbc-user-service>-->
+	 
+            <user-service>
+          
+                <user name="vivek" password="p" authorities="ROLE_ADMIN" />
+                 <user name="v" password="v" authorities="ROLE_USER" />
+            </user-service>
+            <password-encoder ref="passwordEncoder"></password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder">
+    </beans:bean>
+</beans:beans>

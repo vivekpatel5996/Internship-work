@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                 <script>
+                    
+                    $(function() {
+                        $( "#quotaLeave" ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: 'auto',
+                            modal: true 
+                        });
+                    });
+                            
+                    function openLeaveQuotaListDialog()
+                    {
+                        $( "#quotaLeave" ).dialog( "open" );
+                        $('#leaveListTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true
+                        } );
+                        return false;
+                    }
+                        
+                </script>
+            </h:head>
+            <h:body>
+                <center><h2><font style="color:brown">My Leave Quota</font></h2></center>
+
+                <div>
+                    <f:event listener="#{leaveServiceBean.fillLeaveQuotaDataBean()}" type="preRenderComponent"/>
+                    <center>
+                        <h:form>
+                            <table>
+                                <tr>
+                                    <td><h:outputText value="Available Casual Leaves" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td><a4j:commandLink value="#{leaveQuotaDataBean.availableCasualLeave}" action="#{leaveServiceBean.retrieveLeaveListByQuotaType()}" oncomplete="openLeaveQuotaListDialog()" render="leaveQuotaListByType">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.userId}" value="#{loginDataBean.id}"/>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveType}" value="Casual"/>
+                                        </a4j:commandLink></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="Available Earn Leaves" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td><a4j:commandLink value="#{leaveQuotaDataBean.availableEarnLeave}" action="#{leaveServiceBean.retrieveLeaveListByQuotaType()}" oncomplete="openLeaveQuotaListDialog()" render="leaveQuotaListByType">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.userId}" value="#{loginDataBean.id}"/>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveType}" value="Earn"/>
+                                        </a4j:commandLink></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="Available Restricted Holidays" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td><a4j:commandLink value="#{leaveQuotaDataBean.availableRestrictedHoliday}" action="#{leaveServiceBean.retrieveLeaveListByQuotaType()}" oncomplete="openLeaveQuotaListDialog()" render="leaveQuotaListByType" rendered="#{leaveQuotaDataBean.availableRestrictedHoliday ne 2}">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.userId}" value="#{loginDataBean.id}"/>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveType}" value="Restricted Holiday"/>
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{leaveQuotaDataBean.availableRestrictedHoliday}" rendered="#{leaveQuotaDataBean.availableRestrictedHoliday eq 2}"/></td>
+                                </tr>
+                                <tr>
+                                    <td><h:outputText value="Taken Loss Of Pay Leaves" style="font-weight: bold"/></td>
+                                    <td>:</td>
+                                    <td><a4j:commandLink value="#{leaveQuotaDataBean.lossOfPayLeaves}" action="#{leaveServiceBean.retrieveLeaveListByQuotaType()}" oncomplete="openLeaveQuotaListDialog()" render="leaveQuotaListByType" style="display: #{leaveQuotaDataBean.lossOfPayLeaves eq 0.0 ? 'none' : 'display'}">
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.userId}" value="#{loginDataBean.id}"/>
+                                            <f:setPropertyActionListener target="#{leaveServiceBean.leaveType}" value="Loss Of Pay"/>
+                                        </a4j:commandLink>
+                                        <h:outputText value="#{leaveQuotaDataBean.lossOfPayLeaves}" rendered="#{leaveQuotaDataBean.lossOfPayLeaves eq 0.0}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h:form>
+                        <a href="#{facesContext.externalContext.requestContextPath}/manageLeave">Go to manage Leave</a>
+                    </center>
+                    <br/>
+                    <fieldset>  
+                        <legend>Note</legend>
+                        <ol>
+                            <li>The yearly quota for Casual Leaves and Earn Leaves is 10.</li>
+                            <li>Every month 10/12 = 0.8 Leaves are added to your quota, for Casual and Earn leaves.</li>
+                            <li>For each leave that you take, 1.0 for a full day leave and 0.5 for a half day leave are subtracted from your quota.</li>
+                            <li>Each year the remaining Earn Leaves are carried forward to the next year.</li>
+                            <li>The Leave Quota displays the number of leaves accumulated till now.</li>
+                        </ol>
+                    </fieldset>
+                </div>
+                <div id="quotaLeave" title="Quota Leave">
+                    <h:panelGrid id="leaveQuotaListByType">
+                        <h:outputText value="No leave taken till now" rendered="#{systemResultViewUtil.leaveDataBeans eq null}" style="color: red"/>
+                        <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.leaveDataBeans}" var="leaveBean" id="leaveListTable" rendered="#{systemResultViewUtil.leaveDataBeans.size() gt 0}" rowClasses="">
+                            <h:column>
+                                <f:facet name="header">
+                                    Leave Type
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.leaveType}" style="text-align: left"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Subject
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.leaveSubject}" style="text-align: left"/>
+                                <h:outputText value="Restricted Holiday" rendered="#{leaveBean.leaveSubject eq null}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    From Date
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.fromDate}" style="text-align: left">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                </h:outputText>
+
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    To Date
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.toDate}" style="text-align: left" rendered="#{leaveBean.toDate ne null}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Leave Days
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.noOfDays}" style="text-align: left"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Status
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.approvalStatus}" style="text-align: left"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Reason
+                                </f:facet>
+                                <h:outputText value="#{leaveBean.reason}" style="text-align: left; white-space: pre" escape="true" />
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGrid>
+                </div>
+
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

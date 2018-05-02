@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title></title>
+	<script type="text/javascript">
+		$(document).ready(
+			function()
+			{
+				$('input').key
+			$("#textfield").change(
+				function()
+				{
+					$("#para").append(" "+$("#textfield").val());
+				})	
+			});
+	</script>
+</head>
+<body>
+   <p id="para">Append this paragraph</p>
+
+   Enter text to append:<input type="text" id="textfield">
+
+   
+</body>
+</html>

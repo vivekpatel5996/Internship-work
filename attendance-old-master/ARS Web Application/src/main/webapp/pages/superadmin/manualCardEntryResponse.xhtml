@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <body>
+
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <f:event listener="#{manualCardEntryServiceBean.responseCardEntryRequest}" type="preRenderComponent"/>
+                <center><h2><font style="color:brown">Manual card entry response</font></h2></center>
+                <div id="manualCardEntryDetail">
+                    <h:form>
+                        <center>
+                            <a4j:outputPanel id="manualCardEntryPanel">
+                                <table>
+                                    <tr>
+                                        <td colspan="5"><h:outputText value="#{messageDataBean.message}" style="color: #{messageDataBean.isSuccess ? 'green' : 'red'}"/></td>
+                                    </tr>
+                                    <tr>  
+                                        <td><h:outputText value="Date" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td>
+                                            <h:outputText value="#{manualCardEntryDataBean.date}">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30" />
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Entry" style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:outputText value="In" rendered="#{manualCardEntryDataBean.inStatus eq true}"/>
+                                            <h:outputText value=" and " rendered="#{manualCardEntryDataBean.inStatus eq true and manualCardEntryDataBean.outStatus eq true}"/>
+                                            <h:outputText value="Out" rendered="#{manualCardEntryDataBean.outStatus eq true}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Reason"  style="font-weight: bold"/></td>
+                                        <td>:</td>
+                                        <td><h:outputText value="#{manualCardEntryDataBean.reason}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Status" style="font-weight: bold"/>
+                                        </td>
+                                        <td>:</td>
+                                        <td>
+                                            <h:outputText value="#{manualCardEntryDataBean.status}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <hr/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Response By" style="font-weight: bold"/>
+                                        </td>
+                                        <td>:</td>
+                                        <td>
+                                            <h:outputText value="#{manualCardEntryDataBean.responseUserName}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Admin Comment" style="font-weight: bold"/>
+                                        </td>
+                                        <td>:</td>
+                                        <td>
+                                            <h:outputText value="#{manualCardEntryDataBean.adminComment}" style="white-space: pre" escape="true"/>
+                                            <h:outputText value="N/A" rendered="#{manualCardEntryDataBean.adminComment.trim() eq '' or manualCardEntryDataBean.adminComment eq null}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a4j:outputPanel>
+                        </center>
+                    </h:form>
+
+                </div>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

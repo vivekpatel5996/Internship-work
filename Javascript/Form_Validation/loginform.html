@@ -1,0 +1,67 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript"  src="validate.js">
+		
+    $(document).ready(
+      function()
+      {
+               $("#contact").keypress(
+                 function(e)
+                 {
+                  if(!((e.which>=48 && e.which<=57)))
+                     {
+                      alert("Enter only number")
+                       return false;
+                     }
+                });
+    });
+
+
+	</script>
+</head>
+<body> 
+    <form  name="loginform" >
+	   	<p id="errors"  style="color: red"></p>
+	   	First name:<br>
+   			<input type="text" name="firstname" onblur="validateUsername()">
+   			<p id="uname_error" style="color: red"></p>
+   			<br>
+  	        	
+  		  Password:<br>
+  			<input type="password" name="password" onblur="validatePassword()">
+  			<h3 id="password_error"></h3>
+  			<br>
+  	
+         Select State:
+         <select id="State"  onchange="changeCities()">
+            <option value="Gujarat" selected>Gujarat</option>
+          	<option value="Rajasthan">Rajasthan</option>
+          </select>
+          <br>
+          Select City:
+         <select id="City">
+         	
+         </select>
+  		  
+		 
+ 		<br>
+
+ 		EmailId:
+ 		 <input type="text" id ="email" onblur="validateEmail()">
+ 		 <br>
+
+ 		Contact:
+ 		  <input type="text" id="contact" onblur="validateContact()">
+ 		  <br>
+
+    Date of birth:
+
+       <input type="date" id="dob" onblur="validateDob(this)">
+       <br>
+
+
+  			<input type="submit" value="Submit">
+	 </form>
+</body>
+</html>

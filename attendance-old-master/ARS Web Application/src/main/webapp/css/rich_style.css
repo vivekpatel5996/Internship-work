@@ -1,0 +1,65 @@
+.rich-table-cell {
+    border: none;
+}
+.rich-table-headercell {
+    border: none;
+}
+.rich-datalist {}
+.rich-list-item {
+    color:white;border:1px solid #444; list-style-type:none; font-size:12px;  background:#000066; margin-bottom:1px;padding:5px;
+}
+.rich-list-item a{
+    color:white; text-decoration:none;
+}
+.rich-list-item:hover{
+    color:white; background:#F8C200; cursor: pointer; color:black;
+}
+.rich-mpnl-mask-div-opaque{
+    opacity : 0.70;
+    background-color: black;
+}
+.rich-datascr-act {
+    border-color: black;
+    color: black;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+}
+.rich-datascr-act {
+    border-width: 2px;
+    border-style: solid;
+    width: 25px;
+    text-align: center;
+}
+.rich-datascr-inact {
+    border-top-color: #D4CFC7;
+    color: black;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 11px;
+}
+.rich-datascr-inact {
+    border-top-width: 2px;
+    border-top-style: solid;
+    width: 25px;
+    cursor: pointer;
+    text-align: center;
+}
+.rich-datascr-button, .rich-datascr-ctrls-separator {
+    background-color: #F1EEE9;
+    border-color: #C4C0B9;
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: black;
+}
+.rich-datascr-button, .rich-datascr-ctrls-separator {
+    border-width: 1px;
+    border-style: solid;
+    width: 25px;
+    cursor: pointer;
+    text-align: center;
+}
+.rich-datascr-button-dsbld {
+    color: gray;
+    font-weight: normal;
+}

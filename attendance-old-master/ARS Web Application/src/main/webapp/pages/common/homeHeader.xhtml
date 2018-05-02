@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <ui:composition>
+        <div id="header">
+
+            <img src="#{facesContext.externalContext.requestContextPath}/images/header.png" width="100%"/>
+            <div style="position: absolute; top: 40px; left: 304px;" ><font color="#640300" size="+2">Attendance Reporting System</font></div>
+            <div align="right">  
+                <ui:include src="../common/subHeader.xhtml" />
+            </div>
+            <a4j:outputPanel rendered="#{loginDataBean.role eq 'ROLE_SADMIN'}" >
+                <div id="smoothmenu1" class="ddsmoothmenu">
+
+                    <ul>
+                        <li><a href="#{facesContext.externalContext.requestContextPath}/adminHome">Home</a></li>
+                        <li><a href="#">Master</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageUserDetail">Employee</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageVisitor">Visitor</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageDepartment">Department</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageDesignation">Designation</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageShift">Shift</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageHoliday">Holiday</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageCardInventory">Card Inventory</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageEmail">Email</a></li>                                <li><a href="#{facesContext.externalContext.requestContextPath}/otherEmployeeLeave">Leave</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageLeaveOpinion">Leave Opinion List</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/attendanceManager">Attendance Manager</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageSystemConfiguration">System Configuration</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Transaction</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/sendConsecutiveMail">Send Consecutive Mail</a></li>
+                                <!--                                <li><a href="{facesContext.externalContext.requestContextPath}/otherEmployeeManualCardEntry">Other's Manual Card Entry</a></li>-->
+                            </ul>
+                        </li>
+                        <li><a href="#">Reports</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/attendanceRegister">Attendance Register</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/attendanceReport">Attendance Report</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/cardLogReport">Card Log</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/inOutReport">Who is In/Out?</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/todaysAttendanceReport"> Todays Attendance</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/leaveHistoryReport">Leave History</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/employeeLeaveQuota">Employee Leave Quota</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Personal</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/managePersonDetail">Personal Detail</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageLeave">Leave</a></li>
+                                <!--<li><a href="{facesContext.externalContext.requestContextPath}/manageOfficialBreak">Official Break</a></li>-->
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/managePersonalManualCardEntry">Manual Card Entry</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/cardLogTransaction">Card Transaction</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/myAttendanceReport">Attendance Report</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/jobBreak">Job Break Report</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageExitProcess">Exit Process</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Company Policy</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/holidayList">Holiday</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/leavePolicies">Leave Policy</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <br style="clear: left" />
+                </div>    
+            </a4j:outputPanel>
+            <a4j:outputPanel rendered="#{loginDataBean.role eq 'ROLE_MEMBER'}">    
+                <div id="smoothmenu1" class="ddsmoothmenu">
+                    <ul>
+                        <li><a href="#{facesContext.externalContext.requestContextPath}/memberDashboard">Home</a></li>
+                        <li><a href="#">Personal</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/managePersonDetail">Personal Detail</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageLeave">Leave</a></li>
+                                <!--<li><a href="{facesContext.externalContext.requestContextPath}/manageOfficialBreak">Official Break</a></li>-->
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/managePersonalManualCardEntry">Manual Card Entry</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/cardLogTransaction">Card Transaction</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/myAttendanceReport">Attendance Report</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/jobBreak">Job Break Report</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/manageExitProcess">Exit Process</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Company Policy</a>
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/holidayList">Holiday</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/leavePolicies">Leave Policy</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <br style="clear: left" />
+                </div>
+            </a4j:outputPanel>
+        </div>        
+    </ui:composition>
+</html>
+

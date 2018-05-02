@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <title>Attendance Report</title>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery-ui-1.8.16.custom.css" />
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/dataTable/jquery.dataTables_themeroller.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                <style type="text/css">
+                    .ui-datepicker-calendar {
+                        display: none;
+                    }
+                </style>
+                <script>
+                    $(document).ready(function() {
+                        $('#dateYear').datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'MM-yy',
+                            maxDate : 0,
+                                                
+                                                
+                            onClose: function() {
+                                var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                                var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                                $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+                            },
+                           
+                            beforeShow: function() {
+                                if ((selDate = $(this).val()).length > 0) 
+                                {
+                                    iYear = selDate.substring(selDate.length - 4, selDate.length);
+                                    //                                                        
+                                    iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
+                                    $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+                                    $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+                                                        
+                                }
+                            }
+                        }).attr( 'readOnly' , 'true' );
+                    });
+                </script>
+            </h:head>
+            <h:body>
+                <center>
+                    <h2><font style="color:brown">Attendance Register</font></h2>
+                </center>
+                
+                <h:form prependId="false">
+                    <table id="attendanceTable" style="width: 80%;windows: 80%" align="center">
+                        <tr>
+                            <td><h:outputText value="Month/Year" style="font-weight: bold"/></td>
+                            <td><h:inputText id="dateYear" value="#{reportServiceBean.fromDate}" required="true" requiredMessage="Please select date and month">
+                                    <f:convertDateTime pattern="MMM-yyyy" timeZone="IST"/>
+                                </h:inputText></td>
+                            <td><h:message for="dateYear" style="color: red"/></td>
+                        </tr>
+                    </table>
+                    <h:commandButton value="Show Attendance Register" onclick="$(registerLink).click()"/>
+                    <h:commandLink action="#{reportServiceBean.downloadAttendanceRegister()}" target="_blank" id="registerLink"/>
+                </h:form> 
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

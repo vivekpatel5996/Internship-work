@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <title>Todays Attendance</title>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquerydatatabledatewisesorting.js"></script>
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery-ui-1.8.16.custom.css" />
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/dataTable/jquery.dataTables_themeroller.css" />
+                <script> 
+                    var oTable;
+                    $(document).ready(function() {
+                        oTable = $('#todaysAttendanceListTable').dataTable({
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "aaSorting": [[ 2, "desc" ]],
+                            "bRetrieve": true,
+                            "aoColumns": [
+                                null,
+                                null,
+                                { "sType": "eu_datetime"},
+                                null,
+                                null                                    
+                            ]
+                        } );
+                    } );
+                </script>
+            </h:head>
+            <h:body><center>
+                    <h2><font style="color:brown"> Today's Attendance</font></h2></center>
+
+                <h:panelGrid id="message">
+                    <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green"/>
+                </h:panelGrid>
+                <f:event listener="#{reportServiceBean.retrieveTodaysAttendance}" type="preRenderComponent"/>
+                <h:form id="todaysAttendanceList" prependId="false">
+                    <div id="list">
+                        <br></br>
+                        <h:panelGrid id="list" width="100%">
+                            <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.todaysAttendanceDataBeanList}" var="cardLogBean" id="todaysAttendanceListTable" rendered="#{systemResultViewUtil.todaysAttendanceDataBeanList.size() gt 0}">
+                                <h:column>
+                                    <f:facet name="header">
+                                        Emp Id
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.empId}" style="color: #{cardLogBean.cardEntryType eq 'Out' ? 'red' : 'black'}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Employee Name
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.userName}" style="color: #{cardLogBean.cardEntryType eq 'Out' ? 'red' : 'black'}" title="(M)#{cardLogBean.mobileNo}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Last Entry Time
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.cardPunchingTime}" style="color: #{cardLogBean.cardEntryType eq 'Out' ? 'red' : 'black'}" rendered="#{cardLogBean.cardPunchingTime  ne null}">
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                    </h:outputText> 
+                                    <h:outputText value="N/A" rendered="#{cardLogBean.cardPunchingTime  eq null}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Present/Absent
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.attendanceStatus}" style="color: #{cardLogBean.cardEntryType eq 'Out' ? 'red' : 'black'}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        In/Out
+                                    </f:facet>
+                                    <h:outputText value="#{cardLogBean.cardEntryType}" style="color: #{cardLogBean.cardEntryType eq 'Out' ? 'red' : 'black'}" />
+                                </h:column>
+                            </h:dataTable>
+                            <h:outputText rendered="#{systemResultViewUtil.todaysAttendanceDataBeanList.size() eq 0}" value="  No Record Found.." style="size:10; color: red; text-align: center"  id="message1"/>
+                        </h:panelGrid>
+                        <br/>
+                        <fieldset>  
+                            <legend>Note</legend>
+                            <ul>
+                                <li><h:outputText value="* This employee is present but currently out of the office." style="color: red"/> </li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                </h:form>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<title></title>
+	<script type="text/javascript">
+		$(document).ready(
+			function()
+			{
+               $("#textfield").keypress(
+                 function(e)
+                 {
+                 	if(!((e.which>=48 && e.which<=57)|| (e.which==46)))
+                     {
+                      alert("Enter only number and decimals")
+                       return false;
+                     }
+               	});
+		});
+
+	</script>
+</head>
+<body>
+     Enter data:<input type="text" id="textfield">
+</body>
+</html>

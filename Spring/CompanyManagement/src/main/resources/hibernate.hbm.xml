@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class dynamic-insert="false" dynamic-update="false" mutable="true" name="com.mycompany.companymanagement.department.Department" table="department" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+      <id name="id">
+          <generator class="identity">
+              
+          </generator>
+              
+      </id>   
+      <property name="dept_name"></property>   
+  </class>
+</hibernate-mapping>

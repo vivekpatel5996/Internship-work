@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <ui:composition template="./../layout/homeLayout.xhtml">
+        <ui:define name="content">
+            <h:head>
+                <link rel="Stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jHtmlArea.css" />
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/richText/jHtmlArea-0.7.0.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+
+                <style type="text/css">
+                    /* body { background: #ccc;} */
+                    div.jHtmlArea .ToolBar ul li a.custom_disk_button 
+                    {
+                        background: url(images/disk.png) no-repeat;
+                        background-position: 0 0;
+                    }
+
+                    div.jHtmlArea { border: solid 1px #ccc; }
+                </style>
+                <script>
+                                   
+                    $(function() {
+                        //                        $("#main").mask("Loading...");
+                        // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+                        
+                         
+                        // You can do this to perform a global override of any of the "default" options
+                        // jHtmlArea.fn.defaultOptions.css = "jHtmlArea.Editor.css";
+                        // Initialize jHtmlArea's with all default values
+                                        
+                        $( "#add" ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: 'auto',
+                            modal: true ,
+                            buttons: {
+                                "Add" : function() {
+                                    $("#addEmailFormatButton").click();
+                                },
+                                "Close" : function() {
+                                    $( this ).dialog( "close" );
+                                }
+                            }
+                        });
+                        $( "#update" ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: "auto",
+                            modal: true ,
+                            buttons: {
+                                "Update" : function() {
+                                    $("#updateEmailFormatButton").click();
+                                },
+                                "Close" : function() {
+                                    $( this ).dialog( "close" );
+                                }
+                               
+                            }
+                        });
+                        $( "#delete" ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: "auto",
+                            modal: true ,
+                            buttons: {
+                                "Yes" : function() {
+                                    $("#deleteEmailFormatButtton").click();
+                                    $( this ).dialog( "close" );
+                                },
+                                "No" : function() {
+                                    $( this ).dialog( "close" );
+                                }
+                            }
+                        });
+                    });
+                    $(window).load(function() {
+                        jsf.ajax.addOnEvent(function (data) {
+                            
+                            if (data.status === "success") {
+                                $("textarea").htmlarea();
+                            }
+                        })
+                    });
+                    var oTable;
+                    $(document).ready(function() {
+                        //                    $('#main').fadeIn(500);
+                        //                        $("#main").unmask();
+                        emailFormatDataTable();
+                    } );
+                    function openAddEmailFormatDailog()
+                    {
+                        $( "#add" ).dialog( "open" );
+                        return false;
+                    }
+                    function closeAddEmailFormatDailog()
+                    {
+                        $( "#add" ).dialog( "close" );
+                        return false;
+                    }
+                    function openUpdateEmailFormatDialog()
+                    {
+                        $( "#update" ).dialog( "open" );
+                        return false;
+                    }
+                    function closeUpdateEmailFormatDialog()
+                    {
+                        $( "#update" ).dialog( "close" );
+                        return false;
+                    }
+                    function openDeleteEmailFormatDialog()
+                    {
+                        $( "#delete" ).dialog( "open" );
+                        
+                        return false;
+                    }
+                    $(window).load(function() {
+                        jsf.ajax.addOnEvent(function (data) {
+                            
+                            if (data.status === "success") {
+                                emailFormatDataTable();
+                            }
+                        })
+                    });
+                    
+                    function emailFormatDataTable()
+                    {
+                        $('#emailFormatListTable').dataTable({   
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true
+                        } );
+                    }
+                    function addConfiguration(){
+                      
+                        var newText = document.getElementById('configuration').value;
+                        var type1= document.getElementById('type1').value;
+                        if(type1 == 'b'){
+                            document.getElementById("addBody").value += newText;
+                        }else{
+                            document.getElementById("addSubject").value += newText;
+                        }    
+                    }
+                    function addUpdatedConfiguration(){
+                        var newText = document.getElementById('configuration1').value;
+                        var type1= document.getElementById('type2').value;
+                        if(type1 == 'b'){
+                            document.getElementById("updateBody").value += newText;
+                        }else{
+                            document.getElementById("updateSubject").value += newText;
+                        } 
+//                        var newText = document.getElementById('configuration1').value;
+//                        document.getElementById("updateBody").value += newText;
+                    }
+                </script>
+            </h:head>
+            <h:body>
+                <!--                for Retrive Email Format Detail-->
+                <f:event listener="#{emailFormatServiceBean.retrieveEmailFormatList}" type="preRenderComponent" id="fevent"/>
+                <center><h2><font style="color:brown">Email Management</font></h2></center>
+                <div id="main">
+                    <br/>
+                    <div id="messageDiv">
+                        <h:panelGrid id="message">
+                            <h:outputText value="#{messageDataBean.message}" style="color: #{messageDataBean.isSuccess eq true ? 'green' : 'red'}"/>
+                        </h:panelGrid>
+                    </div>
+                    <h:form>
+                        <a4j:commandButton oncomplete="openAddEmailFormatDailog(); " action="#{emailDataBean.databeanNull()}" render="addEmailFormatPanel message" value="Add EmailFormat"/>
+                    </h:form>
+                    <!--                    add Email Format Panel                 -->
+                    <div id="add" title="Add EmailFormat">
+                        <h:form id="addEmailFormat" prependId="false">
+                            <a4j:outputPanel id="addEmailFormatPanel">
+                                <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red" styleClass="errormessages"/>
+                                <table>
+                                    <tr>
+                                        <td width="114px"><h:outputText  value="Format Name :" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{emailDataBean.formatName}" id="addFormatName" required="true" maxlength="20" requiredMessage="Please enter the email format name "/>
+                                            <h:outputText style="color: red" value="*"/></td>
+                                        <td><h:message for="addFormatName" style="color: red"/></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td width="114px"><h:outputText  value="Subject :" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{emailDataBean.subject}" id="addSubject" required="true" maxlength="50" requiredMessage="Please enter the subject "/>
+                                            <h:outputText style="color: red" value="*"/></td>
+                                        <td><h:message for="addSubject" style="color: red"/></td>
+                                    </tr>
+                                </table>
+                                <a4j:outputPanel id="richTextOutputPanel">
+                                    <table>
+                                        <tr>
+                                            <td width="114px"><h:outputText  value="Body :" style="font-weight: bold"/></td>
+                                            <td><h:inputTextarea value="#{emailDataBean.body}" id="addBody" cols="40" rows="8" required="true" requiredMessage="Please enter the body part "/>
+                                                <h:outputText style="color: red" value="*"/></td>
+                                            <td><h:message for="addBody" style="color: red"/></td>
+                                        </tr>
+                                    </table>
+                                </a4j:outputPanel>
+                                <table>
+                                    <tr>
+                                        <td width="114px"><h:outputText value="Configuration" style="font-weight: bold"/></td>
+                                        <td>
+                                            <h:selectOneMenu id="configuration">
+                                                <f:selectItem itemLabel="Employee Name" itemValue="#EMPNAME#"/>
+                                                <f:selectItem itemLabel="Current Time" itemValue="#CURRTIME#"/>
+                                                <f:selectItem itemLabel="Shift Start Time" itemValue="#SHIFTSTARTTIME#"/>
+                                                <f:selectItem itemLabel="Late Duration" itemValue="#LATEDURATION#"/>
+                                                <f:selectItem itemLabel="Information" itemValue="#INFO#"/>
+                                                <f:selectItem itemLabel="Leave Approver" itemValue="#APPROVER#"/>
+                                                <f:selectItem itemLabel="Leave RESPONSE" itemValue="#RESPONSE#"/>
+                                                <f:selectItem itemLabel="Previous Date" itemValue="#OLDDATE#"/>
+                                                <f:selectItem itemLabel="Previous From Date" itemValue="#OLDFROMDATE#"/>
+                                                <f:selectItem itemLabel="Previous To Date" itemValue="#OLDTODATE#"/>
+                                                <f:selectItem itemLabel="Password" itemValue="#PASSWORD#"/>
+                                                <f:selectItem itemLabel="New Password" itemValue="#NEWPASSWORD#"/>
+                                            </h:selectOneMenu><br/>
+                                            <h:selectOneMenu id="type1">
+                                                <f:selectItem itemLabel="Body" itemValue="b"/>
+                                                <f:selectItem itemLabel="Subject" itemValue="s"/>
+                                            </h:selectOneMenu>
+                                            <a4j:commandButton value="Add configuration" id="button" onclick="addConfiguration();" render="richTextOutputPanel" immediate="true"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <a4j:commandButton oncomplete="if(#{messageDataBean.isSuccess eq true}){ closeAddEmailFormatDailog();} " value="Add Email Format" action="#{emailFormatServiceBean.createEmailFormat()}" id="addEmailFormatButton"
+                                                               render="#{messageDataBean.isSuccess eq true ?  'emailFormatlist message': 'addEmailFormatPanel'}" style="display: none"  />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a4j:outputPanel>
+                        </h:form>
+                    </div>
+                    <!--                    List of email Format-->
+                    <h:form id="listOfEmailFormat" prependId="false">
+                        <div id="list">
+                            <br></br>
+                            <h:panelGrid id="emailFormatlist" width="100%">
+                                <h:outputLabel value="No emailFormat is added!!!!" rendered="#{systemResultViewUtil.emailFormatDataBeansList.size() eq 0}" style="color: red"/>
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.emailFormatDataBeansList}" var="emailFormatBean" id="emailFormatListTable" rendered="#{systemResultViewUtil.emailFormatDataBeansList.size() gt 0}" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Email Format Name
+                                        </f:facet>
+                                        <a4j:commandLink value="#{emailFormatBean.formatName}"  action="#{emailFormatServiceBean.fillEmailFormatDetail}" oncomplete="openUpdateEmailFormatDialog(); " render="updateEmailFormatPanel message">
+                                            <f:setPropertyActionListener target="#{emailFormatServiceBean.emailId}" value="#{emailFormatBean.emailId}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Subject
+                                        </f:facet>
+                                        <h:outputText value="#{emailFormatBean.subject}" style="text-align: left" />
+
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Delete
+                                        </f:facet>
+                                        <a4j:commandLink value="Delete" action="#{emailFormatServiceBean.fillEmailFormatDetail}" oncomplete="openDeleteEmailFormatDialog();" render="deleteEmailFormatPanel message">
+                                            <f:setPropertyActionListener target="#{emailFormatServiceBean.emailId}" value="#{emailFormatBean.emailId}" />
+                                        </a4j:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+                    <!--                    Update emailFormat form-->
+                    <div id="update" title="Update EmailFormat">
+                        <h:form id="updateEmailFormat" prependId="false">
+                            <a4j:outputPanel id="updateEmailFormatPanel">
+                                <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red" styleClass="errormessages"/>
+                                <table>
+                                    <tr>
+                                        <td width="114px"><h:outputText  value="Format Name :" style="font-weight: bold"/></td>
+                                        <td><h:inputHidden value="#{emailDataBean.emailId}" />
+                                            <h:inputText value="#{emailDataBean.formatName}" id="updateFormatName" required="true" requiredMessage="Please enter the email format name "/>
+                                            <h:outputText style="color: red" value="*"/></td>
+                                        <td><h:message for="updateFormatName" style="color: red"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="114px"><h:outputText  value="Subject :" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{emailDataBean.subject}" id="updateSubject" required="true" requiredMessage="Please enter the subject "/>
+                                            <h:outputText style="color: red" value="*"/></td>
+                                        <td><h:message for="updateSubject" style="color: red"/></td>
+                                    </tr>
+                                </table>
+                                <a4j:outputPanel id="richTextOutputPanel1">
+                                    <table>
+                                        <tr>
+                                            <td width="114px"><h:outputText  value="Body :" style="font-weight: bold"/></td>
+                                            <td><h:inputTextarea value="#{emailDataBean.body}" id="updateBody" cols="40" rows="8" required="true" requiredMessage="Please enter the body part "/>
+                                                <h:outputText style="color: red" value="*"/></td>
+                                            <td><h:message for="updateBody" style="color: red"/></td>
+                                        </tr>
+                                    </table>
+                                </a4j:outputPanel>
+                                <table>
+
+                                    <tr>
+                                        <td width="114px"><h:outputText value="Configuration" style="font-weight: bold"/></td>
+                                        <td>
+                                            <h:selectOneMenu id="configuration1">
+                                                <f:selectItem itemLabel="Employee Name" itemValue="#EMPNAME#"/>
+                                                <f:selectItem itemLabel="Current Time" itemValue="#CURRTIME#"/>
+                                                <f:selectItem itemLabel="Shift Start Time" itemValue="#SHIFTSTARTTIME#"/>
+                                                <f:selectItem itemLabel="Late Duration" itemValue="#LATEDURATION#"/>
+                                                <f:selectItem itemLabel="Information" itemValue="#INFO#"/>
+                                                <f:selectItem itemLabel="Leave Approver" itemValue="#APPROVER#"/>
+                                                <f:selectItem itemLabel="Leave RESPONSE" itemValue="#RESPONSE#"/>
+                                                <f:selectItem itemLabel="Previous Date" itemValue="#OLDDATE#"/>
+                                                <f:selectItem itemLabel="Previous From Date" itemValue="#OLDFROMDATE#"/>
+                                                <f:selectItem itemLabel="Previous To Date" itemValue="#OLDTODATE#"/>
+                                                <f:selectItem itemLabel="Password" itemValue="#PASSWORD#"/>
+                                                <f:selectItem itemLabel="New Password" itemValue="#NEWPASSWORD#"/>
+                                            </h:selectOneMenu><br/>
+                                            <h:selectOneMenu id="type2">
+                                                <f:selectItem itemLabel="Body" itemValue="b"/>
+                                                <f:selectItem itemLabel="Subject" itemValue="s"/>
+                                            </h:selectOneMenu>
+                                            <a4j:commandButton value="add configuration" id="button1" onclick="addUpdatedConfiguration();" render="richTextOutputPanel1"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a4j:commandButton oncomplete="if(#{messageDataBean.isSuccess eq true}){ closeUpdateEmailFormatDialog();} " value="Update EmailFormat" action="#{emailFormatServiceBean.updateEmailFormat()}" id="updateEmailFormatButton"
+                                                               render="#{messageDataBean.isSuccess eq true ?'emailFormatlist message':'updateEmailFormat'}" style="display: none"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table> 
+                            </a4j:outputPanel>
+                        </h:form>
+                    </div>
+                    <!--                    Delete email Format-->
+                    <div id="delete" title="Delete EmailFormat">
+                        <h:form id="deleteEmailFormat" prependId="false"> 
+                            <h:outputLabel value="Are you sure you want to delete emailFormat?" style="font-weight: bold"/>
+                            <h:panelGrid id="deleteEmailFormatPanel" columns="3">
+                                <h:inputHidden value="#{emailDataBean.emailId}" />
+                                <h:outputLabel value="EmailFormat Name : " style="font-weight: bold"/>
+                                <h:outputLabel value="#{emailDataBean.formatName}" />
+                            </h:panelGrid>
+                            <a4j:commandButton value="Yes" action="#{emailFormatServiceBean.deleteEmailFormat()}" id="deleteEmailFormatButtton" style="display: none" render="emailFormatlist message" />
+                        </h:form>
+                    </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:composition template="./../layout/homeLayout.xhtml">
+
+        <ui:define name="content">
+            <h:head>
+                <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery.loadmask.css" />
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery.loadmask.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.mouse.js"></script>
+                <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.draggable.js"></script>
+                <script>
+                    function dialog(id)
+                    {
+                        $( "#"+id ).dialog({
+                            autoOpen: false,
+                            show: "blind",
+                            hide: "explode",
+                            width: 'auto',
+                            modal: true
+                        });
+                    }
+                    
+                    $(function() {
+                        $("#main").mask("Loading...");
+                        dialog("add");
+                        dialog("addToThis");
+                        dialog("update");
+                        dialog("delete");
+                        dialog("viewEmployeeDetail");
+                    });
+                    var oTable;
+                    $(document).ready(function() {
+                        //                    $('#main').fadeIn(500);
+                        $("#main").unmask();
+                        departmentDataTable();
+                    } );
+                    
+                   
+                    $(window).load(function() {
+                        jsf.ajax.addOnEvent(function (data) {
+                            
+                            if (data.status === "success") {
+                                departmentDataTable();
+                            }
+                        })
+                    });
+                    
+                    function departmentDataTable()
+                    {
+                        $('#departmentListTable').dataTable({   
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "aoColumns": [
+                                null,
+                                { "bSortable": false },
+                                { "bSortable": false },
+                                { "bSortable": false },
+                            ]
+                        } );
+                    }
+                    function addToThisDepartmentDataTable()
+                    {
+                        $('#addToThisDepartmentDataTable').dataTable({   
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "aoColumns": [
+                                null,
+                                null,
+                                null,
+                                { "bSortable": false },
+                            ]
+                        } );
+                    }
+                    function viewEmployeeDetailDataTable()
+                    {
+                        $('#viewEmployeeDetailDataTable').dataTable({   
+                            "bJQueryUI": true,
+                            "sPaginationType": "full_numbers",
+                            "bRetrieve": true,
+                            "aoColumns": [
+                                null,
+                                null,
+                            ]
+                        } );
+                    }
+                </script>
+            </h:head>
+            <h:body>
+                <!--                for Retrive Department Detail-->
+                <f:event listener="#{departmentServiceBean.retrieveDepartmentList}" type="preRenderComponent" />
+                <center><h2><font style="color:brown">Department Detail</font></h2></center>
+                <div id="main">
+                    <br/>
+                    <div id="messageDiv">
+                        <h:panelGrid id="message">
+                            <h:outputText value="#{messageDataBean.message}" style="color: #{messageDataBean.isSuccess eq true ? 'green' : 'red'}"/>
+                        </h:panelGrid>
+                    </div>
+                    <a4j:commandButton oncomplete="$('#add').dialog('open');$('#main').unmask();" onbegin="$('#main').mask('Loading...');" render="addDepartmentPanel message" value="Add Department"/>
+
+                    <!--                    add Department Panel                 -->
+
+                    <div id="add" title="Add Department">
+                        <h:form id="addDepartment" prependId="false">
+                            <a4j:outputPanel id="addDepartmentPanel">
+                                <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red" styleClass="errormessages"/>
+                                <h:panelGrid columns="5">
+                                    <h:outputText value="Department Name:" style="font-weight: bold"/>
+                                    <h:inputText value="#{departmentDataBean.depName}" id="addDepartmentName" required="true" requiredMessage="Enter department name" maxlength="55"/>
+                                    <font color="red">*</font>                                    
+                                    <h:message id="message1" for="addDepartmentName" style="color: red;font-size: 15px" />
+                                </h:panelGrid>
+                                <hr/>
+                                <a4j:commandButton onbegin="$('#add').mask('Loading...');" oncomplete="$('#add').unmask();if(#{messageDataBean.isSuccess eq true}){ $('#add').dialog('close');} " value="Add department" action="#{departmentServiceBean.createDepartment}"
+                                                   render="#{messageDataBean.isSuccess eq true ?  'departmentlist message': 'addDepartmentPanel'}"   />
+                            </a4j:outputPanel>
+                        </h:form>
+                    </div>
+
+                    <!--                    List of department-->
+                    <h:form id="listOfDepartment" prependId="false">
+                        <div id="list">
+                            <br></br>
+                            <h:panelGrid id="departmentlist" width="100%">
+                                <h:outputLabel value="No department is added!!!!" rendered="#{systemResultViewUtil.departmentDataBeansList.size() eq 0}" style="color: red"/>
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.departmentDataBeansList}" var="departmentBean" id="departmentListTable" rendered="#{systemResultViewUtil.departmentDataBeansList.size() gt 0}" >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Department Name
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="#{departmentBean.depName}"  action="#{departmentServiceBean.fillDepartmentDetail}" oncomplete="$( '#update' ).dialog( 'open' );$('#main').unmask();" render="updateDepartmentPanel message">
+                                            <f:setPropertyActionListener target="#{departmentServiceBean.depId}" value="#{departmentBean.depId}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Add to this
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="Add to this"  action="#{departmentServiceBean.retrieveAddToThisDepartmentList}" oncomplete="$('#addToThis' ).dialog('open' );addToThisDepartmentDataTable();$('#main').unmask();" render="addToThisDepartmentPanel message" disabled="#{departmentBean.addToThisDisable}" style="color: #{departmentBean.addToThisDisable ? 'grey': 'black'}">
+                                            <f:setPropertyActionListener target="#{departmentServiceBean.depId}" value="#{departmentBean.depId}"/>
+                                            <f:setPropertyActionListener target="#{departmentServiceBean.depName}" value="#{departmentBean.depName}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            View employee
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="View Employee"  action="#{departmentServiceBean.retrieveEmployeeByDepartment}" oncomplete="$('#viewEmployeeDetail').dialog('open');viewEmployeeDetailDataTable();$('#main').unmask();" render="viewEmployeeDetailPanel message" disabled="#{not departmentBean.checked}" style="color: #{not departmentBean.checked ? 'grey': 'black'}">
+                                            <f:setPropertyActionListener target="#{departmentServiceBean.depId}" value="#{departmentBean.depId}"/>
+                                            <f:setPropertyActionListener target="#{departmentServiceBean.depName}" value="#{departmentBean.depName}"/>
+                                        </a4j:commandLink>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Delete
+                                        </f:facet>
+                                        <a4j:commandLink onbegin="$('#main').mask('Loading...');" value="Delete" action="#{departmentServiceBean.fillDepartmentDetail}" oncomplete="$('#delete').dialog('open');$('#main').unmask();" render="deleteDepartmentPanel message" disabled="#{departmentBean.checked}" style="color: #{departmentBean.checked ? 'grey':'black'}">
+                                            <f:setPropertyActionListener target="#{departmentServiceBean.depId}" value="#{departmentBean.depId}" />
+                                        </a4j:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+                    <!--                            Add to this Department form                     -->
+                    <div id="addToThis" title="Add To Department">
+                        <h:form id="AddtoThisForm" prependId="false">
+                            <h:panelGrid id="addToThisDepartmentPanel">
+                                <h:panelGrid id="addDeptMessage">
+                                    <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red" />
+                                </h:panelGrid>
+                                <h:inputHidden value="#{departmentServiceBean.depId}"/>
+                                <h:inputHidden value="#{departmentServiceBean.depName}"/>
+                                <h:outputText value="Department Name:  #{departmentServiceBean.depName}" style="font-weight: bold"/>
+                                <br/>
+                                <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.systemUserDetailDataBeansList}" var="departmentdetail" id="addToThisDepartmentDataTable" rendered="#{systemResultViewUtil.systemUserDetailDataBeansList.size() gt 0}">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            EmpId
+                                        </f:facet>
+                                        <h:outputText value="#{departmentdetail.empId}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Name
+                                        </f:facet>
+                                        <h:outputText value="#{departmentdetail.name}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Current Department
+                                        </f:facet>
+                                        <h:outputText value="#{departmentdetail.depName}"  />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            Add To This
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox value="#{departmentdetail.checked}" />
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                            <hr/>
+                            <a4j:commandButton value="Add to this department" onbegin="$('#addToThis').mask('Loading...');" action="#{departmentServiceBean.addEmployeeToThisDepartment}" id="addToThisDepartmentButton"
+                                               render="#{messageDataBean.isSuccess eq true ? 'departmentlist message':'addDeptMessage'}"  oncomplete="if(#{messageDataBean.isSuccess eq true}){$('#addToThis').dialog('close');};$('#addToThis').unmask();"/>
+                        </h:form>
+                    </div>
+
+                    <div id="viewEmployeeDetail" title="Department Employee">
+                        <h:panelGrid id="viewEmployeeDetailPanel">
+                            <h:outputText value="Department Name:  #{departmentServiceBean.depName}" style="font-weight: bold"/>
+                            <br/>
+                            <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.systemUserDetailDataBeansList}" var="employeeDetail" id="viewEmployeeDetailDataTable" rendered="#{systemResultViewUtil.systemUserDetailDataBeansList.size() gt 0}">
+                                <h:column>
+                                    <f:facet name="header">
+                                        EmpId
+                                    </f:facet>
+                                    <h:outputText value="#{employeeDetail.empId}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Name
+                                    </f:facet>
+                                    <h:outputText value="#{employeeDetail.name}" />
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGrid>
+                    </div>
+
+                    <!--                    Update department form-->
+                    <div id="update" title="Update Department">
+                        <h:form id="updateDepartment" prependId="false">
+                            <a4j:outputPanel id="updateDepartmentPanel">
+                                <table>
+                                    <tr>
+                                        <td colspan="5">
+                                            <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color:red"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="Department Name:" style="font-weight: bold"/></td>
+                                        <td><h:inputHidden value="#{departmentDataBean.depId}" />
+                                            <h:inputText value="#{departmentDataBean.depName}" id="updateDepartmentName" required="true" requiredMessage="Enter department name" maxlength="55"/></td>
+                                        <td>&#160;<font color="red">*</font><h:message for="updateDepartmentName" style="color: red;font-size: 15px" /></td>
+                                    </tr>
+                                </table>
+                                <hr/>
+                                <a4j:commandButton onbegin="$('#update').mask('Loading...');" oncomplete="if(#{messageDataBean.isSuccess eq true}){$('#update').dialog('close');}$('#update').unmask();" value="Update department" action="#{departmentServiceBean.updateDepartment}" id="updateDepartmentButton" render="#{messageDataBean.isSuccess ? 'departmentlist message' : 'updateDepartmentPanel'}"/>                                          
+                            </a4j:outputPanel>
+                        </h:form>
+                    </div>
+                    <!--                    Delete department-->
+                    <div id="delete" title="Delete Department">
+                        <h:form id="deleteDepartment" prependId="false"> 
+                            <h:outputLabel value="Are you sure you want to delete department?" style="font-weight: bold"/>
+                            <h:panelGrid id="deleteDepartmentPanel" columns="3">
+                                <h:inputHidden value="#{departmentDataBean.depId}" />
+                                <h:outputLabel value="Department Name : " style="font-weight: bold"/>
+                                <h:outputLabel value="#{departmentDataBean.depName}" />
+                            </h:panelGrid>
+                            <hr/>
+                            <a4j:commandButton value="Yes" onbegin="$('#delete').mask('Loading...');" action="#{departmentServiceBean.deleteDepartment}" oncomplete="$('#delete').unmask();$('#delete').dialog('close');" id="deleteDepartmentButtton" render="departmentlist message" />
+                            <a4j:commandButton value="No" onclick="$('#delete').dialog('close');"/>
+                        </h:form>
+                    </div>
+                </div>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

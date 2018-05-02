@@ -1,0 +1,542 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <body>
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <h:head>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery-1.7.1.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.core.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.widget.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery-ui-1.8.16.custom.css" />
+                    <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/dataTable/jquery.dataTables_themeroller.css" />
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dataTable/jquery.dataTables.min.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/datePicker/jquery.ui.datepicker.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.bgiframe-2.1.2.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.position.js"></script>
+                    <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/dialog/jquery.ui.dialog.js"></script>
+                    <script>
+                        $(function() {
+                            $( "#applyOfficialBreak" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true ,
+                                buttons: {
+                                    "Apply Official Break" : function() {
+                                        $("#applyOfficialBreakButton").click();
+                                    },
+                                    "Close" : function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                                }
+                            });
+                            $( "#updateOfficialBreak" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true ,
+                                buttons: {
+                                    "Modify OfficialBreak" : function() {
+                                        $("#updateOfficialBreakButton").click();
+                                    },
+                                    "Close" : function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                               
+                                }
+                            });
+                            $( "#cancelOfficialBreak" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true ,
+                                buttons: {
+                                    "Yes" : function() {
+                                        $("#cancelOfficialBreakButton").click();
+                                        $( this ).dialog( "close" );
+                                    },
+                                    "No" : function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                                }
+                            });
+                            $( "#officialBreakDetail" ).dialog({
+                                autoOpen: false,
+                                show: "blind",
+                                hide: "explode",
+                                width: 'auto',
+                                modal: true 
+                            });
+                        });
+                        var oTable;
+                        $(document).ready(function() {
+                            officialBreakDataTable();
+                        }
+                    );
+                        
+                        function officialBreakDataTable()
+                        {
+                            oTable = $('#officialBreakListTable').dataTable({
+                                "bJQueryUI": true,
+                                "sPaginationType": "full_numbers",
+                                "bRetrieve": true,
+                                "aoColumns": [
+                                    null,null,null,null,null,null,
+                                    { "bSortable": false },
+                                    { "bSortable": false },
+                                ]
+                            } );
+                            
+                        }
+                        function openApplyOfficialBreak()
+                        {                          
+                            applyOfficialBreakDisplay();
+                            $( "#applyOfficialBreak" ).dialog( "open" );
+                            return false;
+                        }
+                        function closeApplyOfficialBreak()
+                        {
+                            $( "#applyOfficialBreak" ).dialog( "close" );
+                            return false;
+                        }
+                        
+                        function openUpdateOfficialBreakDialog()
+                        {
+                            updateOfficialBreakDisplay();
+                            dateRangeJquery('updateFromDate', 'updateToDate');
+                            $( "#updateOfficialBreak" ).dialog( "open" );
+                            return false;
+                        }
+                        function closeUpdateOfficialBreakDialog()
+                        {
+                            $( "#updateOfficialBreak").dialog( "close" );
+                            return false;
+                        }
+                        
+                        function openCancelOfficialBreakDialog()
+                        {
+                            $( "#cancelOfficialBreak" ).dialog( "open" );
+                            return false;
+                        }
+                        function closeCancelOfficialBreakDialog()
+                        {
+                            $( "#cancelOfficialBreak" ).dialog( "close" );
+                            return false;
+                        }
+                        function openOfficialBreakDetailDialog()
+                        {
+                            $( "#officialBreakDetail" ).dialog( "open" );
+                            return false;
+                        }
+                        $(window).load(function() {
+                            jsf.ajax.addOnEvent(function (data) {
+                                if (data.status === "success") {
+                                    officialBreakDataTable();
+                                }
+                            })
+                        });
+                        function dateRangeJquery(fromDateId,toDateId)
+                        {
+                            var dates = $( '#'+fromDateId+',#'+toDateId).datepicker({
+                                changeMonth: true,
+                                changeYear:true,
+                                numberOfMonths: 1,
+                                dateFormat: 'dd-mm-yy',
+                                onSelect: function( selectedDate ) {
+                                    var option = this.id == fromDateId ? "minDate" : "maxDate",
+                                    instance = $( this ).data( "datepicker" ),
+                                    date = $.datepicker.parseDate(
+                                    instance.settings.dateFormat ||
+                                        $.datepicker._defaults.dateFormat,
+                                    selectedDate, instance.settings );
+                                    dates.not( this ).datepicker( "option", option, date );
+                                }
+                            }).attr( 'readOnly' , 'true' );
+                        
+                        
+                        }
+                    
+                        function applyOfficialBreakDisplay()
+                        {
+                            alert($('#addOfficialBreakTypeCombo1').val());
+                            if($('#addOfficialBreakTypeCombo').val()=="officialBreak")
+                            {
+                                $('#addFromDateRow').hide();
+                                $('#addToDateRow').hide();
+                                $('#addToDateTimeRow').show();
+                                $('#addFromDateTimeRow').show();
+                                $('#addReasonRow').show();
+                            }
+                            else if($('#addOfficialBreakTypeCombo').val()=="businessTrip")
+                            {
+                                $('#addFromDateRow').show();
+                                $('#addToDateRow').show();
+                                $('#addReasonRow').show();
+                                $('#addToDateTimeRow').hide();
+                                $('#addFromDateTimeRow').hide();
+                            }
+                            else if($('#addOfficialBreakTypeCombo').val()=="")
+                            {
+                                $('#addFromDateRow').hide();
+                                $('#addToDateRow').hide();
+                                $('#addReasonRow').hide();
+                                $('#addToDateTimeRow').hide();
+                                $('#addFromDateTimeRow').hide();
+                            }
+                            
+                        }
+                        function updateOfficialBreakDisplay()
+                        {
+                            if($('#updateOfficialBreakTypeCombo').val()=="businessTrip")
+                            {
+                                $('#updateFromDateRow').show();
+                                $('#updateToDateRow').show();
+                                $('#updateReasonRow').show();
+                                $('#updateToDateTimeRow').hide();
+                                $('#updateFromDateTimeRow').hide();
+                                
+                            }
+                            else if($('#updateLeaveTypeCombo').val()== "")
+                            {
+                                $('#updateFromDateRow').hide();
+                                $('#updateToDateRow').hide();
+                                $('#updateReasonRow').hide();
+                                $('#updateFromDateTimeRow').hide();
+                                $('#updateToDateTimeRow').hide();
+                            }
+                            else if($('#updateOfficialBreakTypeCombo').val()=="officialBreak")
+                            {
+                                $('#updateFromDateRow').hide();
+                                $('#updateToDateRow').hide();
+                                $('#updateFromDateTimeRow').show();
+                                $('#updateToDateTimeRow').show();
+                                $('#updateReasonRow').show();
+                            }
+                        }
+                    </script>
+                </h:head>
+                <h:body>
+                    <center><h2><font style="color:brown">My Official Break Detail</font></h2></center>
+                    <f:event listener="#{personalServiceBean.retrieveOfficialBreakExitCardLog()}" type="preRenderComponent"/>
+                    <f:event listener="#{personalServiceBean.retrieveOfficialBreakEntryCardLog()}" type="preRenderComponent"/>
+                    <f:event listener="#{officialBreakServiceBean.retrieveOfficialBreakList()}" type="preRenderComponent"/>
+
+                    <h:form prependId="false">
+                        <table width="100%">
+                            <tr>
+                                <td align="left">
+                                    <a4j:commandButton oncomplete="openApplyOfficialBreak()" value="Apply Official Break" render="applyOfficialBreakFormPanel"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
+
+                    <h:panelGrid id="message">
+                        <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq true}" style="color: green" />
+                    </h:panelGrid>
+                    <div id="applyOfficialBreak" title="Apply OfficialBreak">
+                        <h:form prependId="false" id="applyOfficialBreakForm">
+                            <h:inputHidden value="#{officialBreakDataBean.officialBreakType}" id="addOfficialBreakTypeCombo1" required="true" requiredMessage="Please Select OfficialBreak Type"/>
+                            <a4j:outputPanel id="applyOfficialBreakFormPanel">
+                                =====#{officialBreakDataBean.officialBreakType}
+                                <table>
+                                    <tr>
+                                        <td><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h:outputText value="OfficialBreak Type:" style="font-weight: bold"/></td>
+                                        <td>
+                                            <h:selectOneMenu value="#{officialBreakDataBean.officialBreakType}" id="addOfficialBreakTypeCombo">
+                                                <f:selectItem itemLabel="Select OfficialBreak Type"/>
+                                                <f:selectItem itemLabel="Official Break" itemValue="officialBreak" />
+                                                <f:selectItem itemLabel="Business Trip" itemValue="businessTrip"/>
+                                                <a4j:ajax event="change" oncomplete="applyOfficialBreakDisplay();dateRangeJquery('addFromDate', 'addToDate');"  render="applyOfficialBreakFormPanel addOfficialBreakTypeCombo1"/>
+                                            </h:selectOneMenu><h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:message for="addOfficialBreakTypeCombo1" style="color: red"/></td>
+                                    </tr>
+                                    <tr id="addFromDateRow">
+                                        <td><h:outputText value="From Date:" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{officialBreakDataBean.fromDate}" id="addFromDate" required="#{officialBreakDataBean.officialBreakType eq 'businessTrip' ? true : false}" requiredMessage="Please Select the from date">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:inputText>
+                                            <h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:message for="addFromDate" style="color: red"/><h:outputText value="#{officialBreakDataBean.fromDateValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                    <tr id="addToDateRow">
+                                        <td><h:outputText value="To Date:" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{officialBreakDataBean.toDate}" id="addToDate" required="#{officialBreakDataBean.officialBreakType eq 'businessTrip' ? true : false}" requiredMessage="Please Select the to date">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+5:30"/>
+                                            </h:inputText>
+                                            <h:outputText value=" *" style="color: red"/>====#{officialBreakDataBean.officialBreakType eq 'businessTrip' ? true : false}"
+                                        </td>
+                                        <td><h:message for="addToDate" style="color: red"/><h:outputText value="#{officialBreakDataBean.toDateValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                    <tr id="addFromDateTimeRow">
+                                        <td><h:outputText value="From Date Time:" style="font-weight: bold"/></td>
+                                        <td><h:selectOneMenu value="#{officialBreakDataBean.cardLogFromDate}" id="addFromDateTime" requiredMessage="Please Select the from date time">
+                                                <f:selectItem itemLabel="Select Exit Date Time"/>
+                                                <f:selectItems value="#{systemResultViewUtil.cardLogTransactionExitDataBeanList}" var="fromDateTime" itemLabel="#{fromDateTime.cardPunchingTime}  #{fromDateTime.cardEntryType}" itemValue="#{fromDateTime.cardPunchingTime}">
+                                                </f:selectItems>
+                                            </h:selectOneMenu>
+                                            <h:outputText value=" *" style="color: red"/></td>
+                                        <td><h:outputText value="#{officialBreakDataBean.fromDateValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                    <tr id="addToDateTimeRow">
+                                        <td><h:outputText value="To Date Time:" style="font-weight: bold"/></td>
+                                        <td><h:selectOneMenu value="#{officialBreakDataBean.cardLogToDate}" id="addToDateTime">
+                                                <f:selectItem itemLabel="Select Entry Date Time"/>
+                                                <f:selectItems value="#{systemResultViewUtil.cardLogTransactionEntryDataBeanList}" var="toDateTime" itemLabel="#{toDateTime.cardPunchingTime} #{toDateTime.cardEntryType}" itemValue="#{toDateTime.cardPunchingTime}">
+                                                </f:selectItems>
+                                            </h:selectOneMenu></td>
+                                        <td><h:outputText value="#{officialBreakDataBean.toDateValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                    <tr id="addReasonRow">
+                                        <td>
+                                            <h:outputText value="Reason:" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:inputTextarea value="#{officialBreakDataBean.reason}" required="true" requiredMessage="Please Enter the Reason" id="AddReason"/>
+                                            <h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:message for="AddReason" style="color: red"/></td>
+                                        <td><h:outputText value="#{officialBreakDataBean.reasonValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                </table>
+                            </a4j:outputPanel>
+                            <a4j:commandButton action="#{officialBreakServiceBean.applyOfficialBreak}" value="Apply Official Break" id="applyOfficialBreakButton" oncomplete="if(#{messageDataBean.isSuccess eq true}){closeApplyOfficialBreak()}else{applyOfficialBreakDisplay();dateRangeJquery('addFromDate','addToDate');}" render="applyOfficialBreakFormPanel message officialBreaklist" execute="applyOfficialBreakFormPanel" style="display: none">
+                                <f:setPropertyActionListener target="#{officialBreakDataBean.userId}" value="#{loginDataBean.id}"/>
+                            </a4j:commandButton>
+                        </h:form>
+                    </div>
+                    <h:form id="listOfOfficialBreak" prependId="false">
+                        <br></br>
+                        <h:panelGrid id="officialBreaklist" width="100%">
+                            <h:outputText value="No Official Breaks Taken Yet!!!" rendered="#{systemResultViewUtil.officialBreakDataBeans.size() eq null}" style="color: red"/>
+                            <h:dataTable styleClass="data-table" value="#{systemResultViewUtil.officialBreakDataBeans}" var="officialBreakBean" id="officialBreakListTable" rendered="#{systemResultViewUtil.officialBreakDataBeans.size() gt 0}" rowClasses="">
+                                <h:column>
+                                    <f:facet name="header">
+                                        Type
+                                    </f:facet>
+                                    <h:outputText value="#{officialBreakBean.officialBreakType}" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        From Date
+                                    </f:facet>
+                                    <h:outputText value="#{officialBreakBean.fromDate}" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        To Date
+                                    </f:facet>
+                                    <h:outputText value="#{officialBreakBean.toDate}" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Break Duration
+                                    </f:facet>
+                                    <h:outputText value="#{officialBreakBean.breakDuration}" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Status
+                                    </f:facet>
+                                    <h:outputText value="#{officialBreakBean.approvalStatus}" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}"/>
+                                    <h:outputText value="Cancel" rendered="#{officialBreakBean.approvalStatus eq null}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Reason
+                                    </f:facet>
+                                    <h:outputText value="#{officialBreakBean.reason}" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'} ; white-space: pre" escape="true"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Modify
+                                    </f:facet>
+                                    <a4j:commandLink value="Modify" action="#{officialBreakServiceBean.fillOfficialBreakDetail('edit')}" oncomplete="openUpdateOfficialBreakDialog()" render="updateOfficialBreakPanel"  style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}">
+                                        <f:setPropertyActionListener target="#{officialBreakServiceBean.officialBreakId}" value="#{officialBreakBean.officialBreakId}"/>
+                                    </a4j:commandLink>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        Cancel
+                                    </f:facet>
+                                    <a4j:commandLink value="Cancel" action="#{officialBreakServiceBean.fillOfficialBreakDetail('cancel')}" oncomplete="openCancelOfficialBreakDialog()" render="cancelOfficialBreakPanel" rendered="#{officialBreakBean.approvalStatus ne null and officialBreakBean.appliedStatus ne 'Approve-Cancel' and officialBreakBean.approvalStatus ne 'Disapprove' }" style="color: #{officialBreakBean.appliedStatus eq 'Approve-Cancel' ? 'red' : officialBreakBean.appliedStatus eq 'Disapprove-Modified' or officialBreakBean.appliedStatus eq 'Approve-Modified' ? 'blue' : 'black'}" >
+                                        <f:setPropertyActionListener target="#{officialBreakServiceBean.officialBreakId}" value="#{officialBreakBean.officialBreakId}" />
+                                    </a4j:commandLink>                                    
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGrid>
+                    </h:form>
+                    <div id="updateOfficialBreak" title="Modify Applied OfficialBreak">
+                        <h:form prependId="false" id="updateOfficialBreakForm">
+                            <a4j:outputPanel id="updateOfficialBreakPanel">
+                                <table>
+                                    <tr>
+                                        <td colspan="4"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                    </tr>
+                                    <tr>  
+                                        <td><h:outputText value="OfficialBreak Type:" style="font-weight: bold"/></td>
+                                        <td>
+                                            <h:inputHidden value="#{officialBreakDataBean.officialBreakId}"/>
+                                            <h:selectOneMenu value="#{officialBreakDataBean.officialBreakType}" id="updateOfficialBreakTypeCombo"  requiredMessage="Please Select OfficialBreak Type" required="true">
+                                                <f:selectItem itemLabel="Select OfficialBreak Type"/>
+                                                <f:selectItem itemLabel="Official Break" itemValue="officialBreak"/>
+                                                <f:selectItem itemLabel="Business Trip" itemValue="businessTrip" />
+                                                <a4j:ajax event="change" oncomplete="updateOfficialBreakDisplay();dateRangeJquery('updateFromDate', 'updateToDate');"/>
+                                            </h:selectOneMenu><h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:message for="updateOfficialBreakTypeCombo" style="color: red"/></td>
+                                    </tr>
+                                    <tr id="updateFromDateTimeRow">
+                                        <td><h:outputText value="From Date Time:" style="font-weight: bold"/></td>
+                                        <td><h:selectOneMenu value="#{officialBreakDataBean.cardLogFromDate}" id="updateFromDateTime" requiredMessage="Please Select the from date time">
+                                                <f:selectItem itemLabel="Select Exit Date Time"/>
+                                                <f:selectItems value="#{systemResultViewUtil.cardLogTransactionExitDataBeanList}" var="fromDateTime" itemLabel="#{fromDateTime.cardPunchingTime}  #{fromDateTime.cardEntryType}" itemValue="#{fromDateTime.cardPunchingTime}">
+                                                </f:selectItems>
+                                            </h:selectOneMenu>
+                                            <h:outputText value=" *" style="color: red"/></td>
+                                        <td><h:message for="updateFromDateTime"/></td>
+                                    </tr>
+                                    <tr id="updateToDateTimeRow">
+                                        <td><h:outputText value="To Date Time:" style="font-weight: bold"/></td>
+                                        <td><h:selectOneMenu value="#{officialBreakDataBean.cardLogToDate}" id="updateToDateTime" requiredMessage="Please Select the to date time">
+                                                <f:selectItem itemLabel="Select Entry Date Time"/>
+                                                <f:selectItems value="#{systemResultViewUtil.cardLogTransactionEntryDataBeanList}" var="toDateTime" itemLabel="#{toDateTime.cardPunchingTime} #{toDateTime.cardEntryType}" itemValue="#{toDateTime.cardPunchingTime}">
+                                                </f:selectItems>
+                                            </h:selectOneMenu><h:outputText value=" *" style="color: red"/></td>
+                                        <td><h:message for="updateToDateTime"/></td>
+                                    </tr>
+                                    <tr id="updateFromDateRow">
+                                        <td><h:outputText value="From Date:" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{officialBreakDataBean.fromDate}" id="updateFromDate">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                            </h:inputText><h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:outputText value="#{officialBreakDataBean.fromDateValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                    <tr id="updateToDateRow">
+                                        <td><h:outputText value="To Date:" style="font-weight: bold"/></td>
+                                        <td><h:inputText value="#{officialBreakDataBean.toDate}" id="updateToDate">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="IST"/>
+                                            </h:inputText><h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:outputText value="#{officialBreakDataBean.toDateValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                    <tr id="updateReasonRow">
+                                        <td>
+                                            <h:outputText value="Reason:" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:inputTextarea value="#{officialBreakDataBean.reason}" />
+                                            <h:outputText value=" *" style="color: red"/>
+                                        </td>
+                                        <td><h:outputText value="#{officialBreakDataBean.reasonValidationMessage}" style="color: red" /></td>
+                                    </tr>
+                                </table>
+                                <a4j:commandButton action="#{officialBreakServiceBean.modifyOfficialBreak()}" value="Modify OfficialBreak" id="updateOfficialBreakButton" oncomplete="if(#{messageDataBean.isSuccess eq true}){closeUpdateOfficialBreakDialog()}else{updateOfficialBreakDisplay();dateRangeJquery('updateFromDate','updateToDate');}" render="updateOfficialBreakForm:updateOfficialBreakPanel :message listOfOfficialBreak:officialBreaklist" style="display: none">
+                                    <f:setPropertyActionListener target="#{officialBreakDataBean.userId}" value="#{loginDataBean.id}"/>
+                                </a4j:commandButton>
+                            </a4j:outputPanel>
+                        </h:form>
+                    </div>
+                    <div id="cancelOfficialBreak" title="Cancel Applied Official Break">
+                        <h:form prependId="false" id="cancelOfficialBreakForm">
+                            <a4j:outputPanel id="cancelOfficialBreakPanel">
+                                <table>
+                                    <tr>
+                                        <td colspan="4"><h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess eq false}" style="color: red"/></td>
+                                    </tr>
+                                    <tr>  
+                                        <td><h:outputText value="OfficialBreak Type:" style="font-weight: bold"/></td>
+                                        <td>
+                                            <h:inputHidden value="#{officialBreakDataBean.officialBreakId}"/>
+                                            <h:outputText value="#{officialBreakDataBean.officialBreakType}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="From Date:" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{officialBreakDataBean.fromDate}">
+                                                   <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                            </h:outputText>
+                                            <h:outputText value="#{officialBreakDataBean.cardLogFromDate}">
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="To Date:" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{officialBreakDataBean.toDate}">
+                                                   <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                            </h:outputText>
+                                            <h:outputText value="#{officialBreakDataBean.cardLogToDate}">
+                                                <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss a" timeZone="GMT+5:30"/>
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="OfficialBreak Days:" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{officialBreakDataBean.breakDuration}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Admin Comment:" rendered="#{officialBreakDataBean.adminComment ne null}" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{officialBreakDataBean.adminComment}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Reason:" style="font-weight: bold"/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{officialBreakDataBean.reason}" style="white-space: pre" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <a4j:commandButton action="#{officialBreakServiceBean.cancelOfficialBreak()}" value="Cancel OfficialBreak" id="cancelOfficialBreakButton" oncomplete="if(#{messageDataBean.isSuccess eq true}){closeCancelOfficialBreakDialog()}" render="cancelOfficialBreakForm :message listOfOfficialBreak:officialBreaklist" style="display: none">
+                                    <f:setPropertyActionListener target="#{officialBreakDataBean.userId}" value="#{loginDataBean.id}"/>
+                                </a4j:commandButton>
+                            </a4j:outputPanel>
+                        </h:form>
+                    </div>
+                    <br/>
+                    <fieldset>  
+                        <legend>Note</legend>
+                        <ul>
+                            <li><h:outputText value="This OfficialBreak applied for cancellation" style="color: red"/> </li>
+                            <li><h:outputText value="This OfficialBreak applied for update" style="color: blue"/></li>
+                        </ul>
+                    </fieldset>
+                </h:body>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

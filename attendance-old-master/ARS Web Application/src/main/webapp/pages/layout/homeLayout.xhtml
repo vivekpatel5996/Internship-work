@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Attendance Reporting System</title>
+        <style>
+            .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+            .ui-timepicker-div dl { text-align: left; }
+            .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+            .ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+            .ui-timepicker-div td { font-size: 90%; }
+            .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+            #footer {
+                position:absolute;
+                width:99%;
+                height:25px;    /*Height of the footer */
+                background:#434343;
+
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/dataTable/jquery.dataTables_themeroller.css" />
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/ddsmoothmenu.css" />
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/ars.css" />
+        <script src="#{facesContext.externalContext.requestContextPath}/script/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/script/jquery/ddsmoothmenu.js"/>
+        <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/script/common/ars.js"/>
+        
+        
+        
+        <script type="text/javascript">
+
+            ddsmoothmenu.init({
+                mainmenuid: "smoothmenu1", //menu DIV id
+                orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+                classname: 'ddsmoothmenu', //class added to menu's outer DIV
+                //customtheme: ["#1c5a80", "#18374a"],
+                contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+            })
+           
+        </script>
+    </h:head>
+
+    <h:body>
+
+        <div id="header">
+            <ui:insert name="header">
+                <ui:include src="../common/homeHeader.xhtml"/>
+            </ui:insert> 
+        </div>
+
+        <div id="body" class="center_content" style="min-height: 500Px">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="footer">
+            <ui:insert name="footer" >
+                <ui:include src="../common/footer.xhtml"/>
+            </ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

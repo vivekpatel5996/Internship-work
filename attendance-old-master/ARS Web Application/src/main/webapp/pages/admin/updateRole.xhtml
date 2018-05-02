@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <body>
+        <ui:composition template="./../layout/homeLayout.xhtml">
+            <ui:define name="content">
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{roleServiceBean.retrieveRoleInfo()}"/>
+                </f:metadata>
+                <div id="content">
+                    <h3>#{msg.UpdateRole}</h3>
+                    <hr/>
+                    <h:form prependId="false">                    
+                        <a4j:outputPanel id="dataMessage">
+                            <h:outputText value="#{messageDataBean.message}" rendered="#{messageDataBean.isSuccess and messageDataBean.message != null}" styleClass="successmessages"/>
+                            <h:outputText value="#{messageDataBean.message}" rendered="#{not messageDataBean.isSuccess and messageDataBean.message != null}" styleClass="errormessages"/>
+                        </a4j:outputPanel>
+                        <rich:messages styleClass="errormessages" />
+                        <fieldset class="full">
+                            <legend>#{msg.RoleDetails}</legend>
+                            <div align="right"> <h:outputText value="(#{msg.Fieldsmarkedwitharemandatory})" styleClass="infomessages"/></div><br/>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form-table" align="center">
+                                <tr>                               
+                                    <th width="23%">#{msg.Name}</th>
+                                    <td width="27%">
+                                        <a4j:region>
+                                            <h:inputText id="roleName" style="width: 179px;" value="#{roleDataBean.roleName}" disabled="#{roleDataBean.isDefaultRole}" required="true" requiredMessage="Enter role name." maxlength="50">
+                                                <rich:validator/>
+                                            </h:inputText>&#160;<font color="red">*</font>
+                                        </a4j:region>
+                                    </td>
+                                    <th width="23%"></th>
+                                    <td width="27%"></td>
+                                </tr>
+                                <tr>
+                                    <th>#{msg.Status}</th>
+                                    <td>
+                                        <h:selectOneMenu id="status" style="width:180px" value="#{roleDataBean.status}">
+                                            <f:selectItem itemValue="A" itemLabel="#{msg.Active}"/>
+                                            <f:selectItem itemValue="IA" itemLabel="#{msg.InActive}" itemDisabled="#{roleDataBean.isDefaultRole}"/>
+                                        </h:selectOneMenu>&#160;<font color="red">*</font>
+                                    </td>
+                                </tr>                                                                                 
+                                <tr>
+                                    <th></th>
+                                    <td colspan="3">
+                                        <h:outputText value="#{msg.ChoosetheformsaccessibletothisRole}" style="color: grey"/><br/>
+                                        <h:selectManyMenu styleClass="featureMultiSelect" id="featureMultiSelect" value="#{roleServiceBean.featureIdList}" required="true" requiredMessage="Please select atleast one feature." style="width: 500px;height: 250px">
+                                            <f:selectItems value="#{roleServiceBean.sourceFeatureLists}" />
+                                            <f:converter converterId="userRoleConverter"/>
+                                        </h:selectManyMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">&#160;</th>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="button-table">
+                            <tr>
+                                <td>&#160;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandButton value="#{msg.Update}" action="#{roleServiceBean.updateRole}" onclick="loadingPanel();" styleClass="button"/>&#160;&#160;
+                                    <h:commandButton value="#{msg.Cancel}" action="searchRole" immediate="true" styleClass="button"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </h:form>
+                </div>
+                <script type="text/javascript">
+                    function loadingPanel()
+                   {
+                      $("#content").mask("Loading...");
+                       
+                   }
+                   $("#featureMultiSelect").multiselect();
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
