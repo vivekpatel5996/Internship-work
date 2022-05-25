@@ -16,7 +16,7 @@
 
     <properties>
         <prettyfaces.version>3.3.2</prettyfaces.version>
-        <spring.security.version>3.1.0.RELEASE</spring.security.version>
+        <spring.security.version>5.5.7</spring.security.version>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jsf.latest.version>2.1.2</jsf.latest.version>
